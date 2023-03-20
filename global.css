@@ -1,11 +1,18 @@
 @font-face {
   font-family: 'Hubot Sans';
   src: url('./assets/Hubot-Sans.woff2') format('woff2 supports variations'),
+    url('./assets/Hubot-Sans.woff2') format('woff2 supports variations'),
     url('./assets/Hubot-Sans.woff2') format('woff2-variations');
-  font-weight: 200 900;
-  font-stretch: 75% 125%;
+  font-weight: 100 200 900;
+  font-stretch: 60% 75% 125%;
 }
-
+* {
+  box-sizing: border-box;
+}
+*::selection {
+  background-color: black;
+  color: white;
+}
 html {
   font-family: 'Hubot Sans';
 }
@@ -44,5 +51,26 @@ a:focus {
   color: blue;
 }
 a:visited {
-  color: unset;
+  color: inherit;
+}
+a:visited:hover,
+a:visited:focus {
+  color: blue;
+}
+
+section:first-of-type {
+  padding-top: 5rem;
+}
+img {
+  filter: grayscale(1);
+  transition: filter 0.3s;
+}
+img:hover {
+  filter: grayscale(0);
+}
+
+@media screen and (min-width: 600px) {
+  section:first-of-type {
+    padding-top: 10rem;
+  }
 }
