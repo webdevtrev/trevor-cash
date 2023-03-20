@@ -27,16 +27,16 @@
         <form name="contact" method="POST" netlify>
           <label
             >Name<span class="Required-Mark">*</span
-            ><input required type="text"
+            ><input required type="text" name="Name"
           /></label>
           <label
             >Email<span class="Required-Mark">*</span
-            ><input required type="text"
+            ><input required type="text" name="Email"
           /></label>
-          <label>Phone<input type="text" /></label>
+          <label>Phone<input type="text" name="Phone" /></label>
           <label
             >Purpose
-            <select>
+            <select name="Purpose">
               <option value="">Select a purpose</option>
               <option value="networking">Networking</option>
               <option value="site build">Site Build</option>
@@ -45,7 +45,7 @@
           >
           <label
             >Message<span class="Required-Mark">*</span
-            ><textarea required></textarea>
+            ><textarea required name="Message"></textarea>
           </label>
           <input type="submit" />
         </form>
