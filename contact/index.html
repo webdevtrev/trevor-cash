@@ -18,7 +18,39 @@
   </head>
   <body>
     <custom-header page="Contact"></custom-header>
-    <main></main>
+    <main>
+      <section>
+        <h1>
+          <span class="Warm">I'd love to hear from you,</span
+          ><span class="Direct">get in touch below</span>
+        </h1>
+        <form name="contact" method="POST" data-netlify="true">
+          <label
+            >Name<span class="Required-Mark">*</span
+            ><input required type="text"
+          /></label>
+          <label
+            >Email<span class="Required-Mark">*</span
+            ><input required type="text"
+          /></label>
+          <label>Phone<input type="text" /></label>
+          <label
+            >Purpose
+            <select>
+              <option value="">Select a purpose</option>
+              <option value="networking">Networking</option>
+              <option value="site build">Site Build</option>
+              <option value="employment">Employment</option>
+            </select></label
+          >
+          <label
+            >Message<span class="Required-Mark">*</span
+            ><textarea required></textarea>
+          </label>
+          <input type="submit" />
+        </form>
+      </section>
+    </main>
     <footer></footer>
   </body>
   <script type="module" src="./app.js"></script>
