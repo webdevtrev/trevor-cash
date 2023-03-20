@@ -1,0 +1,38 @@
+section {
+  display: flex;
+  flex-direction: column;
+}
+.Group {
+  width: 100%;
+  position: relative;
+}
+.Group:nth-child(even) img {
+  left: 150%;
+  top: 50%;
+}
+.Group:nth-child(odd) img {
+  right: 75%;
+  top: 50%;
+}
+.Group:nth-child(odd) {
+  align-self: flex-end;
+}
+img {
+  display: none;
+  border-radius: 50%;
+  position: absolute;
+  width: 75%;
+  height: auto;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+}
+
+@media screen and (min-width: 600px) {
+  .Group {
+    width: 50%;
+  }
+  img {
+    display: block;
+  }
+}
