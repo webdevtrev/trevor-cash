@@ -1,19 +1,21 @@
 .Introduction {
+  padding-top: 4rem;
   padding: 4rem 0;
   display: flex;
   height: 100vh;
   align-items: center;
   flex-direction: column;
+  align-items: flex-start;
 }
 .Introduction img {
   height: auto;
-  filter: grayscale(1);
+  /* filter: grayscale(1); */
   width: 100%;
 }
 .Introduction h1 {
   width: 100%;
 }
-.Introduction h1 span {
+.Introduction h1 > span {
   display: block;
 }
 .Introduction h1 .First-Name,
@@ -23,7 +25,29 @@
 .Introduction h1 .Role {
   font-size: calc(min(1000px, 100vw) / 20);
 }
-
+.Introduction h1 .Areas {
+  margin-top: 1rem;
+}
+.Introduction h1 .Areas span {
+  font-size: calc(min(1000px, 100vw) / 50);
+  font-weight: 200;
+  margin-right: 1rem;
+  border: 1px solid black;
+  border-radius: 20px;
+  padding: 0.25rem 0.5rem;
+}
+.Introduction h1 .Areas .React {
+  color: rgb(8 126 164);
+  border-color: rgb(8 126 164);
+}
+.Introduction h1 .Areas .JS {
+  color: #c0af18;
+  border-color: #c0af18;
+}
+.Introduction h1 .Areas .Build {
+  color: rgb(195, 24, 24);
+  border-color: rgb(195, 24, 24);
+}
 @media screen and (min-width: 600px) {
   .Introduction {
     flex-direction: row;
