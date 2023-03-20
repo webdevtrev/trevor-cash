@@ -1,0 +1,44 @@
+.Introduction {
+  padding: 4rem 0;
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  flex-direction: column;
+}
+.Introduction img {
+  height: auto;
+  filter: grayscale(1);
+  width: 100%;
+}
+.Introduction h1 {
+  width: 100%;
+}
+.Introduction h1 span {
+  display: block;
+}
+.Introduction h1 .First-Name,
+.Introduction h1 .Last-Name {
+  font-size: calc(min(1000px, 100vw) / 5);
+}
+.Introduction h1 .Role {
+  font-size: calc(min(1000px, 100vw) / 20);
+}
+
+@media screen and (min-width: 600px) {
+  .Introduction {
+    flex-direction: row;
+  }
+  .Introduction h1 {
+    width: 50%;
+  }
+  .Introduction h1 .First-Name,
+  .Introduction h1 .Last-Name {
+    font-size: calc(min(1000px, 100vw) / 7);
+  }
+  .Introduction h1 .Role {
+    font-size: calc(min(1000px, 100vw) / 30);
+  }
+  .Introduction img {
+    width: 50%;
+  }
+}
