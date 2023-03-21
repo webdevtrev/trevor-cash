@@ -9,6 +9,7 @@
 .Cards > div {
 }
 .Cards img {
+  max-width: 100%;
   height: 100px;
   filter: grayscale(0);
 }
