@@ -1,0 +1,22 @@
+.Cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4rem;
+}
+.Cards > div {
+}
+.Cards img {
+  height: 100px;
+  filter: grayscale(0);
+}
+.Cards span {
+  display: none;
+}
+@media screen and (min-width: 600px) {
+  .Cards img {
+    filter: grayscale(1);
+  }
+}

@@ -49,6 +49,7 @@ input[type='submit'] {
   background-color: black;
   color: white;
   cursor: pointer;
+  border-radius: 0px;
 }
 .Required-Mark {
   color: red;
