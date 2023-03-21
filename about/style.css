@@ -17,22 +17,32 @@ section {
 .Group:nth-child(odd) {
   align-self: flex-end;
 }
-img {
-  display: none;
+.About img {
   border-radius: 50%;
-  position: absolute;
   width: 75%;
   height: auto;
   aspect-ratio: 1/1;
   object-fit: cover;
-  transform: translate(-50%, -50%);
+  margin: auto;
+  display: block;
+  transition: opacity 0.5s;
+  opacity: 1;
+}
+.About img {
+  filter: grayscale(0);
+  background-color: rgb(49, 215, 201);
+}
+.About img.portrait {
+  object-position: top;
 }
 
 @media screen and (min-width: 600px) {
   .Group {
     width: 50%;
   }
-  img {
+  .About img {
     display: block;
+    position: absolute;
+    transform: translate(-50%, -50%);
   }
 }

@@ -25,7 +25,6 @@ class Header extends HTMLElement {
     const pages = ['Home', 'Portfolio', 'About', 'Contact'];
     const nav = document.createElement('nav');
     pages.forEach((page) => {
-      console.log(this.page);
       if (this.page !== page) {
         const link = document.createElement('a');
         link.innerText = page;
