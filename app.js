@@ -1,5 +1,9 @@
 const skills = document.querySelectorAll('.Skill');
 const placeholder = document.querySelector('.Skills-Info .Placeholder');
+const placeholderHeight = document.querySelector(
+  '.Skills-Info .Placeholder-Height'
+);
+let animationTimeout;
 assignPositions();
 skills.forEach((skill, index) => {
   skill.querySelector('button').addEventListener('click', () => {
@@ -7,7 +11,16 @@ skills.forEach((skill, index) => {
     if (skill.classList.contains('Large')) {
       document.querySelector('.Skill-Cards')?.classList.remove('Paused');
       document.querySelector('.Large')?.classList.remove('Large');
-      placeholder.innerHTML = '<p>Select a skill to learn more!</p>';
+      placeholder.style.opacity = 0;
+      setCurrentHeight();
+      if (animationTimeout) {
+        clearTimeout(animationTimeout);
+      }
+      animationTimeout = setTimeout(() => {
+        placeholder.innerHTML = '<p>Select a skill to learn more!</p>';
+        setCurrentHeight();
+        placeholder.style.opacity = 1;
+      }, 300);
     } else {
       document.querySelector('.Skill-Cards')?.classList.add('Paused');
       document.querySelector('.Large')?.classList.remove('Large');
@@ -18,12 +31,24 @@ skills.forEach((skill, index) => {
       titleElement.innerText = title;
       const bodyElement = document.createElement('p');
       bodyElement.innerText = body;
-      placeholder.replaceChildren(titleElement);
-      placeholder.append(bodyElement);
+      placeholder.style.opacity = 0;
+      setCurrentHeight();
+      if (animationTimeout) {
+        clearTimeout(animationTimeout);
+      }
+      animationTimeout = setTimeout(() => {
+        placeholder.replaceChildren(titleElement);
+        placeholder.append(bodyElement);
+        setCurrentHeight();
+        placeholder.style.opacity = 1;
+      }, 300);
     }
   });
 });
-
+function setCurrentHeight() {
+  const height = placeholder.clientHeight;
+  placeholderHeight.style.height = height + 'px';
+}
 function assignPositions() {
   let radius = 0.4;
   const angle = 360 / skills.length;

@@ -27,8 +27,12 @@ paragraphs.forEach((item) => {
       transitionOut = setTimeout(() => {
         image.src = images[e.target.id];
         image.className = e.target.id;
-        image.style.opacity = 1;
       }, 500);
     }
+  });
+});
+document.querySelectorAll('.Group img').forEach((image) => {
+  image.addEventListener('load', (e) => {
+    e.target.style.opacity = 1;
   });
 });

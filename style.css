@@ -76,6 +76,7 @@
 }
 .Skills > div {
   width: 100%;
+  padding-bottom: 2rem;
 }
 
 .Skill-Cards {
@@ -106,6 +107,7 @@
   left: 50% !important;
   max-height: 50%;
   max-width: 50%;
+  width: 35%;
 }
 .Skill.Large img {
   filter: grayscale(0);
@@ -148,6 +150,12 @@
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
+}
+.Skills-Info .Placeholder {
+  transition: 0.3s;
+}
+.Skills-Info .Placeholder-Height {
+  transition: 0.3s;
 }
 
 @keyframes rotating {
