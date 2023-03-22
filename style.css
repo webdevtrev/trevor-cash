@@ -69,36 +69,57 @@
     width: 50%;
   }
 }
+.Skills {
+  display: flex;
+  overflow: visible;
+  flex-direction: column;
+}
+.Skills > div {
+  width: 100%;
+}
 
 .Skill-Cards {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  animation: rotating 5s linear infinite;
+  transform-origin: center;
+  position: relative;
+  animation: rotating 15s linear infinite;
   aspect-ratio: 1/1;
+  width: 50%;
 }
 .Skill-Cards:hover,
-.Skill-Cards:focus-within,
 .Paused,
 .Skill-Cards:hover .Skill,
-.Skill-Cards:focus-within .Skill,
 .Paused .Skill {
   animation-play-state: paused;
 }
 .Skill {
-  position: relative;
-
-  animation: orientation 5s linear infinite;
+  position: absolute;
+  animation: orientation 15s linear infinite;
   z-index: 10;
+  width: 20%;
+  height: fit-content;
+  transform: translate(-50%, 50%);
+  transform-origin: bottom left;
+  transition: 0.3s;
+}
+.Skill.Large {
+  bottom: 50% !important;
+  left: 50% !important;
+  max-height: 50%;
+  max-width: 50%;
+}
+.Skill.Large img {
+  filter: grayscale(0);
+}
+.Skill button {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
 }
 .Skill img {
-  width: 50px;
+  width: 100%;
   /* filter: grayscale(0); */
-  cursor: pointer;
 }
-.Skill img:hover + .Tooltip {
+.Skill:not(.Large) button:hover + .Tooltip {
   opacity: 1;
 }
 .Skill p {
@@ -139,9 +160,17 @@
 }
 @keyframes orientation {
   from {
-    transform: rotate(0deg);
+    transform: rotate(0deg) translate(-50%, 50%);
   }
   to {
-    transform: rotate(-360deg);
+    transform: rotate(-360deg) translate(-50%, 50%);
+  }
+}
+@media screen and (min-width: 600px) {
+  .Skills {
+    flex-direction: row;
+  }
+  .Skills > div {
+    width: 50%;
   }
 }
