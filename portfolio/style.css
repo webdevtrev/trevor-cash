@@ -11,7 +11,8 @@
   height: 100px;
   filter: grayscale(0);
 }
-.Cards a:hover {
+.Cards a:hover,
+.Cards a:focus {
   opacity: 1;
 }
 .Cards span {
