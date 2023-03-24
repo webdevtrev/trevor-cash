@@ -1,3 +1,11 @@
+const toggleDark = document.createElement('button');
+toggleDark.className = 'Button-Theme';
+if (localStorage.dark === 'true') {
+  toggleDark.classList.add('Active');
+  document.querySelector('body').classList.add('Dark');
+  console.log(document.querySelector('body').classList);
+}
+
 class Header extends HTMLElement {
   // connect component
   constructor() {
@@ -14,14 +22,11 @@ class Header extends HTMLElement {
     this[property] = newValue;
   }
   connectedCallback() {
-    // const link = document.createElement('a');
-    // link.href = '/';
-    // const firstName = document.createElement('span');
-    // firstName.innerText = 'Trevor';
-    // const lastName = document.createElement('span');
-    // lastName.innerText = 'Cash';
-    // link.append(firstName, lastName);
-    // this.append(link);
+    toggleDark.addEventListener('click', (e) => {
+      document.querySelector('body').classList.toggle('Dark');
+      e.target.classList.toggle('Active');
+      localStorage.dark = e.target.classList.contains('Active');
+    });
     const pages = ['Home', 'Portfolio', 'About', 'Contact'];
     const nav = document.createElement('nav');
     pages.forEach((page) => {
@@ -32,6 +37,7 @@ class Header extends HTMLElement {
         nav.append(link);
       }
     });
+    this.append(toggleDark);
     this.append(nav);
   }
 }

@@ -24,7 +24,8 @@ body {
 }
 custom-header {
   width: 100%;
-  display: block;
+  display: flex;
+  align-items: center;
   position: fixed;
   top: 0;
   background-color: white;
@@ -33,6 +34,34 @@ custom-header {
   /* border-bottom: 1px solid black; */
   z-index: 100;
 }
+custom-header .Button-Theme {
+  margin-left: max(calc((100vw - 1000px) / 2), 1rem);
+  height: 25px;
+  width: 45px;
+  padding: 0;
+  background-color: transparent;
+  border-radius: 50px;
+  border: 2px solid black;
+  position: relative;
+  cursor: pointer;
+}
+custom-header .Button-Theme::after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  background-color: black;
+  transform: translateY(-50%);
+  left: 2px;
+  transition: left 0.2s;
+  pointer-events: none;
+}
+custom-header .Button-Theme.Active::after {
+  left: calc(100% - 20px);
+}
+
 custom-header nav {
   display: flex;
   justify-content: space-between;
@@ -43,20 +72,27 @@ custom-header nav {
   padding: 0 1rem;
   box-sizing: border-box;
 }
+custom-footer {
+  padding-top: 8rem;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
 a {
   color: black;
-  transition: color 0.2s;
+  opacity: 1;
+  transition: opacity 0.2s;
 }
 a:hover,
 a:focus {
-  color: blue;
+  opacity: 0.6;
 }
 a:visited {
   color: inherit;
 }
 a:visited:hover,
 a:visited:focus {
-  color: blue;
+  opacity: 0.6;
 }
 
 section:first-of-type {
@@ -74,4 +110,59 @@ img:hover {
   section:first-of-type {
     padding-top: 10rem;
   }
+}
+hr {
+  height: 3px;
+  background-color: black;
+  border: 0px solid black;
+  margin-top: 2rem;
+}
+h1 {
+  font-size: calc(min(1000px, 100vw) / 7);
+  margin: 0;
+}
+h2 {
+  font-size: 36px;
+}
+h3 {
+}
+@media screen and (min-width: 600px) {
+  h1 {
+    font-size: calc(min(1000px, 100vw) / 7);
+  }
+}
+.Dark {
+  background-color: rgb(50, 50, 50);
+  color: white;
+}
+.Dark hr {
+  background-color: white;
+}
+.Dark custom-header {
+  background-color: rgb(50, 50, 50);
+}
+.Dark input,
+.Dark textarea,
+.Dark select {
+  background-color: rgb(63, 63, 63);
+  color: white;
+}
+.Dark input:focus,
+.Dark textarea:focus,
+.Dark select:focus {
+  outline-color: white;
+}
+.Dark input[type='submit'] {
+  background-color: white;
+  color: rgb(50, 50, 50);
+}
+.Dark *::selection {
+  background-color: white;
+  color: rgb(50, 50, 50);
+}
+.Dark .Button-Theme {
+  border-color: white;
+}
+.Dark .Button-Theme::after {
+  background-color: white;
 }

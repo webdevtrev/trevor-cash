@@ -27,6 +27,8 @@
 }
 .Introduction h1 .Areas {
   margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
 }
 .Introduction h1 .Areas span {
   font-size: calc(min(1000px, 100vw) / 30);
@@ -76,15 +78,18 @@
 }
 .Skills > div {
   width: 100%;
-  padding-bottom: 2rem;
+  padding-bottom: 3rem;
 }
 
 .Skill-Cards {
   transform-origin: center;
   position: relative;
-  animation: rotating 15s linear infinite;
+  animation: rotating 20s linear infinite;
   aspect-ratio: 1/1;
   width: 50%;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0px 0px 11px 13px white;
 }
 .Skill-Cards:hover,
 .Paused,
@@ -94,13 +99,16 @@
 }
 .Skill {
   position: absolute;
-  animation: orientation 15s linear infinite;
+  animation: orientation 20s linear infinite;
   z-index: 10;
-  width: 20%;
+  width: 16%;
   height: fit-content;
   transform: translate(-50%, 50%);
   transform-origin: bottom left;
   transition: 0.3s;
+}
+.Skill:hover {
+  z-index: 20;
 }
 .Skill.Large {
   bottom: 50% !important;
@@ -135,11 +143,12 @@
   border-radius: 15px;
   transform: translateX(-50%);
   left: 50%;
-  top: 100%;
+  top: calc(100% + 15px);
   opacity: 0;
   transition: opacity 0.2s;
   z-index: 50;
   text-align: center;
+  pointer-events: none;
 }
 .Skill .Tooltip::before {
   content: '';
@@ -147,15 +156,15 @@
   border-style: solid;
   border-width: 0 15px 15px 15px;
   border-color: transparent transparent black transparent;
-  bottom: 100%;
+  bottom: calc(100% - 1px);
   left: 50%;
   transform: translateX(-50%);
 }
 .Skills-Info .Placeholder {
-  transition: 0.3s;
+  transition: opacity 0.3s;
 }
 .Skills-Info .Placeholder-Height {
-  transition: 0.3s;
+  transition: height 0.3s;
 }
 
 @keyframes rotating {
@@ -180,5 +189,8 @@
   }
   .Skills > div {
     width: 50%;
+  }
+  .Skills-Info {
+    padding-right: 4rem;
   }
 }

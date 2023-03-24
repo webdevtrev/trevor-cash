@@ -8,6 +8,9 @@ h1 span {
 h1 .Warm {
   font-size: 40px;
 }
+h1 .Direct {
+  font-size: 24px;
+}
 form {
   display: flex;
   flex-wrap: wrap;
@@ -31,10 +34,6 @@ textarea {
   font-family: 'Hubot Sans';
   font-weight: 100;
   color: black;
-}
-input:autofill,
-input::-webkit-autofill {
-  background-color: rgb(238, 238, 238);
 }
 textarea {
   resize: vertical;
