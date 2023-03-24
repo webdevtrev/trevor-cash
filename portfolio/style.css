@@ -6,12 +6,13 @@
   justify-content: center;
   margin-top: 4rem;
 }
-.Cards > div {
-}
 .Cards img {
   max-width: 100%;
   height: 100px;
   filter: grayscale(0);
+}
+.Cards a:hover {
+  opacity: 1;
 }
 .Cards span {
   display: none;
