@@ -3,7 +3,6 @@ toggleDark.className = 'Button-Theme';
 if (localStorage.dark === 'true') {
   toggleDark.classList.add('Active');
   document.querySelector('body').classList.add('Dark');
-  console.log(document.querySelector('body').classList);
 }
 
 class Header extends HTMLElement {

@@ -8,7 +8,6 @@ const defaultImage = '';
 let transitionOut;
 let transitionIn;
 const paragraphs = document.querySelectorAll('p');
-console.log(paragraphs);
 paragraphs.forEach((item) => {
   const image = item.closest('.Group').querySelector('img');
   item.addEventListener('mouseover', (e) => {

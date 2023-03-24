@@ -79,7 +79,7 @@ custom-footer {
   justify-content: center;
 }
 a {
-  color: black;
+  /* color: black; */
   opacity: 1;
   transition: opacity 0.2s;
 }
