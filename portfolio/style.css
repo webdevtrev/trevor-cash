@@ -7,6 +7,11 @@
 }
 .Category h2 {
   width: 100%;
+  margin-bottom: 0;
+}
+.Category p {
+  width: 100%;
+  margin: 0;
 }
 .Cards {
   display: flex;
@@ -16,20 +21,43 @@
   justify-content: center;
   margin-top: 4rem;
 }
+.Cards div {
+  position: relative;
+}
 .Cards img {
   max-width: 100%;
   height: 100px;
   filter: grayscale(0);
+  object-fit: contain;
+  min-width: 200px;
 }
 .Cards a {
   cursor: pointer;
 }
-.Cards a:hover,
-.Cards a:focus {
+.Cards a:hover + .Tooltip,
+.Cards a:focus + .Tooltip,
+.Tooltip:hover,
+.Tooltip:focus {
   opacity: 1;
 }
-.Cards span {
-  display: none;
+
+.Cards .Tooltip {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  text-align: center;
 }
 @media screen and (min-width: 600px) {
   .Cards img {
@@ -38,14 +66,16 @@
 }
 .Item {
   display: flex;
+  flex-direction: column;
   gap: 3rem;
   font-size: 20px;
 }
 .Item h3 {
   margin-top: 0;
+  margin-top: 1rem;
 }
 .Item > * {
-  width: 50%;
+  width: 100%;
 }
 .Item img {
   max-width: 100%;
@@ -53,4 +83,13 @@
   box-shadow: 4px 8px 8px hsl(0deg 0% 0% / 0.38);
   border: 2px solid black;
   object-fit: contain;
+  align-self: center;
+}
+@media screen and (min-width: 800px) {
+  .Item > * {
+    width: 50%;
+  }
+  .Item {
+    flex-direction: row;
+  }
 }
