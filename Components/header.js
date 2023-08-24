@@ -29,14 +29,14 @@ class Header extends HTMLElement {
     const pages = ['Home', 'Portfolio', 'About', 'Contact'];
     const nav = document.createElement('nav');
     pages.forEach((page) => {
-      if (this.page !== page) {
-        const link = document.createElement('a');
-        link.innerText = page;
-        link.href = `/${page === 'Home' ? '' : page.toLowerCase()}`;
-        nav.append(link);
-      }
+      // if (this.page !== page) {
+      const link = document.createElement('a');
+      link.innerText = page;
+      link.href = `/${page === 'Home' ? '' : page.toLowerCase()}`;
+      nav.append(link);
+      // }
     });
-    this.append(toggleDark);
+    // this.append(toggleDark);
     this.append(nav);
   }
 }

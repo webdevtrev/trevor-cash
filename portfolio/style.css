@@ -1,3 +1,13 @@
+.Content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5rem;
+}
+.Category h2 {
+  width: 100%;
+}
 .Cards {
   display: flex;
   flex-wrap: wrap;
@@ -11,6 +21,9 @@
   height: 100px;
   filter: grayscale(0);
 }
+.Cards a {
+  cursor: pointer;
+}
 .Cards a:hover,
 .Cards a:focus {
   opacity: 1;
@@ -22,4 +35,22 @@
   .Cards img {
     filter: grayscale(1);
   }
+}
+.Item {
+  display: flex;
+  gap: 3rem;
+  font-size: 20px;
+}
+.Item h3 {
+  margin-top: 0;
+}
+.Item > * {
+  width: 50%;
+}
+.Item img {
+  max-width: 100%;
+  filter: grayscale(0);
+  box-shadow: 4px 8px 8px hsl(0deg 0% 0% / 0.38);
+  border: 2px solid black;
+  object-fit: contain;
 }
