@@ -27,26 +27,59 @@ custom-header {
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
   position: fixed;
   top: 0;
   background-color: black;
   color: white;
   left: 0;
-  padding: 1rem 0;
-  /* border-bottom: 1px solid black; */
+  /* pads its contents in line with the 1000px body container */
+  padding: 1.6rem max(calc((100vw - 1000px) / 2 + 1rem), 1rem);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
   z-index: 100;
 }
-custom-header h1 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-left: max(calc((100vw - 1000px) / 2), 1rem);
+custom-header.Home {
+  justify-content: flex-end;
 }
-custom-header a {
-  color: gray;
-  text-decoration: none;
-}
-custom-header a.Active {
+custom-header .Wordmark,
+custom-header .Wordmark:visited {
   color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 1;
+}
+custom-header .Wordmark:hover,
+custom-header .Wordmark:focus {
+  opacity: 0.7;
+}
+/* Nav state is carried by opacity rather than colour, so it survives the
+   `.Dark a { color: white }` rule further down that would otherwise flatten
+   the active link into the inactive ones. */
+custom-header nav a,
+custom-header nav a:visited {
+  color: white;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+custom-header nav a:hover,
+custom-header nav a:focus {
+  opacity: 1;
+}
+custom-header nav a.Active {
+  opacity: 1;
+}
+custom-header nav a.Active:hover,
+custom-header nav a.Active:focus {
+  opacity: 0.6;
 }
 custom-header .Button-Theme {
   margin-left: max(calc((100vw - 1000px) / 2), 1rem);
@@ -78,13 +111,30 @@ custom-header .Button-Theme.Active::after {
 
 custom-header nav {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 300px;
-  margin-left: auto;
-  margin-right: max(calc((100vw - 1000px) / 2), 0rem);
-  padding: 0 1rem;
-  box-sizing: border-box;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+/* Too narrow for the wordmark and all four links on one line, so the nav takes
+   its own row. Tightened up so the fixed header doesn't eat the viewport: the
+   2rem gap above applies to the row axis too, which is most of the height. */
+@media screen and (max-width: 700px) {
+  custom-header {
+    /* without this the nav can't claim a row of its own and gets squeezed in
+       beside the wordmark instead */
+    flex-wrap: wrap;
+    row-gap: 0.75rem;
+    padding-top: 1.1rem;
+    padding-bottom: 1.1rem;
+  }
+  custom-header nav {
+    width: 100%;
+    gap: 1.25rem;
+  }
+  custom-header nav a,
+  custom-header nav a:visited {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+  }
 }
 custom-footer {
   padding-top: 8rem;
@@ -178,4 +228,13 @@ h3 {
 }
 .Dark a {
   color: white;
+}
+section.Hero {
+  background-color: black;
+  color: white;
+}
+
+section.Hero *::selection {
+  background-color: white;
+  color: black;
 }

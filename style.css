@@ -3,8 +3,6 @@
    content back in line with it. Black rather than the design's #0c0c0c so the
    band reads as one surface with the fixed custom-header sitting on top. */
 section.Hero {
-  background-color: black;
-  color: white;
   margin-top: -1rem;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);

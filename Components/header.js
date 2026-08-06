@@ -1,19 +1,19 @@
-const toggleDark = document.createElement('button');
-toggleDark.className = 'Button-Theme';
-if (localStorage.dark === 'true') {
-  toggleDark.classList.add('Active');
-  document.querySelector('body').classList.add('Dark');
+const toggleDark = document.createElement("button");
+toggleDark.className = "Button-Theme";
+if (localStorage.dark === "true") {
+  toggleDark.classList.add("Active");
+  document.querySelector("body").classList.add("Dark");
 }
 
 class Header extends HTMLElement {
   // connect component
   constructor() {
     super();
-    this.page = 'Home';
+    this.page = "Home";
   }
   // component attributes
   static get observedAttributes() {
-    return ['page'];
+    return ["page"];
   }
   // attribute change
   attributeChangedCallback(property, oldValue, newValue) {
@@ -21,18 +21,30 @@ class Header extends HTMLElement {
     this[property] = newValue;
   }
   connectedCallback() {
-    toggleDark.addEventListener('click', (e) => {
-      document.querySelector('body').classList.toggle('Dark');
-      e.target.classList.toggle('Active');
-      localStorage.dark = e.target.classList.contains('Active');
+    toggleDark.addEventListener("click", (e) => {
+      document.querySelector("body").classList.toggle("Dark");
+      e.target.classList.toggle("Active");
+      localStorage.dark = e.target.classList.contains("Active");
     });
-    const pages = ['Home', 'Portfolio', 'About', 'Contact'];
-    const nav = document.createElement('nav');
+    // A link, not an h1 — each page already has its own h1.
+    if (this.page !== "Home") {
+      const wordmark = document.createElement("h1");
+      wordmark.className = "Wordmark";
+      wordmark.innerText = "Trevor Cash";
+      this.append(wordmark);
+    } else {
+      this.classList.add("Home");
+    }
+    const pages = ["Home", "Portfolio", "About", "Contact"];
+    const nav = document.createElement("nav");
     pages.forEach((page) => {
       // if (this.page !== page) {
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.innerText = page;
-      link.href = `/${page === 'Home' ? '' : page.toLowerCase()}`;
+      link.href = `/${page === "Home" ? "" : page.toLowerCase()}`;
+      if (this.page === page) {
+        link.classList.add("Active");
+      }
       nav.append(link);
       // }
     });
@@ -40,4 +52,4 @@ class Header extends HTMLElement {
     this.append(nav);
   }
 }
-customElements.define('custom-header', Header);
+customElements.define("custom-header", Header);

@@ -12,9 +12,10 @@
       type="font/woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="./style.css" />
     <link rel="stylesheet" href="../global.css" />
+    <link rel="stylesheet" href="./style.css" />
     <script type="module" src="../Components/header.js"></script>
+    <script type="module" src="../Components/footer.js"></script>
 
     <!-- Google tag (gtag.js) -->
     <script
@@ -34,98 +35,188 @@
   <body>
     <custom-header page="About"></custom-header>
     <main>
-      <section class="About">
-        <h1>About Me</h1>
-        <div class="Group">
-          <h2>Education</h2>
-          <p id="portrait">
-            I graduated from Wright State University in 2020 in the thick of
-            covid with a Bachelor of Science in Computer Science
-          </p>
-          <h2>Professional</h2>
-          <p id="booz">
-            I am currently a software developer at Booz Allen Hamilton where I
-            lead a frontend team of four on a mission critical government
-            application used by more than a thousand people. Day to day that
-            looks like mentoring, code reviews, pair programming, and
-            architecture decisions alongside a cross functional group of around
-            ten engineers. I've set our frontend coding standards, pushed for a
-            real testing culture with automated coverage tracking, modernized a
-            pile of legacy Vue components, and built accessible interfaces that
-            meet WCAG and Section 508. I've also been the sole frontend
-            developer on a greenfield application, working directly with
-            analysts to learn the domain and turn it into something usable.
-          </p>
-          <p id="Reynolds">
-            Before that I spent four years as a web developer at Reynolds and
-            Reynolds, where I was the primary development support for the
-            marketing team. I built five large decoupled React applications on
-            top of Drupal, made SEO and Lighthouse performance a core focus
-            across our production sites, wired Google Tag Manager tracking into
-            our reusable components so marketing had consistent analytics, and
-            maintained a component library shared across websites, single page
-            apps, and React Native. I also wrote a lot of tooling on the fly to
-            crush the tedious tasks that got handed to us.
-          </p>
-          <p id="webdevtrev">
-            In 2022 I started my own business creating websites for local
-            businesses and organizations and have successfully launched 8 sites,
-            designing on Adobe Illustrator, building with a decoupled React
-            setup using NextJS and Gatsby sourcing content from Sanity, and
-            launching through Netlify.
-          </p>
-          <img class="portrait" src="../images/portrait.png" />
+      <section class="About-Hero Hero">
+        <div class="Hero-Head">
+          <h1>About<br />Me</h1>
+          <div class="Hero-Portrait">
+            <img src="../images/me2.jpeg" alt="Portrait of Trevor Cash" />
+          </div>
         </div>
-        <div class="Group">
-          <h2>Personal</h2>
-          <p id="running">
-            In my free time I enjoy getting out and being active. I've been
-            pretty invested in running since high school and even coached in my
-            hometown for a few years while in college. I really enjoy the bonds
-            I have formed over the years while running with friends and students
-            over the years. There is something special about pushing through and
-            sharing pain while trying to achieve personal goals together. I
-            often try to keep a routine of running races throughout the year. I
-            also take a trip down to Gatlinburg with some friends every year to
-            do some hiking as well as some weight lifting at a gym but I am
-            relatively new to that.
-          </p>
-          <p id="odie">
-            I have a companion named Odie, he's an all black pug that is 1 year
-            old. He loves going on rides and running around with other doggos!
-            He is also probably one of the smartest dogs I have ever owned,
-            which I would of never thought I would be saying that about a pug!
-          </p>
-          <p id="film">
-            I also shoot film photography on a Nikon FM2. Everything about it is
-            manual, so there is no burst mode to hide behind and no screen to
-            check afterwards, which forces me to slow down and actually think
-            about a shot before spending a frame on it. Waiting on a roll to come
-            back is half the fun.
-          </p>
-          <p id="cabriolet">
-            When the weather cooperates I take my 1986 Volkswagen Cabriolet out
-            for weekend drives. It's old enough that something always needs
-            attention, but there isn't much better than dropping the top and
-            taking the long way home on back roads.
-          </p>
-          <p id="rashmi">
-            I'm also engaged to my fiancée Rashmi, who is Nepali, so learning the
-            language has become a real part of my life. It's been humbling in the
-            best way, and it's what led me to build my Learn Nepali app to help
-            with studying the vocabulary I keep forgetting.
-          </p>
-          <p id="newThings">
-            All in all I am always trying to try out new things and live life to
-            the fullest, chances are if you talk to me I currently have something I am
-            pretty invested in and trying to improve at because I'm never able to
-            do anything halfway.
-          </p>
-          <img class="running" src="../images/running.jpg" />
+        <div class="Hero-Stats">
+          <div class="Stat">
+            <p class="Stat-Label">Education</p>
+            <p class="Stat-Value">B.S. Computer Science, Wright State, 2020</p>
+          </div>
+          <div class="Stat">
+            <p class="Stat-Label">Based In</p>
+            <p class="Stat-Value">Dayton, Ohio</p>
+          </div>
+          <div class="Stat">
+            <p class="Stat-Label">Currently</p>
+            <p class="Stat-Value">Software Developer, Booz Allen Hamilton</p>
+          </div>
         </div>
       </section>
+
+      <section class="Category">
+        <div class="Section-Meta">
+          <p>01 &mdash; Professional</p>
+          <p>6+ years</p>
+        </div>
+        <div class="Role-Grid">
+          <article class="Role Current">
+            <p class="Role-Eyebrow">Now &middot; Booz Allen Hamilton</p>
+            <h2>Leading a frontend team</h2>
+            <p class="Role-Body">
+              I am currently a software developer at Booz Allen Hamilton where I
+              lead a frontend team of four on a mission critical government
+              application used by more than a thousand people. Day to day that
+              looks like mentoring, code reviews, pair programming, and
+              architecture decisions alongside a cross functional group of around
+              ten engineers. I've set our frontend coding standards, pushed for a
+              real testing culture with automated coverage tracking, modernized a
+              pile of legacy Vue components, and built accessible interfaces that
+              meet WCAG and Section 508. I've also been the sole frontend
+              developer on a greenfield application, working directly with
+              analysts to learn the domain and turn it into something usable.
+            </p>
+          </article>
+          <article class="Role">
+            <p class="Role-Eyebrow">4 Years &middot; Reynolds and Reynolds</p>
+            <h2>Marketing's dev support</h2>
+            <p class="Role-Body">
+              Before that I spent four years as a web developer at Reynolds and
+              Reynolds, where I was the primary development support for the
+              marketing team. I built five large decoupled React applications on
+              top of Drupal, made SEO and Lighthouse performance a core focus
+              across our production sites, wired Google Tag Manager tracking into
+              our reusable components so marketing had consistent analytics, and
+              maintained a component library shared across websites, single page
+              apps, and React Native. I also wrote a lot of tooling on the fly to
+              crush the tedious tasks that got handed to us.
+            </p>
+          </article>
+          <article class="Role">
+            <p class="Role-Eyebrow">Since 2022 &middot; WEBDEVTREV</p>
+            <h2>My own studio</h2>
+            <p class="Role-Body">
+              In 2022 I started my own business creating websites for local
+              businesses and organizations and have successfully launched 8 sites,
+              designing on Adobe Illustrator, building with a decoupled React
+              setup using NextJS and Gatsby sourcing content from Sanity, and
+              launching through Netlify.
+            </p>
+          </article>
+        </div>
+        <div class="Education-Panel">
+          <div>
+            <p class="Panel-Label">Education</p>
+            <p class="Panel-Body">
+              I graduated from Wright State University in 2020 in the thick of
+              covid with a Bachelor of Science in Computer Science
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="Category">
+        <div class="Section-Meta">
+          <p>02 &mdash; Personal</p>
+          <p>Outside of work</p>
+        </div>
+
+        <div class="Hobby-Tabs"></div>
+        <div class="Hobby-Layout">
+          <div class="Hobby-Copy">
+            <p class="Hobby-Index"></p>
+            <h2 class="Hobby-Headline"></h2>
+            <p class="Hobby-Body"></p>
+          </div>
+          <div class="Hobby-Photo"></div>
+        </div>
+
+        <!-- Source content for the tabs above; app.js reads the copy from here
+             so the prose stays in the markup. Hidden via style.css. -->
+        <div class="Hobby-Source">
+          <article
+            data-tab="Learning Nepali"
+            data-headline="A new language"
+            data-img="../images/rashmi.jpeg"
+          >
+            <p>
+              I'm recently engaged to my fiancée Rashmi, who is Nepali, so learning the
+              language has become a real part of my life. It's been humbling in the
+              best way, and it's what led me to build my Learn Nepali app to help
+              with studying the vocabulary I keep forgetting.
+            </p>
+          </article>
+          <article
+            data-tab="Running"
+            data-headline="Miles with friends"
+            data-img="../images/running.jpg"
+          >
+            <p>
+              In my free time I enjoy getting out and being active. I've been
+              pretty invested in running since high school and even coached in my
+              hometown for a few years while in college. I really enjoy the bonds
+              I have formed over the years while running with friends and students
+              over the years. There is something special about pushing through and
+              sharing pain while trying to achieve personal goals together. I
+              often try to keep a routine of running races throughout the year. I
+              also take a trip down to Gatlinburg with some friends every year to
+              do some hiking as well as some weight lifting at a gym but I am
+              relatively new to that.
+            </p>
+          </article>
+          <article
+            data-tab="Odie"
+            data-headline="A very smart pug"
+            data-img="../images/odie.png"
+          >
+            <p>
+              I have a companion named Odie, he's an all black pug that is 1 year
+              old. He loves going on rides and running around with other doggos!
+              He is also probably one of the smartest dogs I have ever owned,
+              which I would of never thought I would be saying that about a pug!
+            </p>
+          </article>
+          <article
+            data-tab="Film Photography"
+            data-headline="Shot on a Nikon FM2"
+            data-img="../images/film.jpeg"
+          >
+            <p>
+              I also shoot film photography on a Nikon FM2. Everything about it is
+              manual, so there is no burst mode to hide behind and no screen to
+              check afterwards, which forces me to slow down and actually think
+              about a shot before spending a frame on it. Waiting on a roll to come
+              back is half the fun.
+            </p>
+          </article>
+          <article
+            data-tab="1986 VW Cabriolet"
+            data-headline="Top down, long way home"
+            data-img="../images/cabriolet.JPG"
+            data-position="75% 25%"
+          >
+            <p>
+              When the weather cooperates I take my 1986 Volkswagen Cabriolet out
+              for weekend drives. It's old enough that something always needs
+              attention, but there isn't much better than dropping the top and
+              taking the long way home on back roads.
+            </p>
+          </article>
+        </div>
+
+        <p class="Closing">
+          All in all I am always trying to try out new things and live life to
+          the fullest, chances are if you talk to me I currently have something I am
+          pretty invested in and trying to improve at because I'm never able to
+          do anything halfway.
+        </p>
+      </section>
     </main>
-    <footer></footer>
+    <custom-footer></custom-footer>
   </body>
   <script type="module" src="./app.js"></script>
 </html>

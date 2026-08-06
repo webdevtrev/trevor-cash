@@ -1,51 +1,354 @@
-section {
+/* ---------- Hero ---------- */
+/* Full-bleed dark band: breaks out of the 1000px body container, then pads its
+   content back in line with it. Black rather than the design's #0c0c0c so the
+   band reads as one surface with the fixed custom-header sitting on top. */
+section.About-Hero {
+  margin-top: -1rem;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 0;
+}
+.Hero-Head {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 3rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: calc(4rem + clamp(3.5rem, 8vw, 6rem))
+    max(calc((100vw - 1000px) / 2 + 1rem), 1rem) clamp(2.5rem, 5vw, 4rem);
 }
-.Group {
-  width: 100%;
-  position: relative;
+.About-Hero h1 {
+  margin: 0;
+  font-size: clamp(3rem, 10vw, 5rem);
+  font-weight: 800;
+  line-height: 0.84;
+  text-transform: uppercase;
 }
-.Group:nth-child(even) img {
-  left: 150%;
-  top: 50%;
-}
-.Group:nth-child(odd) img {
-  right: 75%;
-  top: 50%;
-}
-.Group:nth-child(odd) {
-  align-self: flex-end;
-}
-.About img {
-  border-radius: 50%;
-  width: 75%;
-  height: auto;
+/* Two knobs for framing the portrait:
+   --portrait-zoom  how tight the crop is (1 = plain object-fit: cover)
+   --portrait-focus the point the zoom pivots around, as x y
+   Raising the zoom pushes the subject down and out, so the focus has to come
+   back up to compensate: for this photo, y ≈ 85% at 1.6x, 74% at 2x, 71% at
+   2.2x. Recentre after changing the zoom. */
+.Hero-Portrait {
+  --portrait-zoom: 2;
+  --portrait-focus: 45% 74%;
+  width: 200px;
+  max-width: 40vw;
+  /* aspect-ratio rather than a fixed height, or max-width turns the circle into
+     an oval on narrow screens */
   aspect-ratio: 1/1;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.Hero-Portrait img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  margin: auto;
-  display: block;
-  transition: opacity 0.5s;
-  opacity: 1;
+  transform: scale(var(--portrait-zoom));
+  transform-origin: var(--portrait-focus);
+  filter: grayscale(1) contrast(1.05);
 }
-.About img {
-  filter: grayscale(0);
-  background-color: rgb(49, 215, 201);
+.Hero-Portrait:hover img {
+  filter: grayscale(0) contrast(1.05);
 }
-.About img.portrait {
-  object-position: top;
+/* The band is full-bleed but the cells divide the 1000px content column, so the
+   dividers land on thirds of the measure rather than of the viewport. */
+.Hero-Stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 0 max(calc((100vw - 1000px) / 2 + 1rem), 1rem);
 }
-.About img.cabriolet {
-  object-position: 75% 25%;
+.Stat {
+  padding: 1.3rem 0;
+}
+.Stat + .Stat {
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+@media screen and (min-width: 700px) {
+  .Hero-Stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .Stat + .Stat {
+    border-top: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.14);
+    padding-left: 1.75rem;
+  }
+}
+.Stat-Label {
+  margin: 0 0 0.3rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+.Stat-Value {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
-@media screen and (min-width: 600px) {
-  .Group {
-    width: 50%;
-  }
-  .About img {
-    display: block;
-    position: absolute;
-    transform: translate(-50%, -50%);
-  }
+/* ---------- Sections ---------- */
+.Category {
+  padding: 5.5rem 0 0;
+}
+.Category:last-of-type {
+  padding-bottom: 3rem;
+}
+.Section-Meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2rem;
+  border-bottom: 1px solid #e4e4e1;
+  padding-bottom: 1.2rem;
+}
+.Section-Meta p {
+  margin: 0;
+  font-size: 0.74rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #5f5f5b;
+}
+
+/* ---------- Professional ---------- */
+.Role-Grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem;
+  padding-top: 3rem;
+}
+.Role {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  border-left: 2px solid #d8d8d4;
+  padding-left: 1.4rem;
+}
+/* current role gets the full-strength rule */
+.Role.Current {
+  border-left-color: #111;
+}
+.Role-Eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #5f5f5b;
+}
+.Role h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.Role-Body {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.65;
+  color: #3a3a38;
+}
+.Education-Panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 3rem;
+  background-color: #f4f4f2;
+  border: 1px solid #eaeae7;
+  padding: 2rem clamp(1.5rem, 3vw, 2.5rem);
+}
+.Education-Panel > div {
+  flex: 1 1 240px;
+}
+.Panel-Label {
+  margin: 0 0 0.4rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #5f5f5b;
+}
+.Panel-Body {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 300;
+  line-height: 1.65;
+  color: #3a3a38;
+}
+
+/* ---------- Personal ---------- */
+.Hobby-Tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-top: 2.5rem;
+}
+.Hobby-Tab {
+  cursor: pointer;
+  font-family: "Hubot Sans";
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.1rem;
+  color: #3a3a38;
+  background-color: transparent;
+  border: 1px solid #d8d8d4;
+  border-radius: 0;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s,
+    color 0.2s;
+}
+.Hobby-Tab:hover,
+.Hobby-Tab:focus {
+  border-color: #111;
+}
+.Hobby-Tab.Active {
+  color: white;
+  background-color: #111;
+  border-color: #111;
+}
+.Hobby-Layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  align-items: stretch;
+  padding-top: 2.5rem;
+}
+.Hobby-Copy {
+  flex: 1 1 320px;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.Hobby-Index {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #5f5f5b;
+}
+.Hobby-Headline {
+  margin: 0;
+  font-size: clamp(1.9rem, 3.6vw, 2.6rem);
+  font-weight: 800;
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+.Hobby-Body {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 300;
+  line-height: 1.65;
+  color: #3a3a38;
+}
+.Hobby-Photo {
+  flex: 1 1 340px;
+  min-width: 280px;
+  position: relative;
+  background-color: #f4f4f2;
+  border: 1px solid #eaeae7;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+/* One frame per hobby, stacked and cross-faded rather than swapping a single
+   src, so switching tabs doesn't flash while the next photo decodes. */
+.Hobby-Frame {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(1);
+  transition:
+    opacity 0.35s ease,
+    filter 0.3s;
+}
+.Hobby-Frame.Active {
+  opacity: 1;
+}
+.Hobby-Photo:hover .Hobby-Frame.Active {
+  filter: grayscale(0);
+}
+/* app.js lifts the copy out of here; keeping it in the markup means the prose
+   lives with the rest of the content rather than inside a script. */
+.Hobby-Source {
+  display: none;
+}
+.Closing {
+  margin: 3.5rem 0 0;
+  max-width: 52ch;
+  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+  font-weight: 300;
+  line-height: 1.5;
+  color: #111;
+  border-top: 2px solid #111;
+  padding-top: 1.6rem;
+}
+
+/* ---------- Footer ---------- */
+custom-footer {
+  padding: 3rem 0 4rem;
+}
+custom-footer p {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: #6b6b67;
+}
+
+/* ---------- Dark mode ---------- */
+/* global.css greys the header in dark mode; here it sits on top of the black
+   hero band, so keep it black. Page-scoped since only about loads this. */
+.Dark custom-header {
+  background-color: black;
+}
+.Dark .Section-Meta {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.Dark .Section-Meta p,
+.Dark .Role-Eyebrow,
+.Dark .Hobby-Index,
+.Dark .Panel-Label {
+  color: #a8a8a4;
+}
+.Dark .Role-Body,
+.Dark .Hobby-Body,
+.Dark .Panel-Body {
+  color: rgba(255, 255, 255, 0.85);
+}
+.Dark .Role {
+  border-left-color: rgba(255, 255, 255, 0.25);
+}
+.Dark .Role.Current {
+  border-left-color: white;
+}
+.Dark .Education-Panel,
+.Dark .Hobby-Photo {
+  background-color: rgb(63, 63, 63);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.Dark .Hobby-Tab {
+  color: rgba(255, 255, 255, 0.85);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+.Dark .Hobby-Tab:hover,
+.Dark .Hobby-Tab:focus {
+  border-color: white;
+}
+.Dark .Hobby-Tab.Active {
+  color: rgb(50, 50, 50);
+  background-color: white;
+  border-color: white;
+}
+.Dark .Closing {
+  color: white;
+  border-top-color: white;
+}
+.Dark custom-footer p {
+  color: rgba(255, 255, 255, 0.6);
 }
