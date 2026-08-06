@@ -1,125 +1,302 @@
-.Introduction {
-  padding-top: 4rem;
-  padding: 4rem 0;
-  display: flex;
+/* ---------- Hero ---------- */
+/* Full-bleed dark band: breaks out of the 1000px body container, then pads its
+   content back in line with it. Black rather than the design's #0c0c0c so the
+   band reads as one surface with the fixed custom-header sitting on top. */
+section.Hero {
+  background-color: black;
+  color: white;
+  margin-top: -1rem;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 0;
   min-height: 100vh;
-  gap: 2rem;
-  align-items: center;
+  display: flex;
   flex-direction: column;
-  align-items: flex-start;
 }
-.Introduction img {
-  height: auto;
-  /* filter: grayscale(1); */
+.Hero-Media {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  min-height: 60vh;
+}
+.Hero-Photo {
+  position: absolute;
+  inset: 0;
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* subject sits right of frame, so bias the crop that way */
+  object-position: 70% center;
 }
-.Introduction h1 {
-  width: 100%;
+/* global.css un-greys images on hover; the hero treatment is fixed */
+.Hero-Photo,
+.Hero-Photo:hover {
+  filter: grayscale(1) contrast(1.05);
 }
-.Introduction h1 > span {
+.Hero-Scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.92) 0%,
+    rgba(0, 0, 0, 0.72) 45%,
+    rgba(0, 0, 0, 0.28) 75%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+}
+.Hero-Content {
+  /* content-box so the gutter padding doesn't eat into the 640px measure */
+  box-sizing: content-box;
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  /* extra top pad clears the fixed header */
+  padding: calc(4rem + clamp(3rem, 7vw, 6rem))
+    max(calc((100vw - 1000px) / 2 + 1rem), 1rem) clamp(3rem, 7vw, 6rem);
+}
+.Hero-Eyebrow {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+.Hero-Eyebrow .Rule {
+  width: 2.5rem;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+.Hero-Title {
+  margin: 0;
+  font-size: clamp(3.5rem, 11vw, 7rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+.Hero-Title span {
   display: block;
 }
-.Introduction h1 .First-Name,
-.Introduction h1 .Last-Name {
-  font-size: calc(min(1000px, 100vw) / 5);
+/* Filled grey rather than the design's -webkit-text-stroke outline: Hubot Sans's
+   contours leave stray marks inside stroked glyphs. Matches the contact hero. */
+.Hero-Title .Muted {
+  color: rgb(92, 92, 92);
 }
-.Introduction h1 .Role {
-  font-size: calc(min(1000px, 100vw) / 20);
+.Hero-Lede {
+  margin: 0;
+  max-width: 34ch;
+  font-weight: 300;
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
 }
-.Introduction h1 .Areas {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-}
-.Introduction h1 .Areas span {
-  font-size: calc(min(1000px, 100vw) / 30);
-  font-weight: 200;
-  margin-right: 0.5em;
-  border: 1px solid black;
-  border-radius: 20px;
-  padding: 0.25rem 0.5rem;
-}
-.Introduction h1 .Areas .React {
-  color: rgb(8 126 164);
-  border-color: rgb(8 126 164);
-}
-.Introduction h1 .Areas .Vue {
-  color: rgb(48, 129, 96);
-  border-color: rgb(48, 129, 96);
-}
-.Introduction h1 .Areas .TS {
-  color: rgb(49, 120, 198);
-  border-color: rgb(49, 120, 198);
-}
-.Introduction h1 .Areas .JS {
-  color: #c0af18;
-  border-color: #c0af18;
-}
-.Dark .Introduction h1 .Areas .React {
-  color: rgb(88 196 220);
-  border-color: rgb(88 196 220);
-}
-.Dark .Introduction h1 .Areas .Vue {
-  color: #42b883;
-  border-color: #42b883;
-}
-.Introduction h1 .Areas .Vue {
-  color: rgb(48, 129, 96);
-  border-color: rgb(48, 129, 96);
-}
-.Introduction h1 .Areas .TS {
-  color: rgb(49, 120, 198);
-  border-color: rgb(49, 120, 198);
-}
-.Dark .Introduction h1 .Areas .TS {
-  color: rgb(106 169 233);
-  border-color: rgb(106 169 233);
-}
-.Dark .Introduction h1 .Areas .JS {
-  color: #f0db4f;
-  border-color: #f0db4f;
-}
-@media screen and (min-width: 600px) {
-  .Introduction {
-    flex-direction: row;
-  }
-  .Introduction h1 {
-    width: 50%;
-  }
-  .Introduction h1 .First-Name,
-  .Introduction h1 .Last-Name {
-    font-size: calc(min(1000px, 100vw) / 7);
-  }
-  .Introduction h1 .Role {
-    font-size: calc(min(1000px, 100vw) / 30);
-  }
-  .Introduction h1 .Areas span {
-    font-size: calc(min(1000px, 100vw) / 50);
-  }
-  .Introduction img {
-    width: 50%;
-  }
-}
-.Skills {
+.Hero-Actions {
   display: flex;
-  overflow: visible;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 0.9rem;
 }
-.Skills > div {
-  width: 100%;
+.Button-Solid,
+.Button-Solid:visited,
+.Button-Outline,
+.Button-Outline:visited {
+  padding: 0.85rem 1.6rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.Button-Solid,
+.Button-Solid:visited {
+  color: black;
+  background-color: white;
+  font-weight: 700;
+  transition: opacity 0.2s;
+}
+.Button-Solid:hover,
+.Button-Solid:focus {
+  opacity: 0.75;
+}
+.Button-Outline,
+.Button-Outline:visited {
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  font-weight: 600;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+}
+.Button-Outline:hover,
+.Button-Outline:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: white;
+  opacity: 1;
+}
+/* The band is full-bleed but the cells divide the 1000px content column, so the
+   dividers land on thirds of the measure rather than of the viewport. */
+.Hero-Stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 0 max(calc((100vw - 1000px) / 2 + 1rem), 1rem);
+}
+.Stat {
+  padding: 1.4rem 0;
+}
+.Stat + .Stat {
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+@media screen and (min-width: 700px) {
+  .Hero-Stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .Stat + .Stat {
+    border-top: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.14);
+    padding-left: 1.75rem;
+  }
+}
+.Stat-Label {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+.Stat-Value {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* ---------- Skills ---------- */
+.Skills {
+  padding: 6rem 0 7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+  overflow: visible;
+}
+.Section-Meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2rem;
+  border-bottom: 1px solid #e4e4e1;
+  padding-bottom: 1.2rem;
+}
+.Section-Meta p {
+  margin: 0;
+  font-size: 0.74rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #5f5f5b;
+}
+.Skills-Layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3.5rem;
+  align-items: stretch;
+}
+.Skills-Info {
+  flex: 1 1 320px;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.Skills-Info h2 {
+  margin: 0;
+  font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+  font-weight: 800;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.Placeholder {
+  background-color: #f4f4f2;
+  border-left: 2px solid #111;
+  padding: 1.6rem 1.6rem 1.7rem;
+  min-height: 190px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  transition: opacity 0.3s;
+}
+.Placeholder-Height {
+  transition: height 0.3s;
+}
+.Panel-Label {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #5f5f5b;
+}
+.Placeholder h3 {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 700;
+}
+.Panel-Body {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.6;
+  color: #3a3a38;
+}
+.Skill-Chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.Chip {
+  cursor: pointer;
+  font-family: "Hubot Sans";
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 0.45rem 0.9rem;
+  color: #3a3a38;
+  background-color: transparent;
+  border: 1px solid #d8d8d4;
+  border-radius: 0;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s,
+    color 0.2s;
+}
+.Chip:hover,
+.Chip:focus {
+  border-color: #111;
+}
+.Chip.Active {
+  color: white;
+  background-color: #111;
+  border-color: #111;
 }
 
 /* Centering column for the ring. The ring itself is 80% of it, matching the
    design's 10% inset, which leaves room for icons that overhang its edge. */
 .Skill-Wheel {
+  flex: 1 1 340px;
+  min-width: 280px;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 2.5rem 1rem;
+  background-color: #f4f4f2;
 }
 .Skill-Cards {
   transform-origin: center;
   position: relative;
-  /* animation: rotating 26s linear infinite; */
+  animation: rotating 26s linear infinite;
   aspect-ratio: 1/1;
   width: 80%;
   max-width: 336px;
@@ -140,7 +317,7 @@
      drift as the ring spins. */
   --Skill-Anchor: translate(-50%, 50%);
   position: absolute;
-  /* animation: orientation 26s linear infinite; */
+  animation: orientation 26s linear infinite;
   z-index: 10;
   width: 15%;
   height: fit-content;
@@ -220,12 +397,6 @@
   text-align: center;
   pointer-events: none;
 }
-.Skills-Info .Placeholder {
-  transition: opacity 0.3s;
-}
-.Skills-Info .Placeholder-Height {
-  transition: height 0.3s;
-}
 
 @keyframes rotating {
   from {
@@ -243,14 +414,62 @@
     transform: rotate(-360deg) var(--Skill-Anchor);
   }
 }
-@media screen and (min-width: 600px) {
-  .Skills {
-    flex-direction: row;
+@media (prefers-reduced-motion: reduce) {
+  .Skill-Cards,
+  .Skill {
+    animation: none;
   }
-  .Skills > div {
-    width: 50%;
-  }
-  .Skills-Info {
-    padding-right: 4rem;
-  }
+}
+
+/* ---------- Footer ---------- */
+custom-footer {
+  padding: 3rem 0 4rem;
+}
+custom-footer p {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: #6b6b67;
+}
+
+/* ---------- Dark mode ---------- */
+/* global.css greys the header in dark mode; here it sits on top of the black
+   hero band, so keep it black. Page-scoped since only home loads this. */
+.Dark custom-header {
+  background-color: black;
+}
+.Dark .Section-Meta {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.Dark .Section-Meta p,
+.Dark .Panel-Label {
+  color: #a8a8a4;
+}
+.Dark .Placeholder {
+  background-color: rgb(63, 63, 63);
+  border-left-color: white;
+}
+.Dark .Panel-Body {
+  color: rgba(255, 255, 255, 0.85);
+}
+.Dark .Chip {
+  color: rgba(255, 255, 255, 0.85);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+.Dark .Chip:hover,
+.Dark .Chip:focus {
+  border-color: white;
+}
+.Dark .Chip.Active {
+  color: rgb(50, 50, 50);
+  background-color: white;
+  border-color: white;
+}
+/* Ring stays white in both themes — the logos are full-colour and several of
+   them disappear against a dark disc. */
+.Dark .Skill-Wheel {
+  background-color: rgb(63, 63, 63);
+}
+.Dark custom-footer p {
+  color: rgba(255, 255, 255, 0.6);
 }

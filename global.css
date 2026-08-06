@@ -1,8 +1,9 @@
 @font-face {
-  font-family: 'Hubot Sans';
-  src: url('./assets/Hubot-Sans.woff2') format('woff2 supports variations'),
-    url('./assets/Hubot-Sans.woff2') format('woff2 supports variations'),
-    url('./assets/Hubot-Sans.woff2') format('woff2-variations');
+  font-family: "Hubot Sans";
+  src:
+    url("./assets/Hubot-Sans.woff2") format("woff2 supports variations"),
+    url("./assets/Hubot-Sans.woff2") format("woff2 supports variations"),
+    url("./assets/Hubot-Sans.woff2") format("woff2-variations");
   font-weight: 100 200 900;
   font-stretch: 60% 75% 125%;
 }
@@ -14,7 +15,7 @@
   color: white;
 }
 html {
-  font-family: 'Hubot Sans';
+  font-family: "Hubot Sans";
   overflow-x: hidden;
 }
 body {
@@ -28,11 +29,24 @@ custom-header {
   align-items: center;
   position: fixed;
   top: 0;
-  background-color: white;
+  background-color: black;
+  color: white;
   left: 0;
   padding: 1rem 0;
   /* border-bottom: 1px solid black; */
   z-index: 100;
+}
+custom-header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-left: max(calc((100vw - 1000px) / 2), 1rem);
+}
+custom-header a {
+  color: gray;
+  text-decoration: none;
+}
+custom-header a.Active {
+  color: white;
 }
 custom-header .Button-Theme {
   margin-left: max(calc((100vw - 1000px) / 2), 1rem);
@@ -46,7 +60,7 @@ custom-header .Button-Theme {
   cursor: pointer;
 }
 custom-header .Button-Theme::after {
-  content: '';
+  content: "";
   display: inline-block;
   position: absolute;
   height: 18px;
@@ -83,12 +97,8 @@ a {
   opacity: 1;
   transition: opacity 0.2s;
 }
-a:hover,
-a:focus {
-  opacity: 0.6;
-}
 a:visited {
-  color: inherit;
+  color: gray;
 }
 a:visited:hover,
 a:visited:focus {
@@ -152,7 +162,7 @@ h3 {
 .Dark select:focus {
   outline-color: white;
 }
-.Dark input[type='submit'] {
+.Dark input[type="submit"] {
   background-color: white;
   color: rgb(50, 50, 50);
 }

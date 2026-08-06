@@ -33,175 +33,209 @@
     </script>
   </head>
   <body>
-    <custom-header></custom-header>
+    <custom-header page="Home"></custom-header>
     <main>
-      <section class="Introduction">
-        <h1>
-          <span class="First-Name">Trevor</span>
-          <span class="Last-Name">Cash</span>
-          <span class="Role">Frontend Software Developer</span>
-          <span class="Areas"
-            ><span class="React">React</span>
-            <span class="Vue">Vue</span>
-            <span class="TS">TypeScript</span>
-            <span class="NextJS">NextJS</span>
-          </span>
-        </h1>
-        <img src="./images/portrait.png" alt="Portrait of Trevor Cash" />
+      <section class="Hero">
+        <div class="Hero-Media">
+          <img
+            class="Hero-Photo"
+            src="./images/me.JPG"
+            alt="Trevor Cash looking out over the water toward a city skyline"
+          />
+          <div class="Hero-Scrim"></div>
+          <div class="Hero-Content">
+            <p class="Hero-Eyebrow"><span class="Rule"></span>Fairborn, Ohio</p>
+            <h1 class="Hero-Title">
+              <span>Trevor</span><span class="Muted">Cash</span>
+            </h1>
+            <p class="Hero-Lede">
+              Frontend software developer with 6+ years building scalable,
+              accessible web applications and leading frontend teams.
+            </p>
+            <div class="Hero-Actions">
+              <a class="Button-Solid" href="/portfolio">View Portfolio</a>
+              <a class="Button-Outline" href="/contact">Get In Touch</a>
+            </div>
+          </div>
+        </div>
+        <div class="Hero-Stats">
+          <div class="Stat">
+            <p class="Stat-Label">Currently</p>
+            <p class="Stat-Value">Software Developer, Booz Allen Hamilton</p>
+          </div>
+          <div class="Stat">
+            <p class="Stat-Label">Experience</p>
+            <p class="Stat-Value">6+ years frontend</p>
+          </div>
+          <div class="Stat">
+            <p class="Stat-Label">Core Stack</p>
+            <p class="Stat-Value">React &middot; Vue &middot; TypeScript &middot; NextJS</p>
+          </div>
+        </div>
       </section>
       <section class="Skills">
-        <div class="Skills-Info">
-          <h2>Explore My Skills</h2>
-          <div class="Placeholder-Height">
-            <div class="Placeholder">
-              <p>Click on one of my skills to learn more!</p>
-            </div>
-          </div>
+        <div class="Section-Meta">
+          <p>02 &mdash; Skills</p>
+          <p class="Skill-Count">11 technologies</p>
         </div>
+        <div class="Skills-Layout">
+          <div class="Skills-Info">
+            <h2>Explore<br />My Skills</h2>
+            <div class="Placeholder-Height">
+              <div class="Placeholder">
+                <p class="Panel-Label">No skill selected</p>
+                <p class="Panel-Body">
+                  Pick a logo from the wheel, or a name from the list below, to
+                  read how I use it.
+                </p>
+              </div>
+            </div>
+            <div class="Skill-Chips"></div>
+          </div>
 
-        <div class="Skill-Wheel">
-          <div class="Skill-Cards" tabindex="0">
-            <div class="Skill">
-              <button>
-                <img
-                  src="./images/HTML5_logo_and_wordmark.svg.png"
-                  alt="HTML5 Logo"
-                /></button
-              ><span class="Tooltip">HTML</span>
-              <p>
-                With any tech stack as a web developer you must become well
-                acquainted with HTML to make sure you have the most accessible and
-                intuitive experience for the user. I often spend time browsing MDN
-                making sure I am familiar with existing elements to make sure I
-                can produce the most native experience for the user as I possibly
-                can
-              </p>
-            </div>
-            <div class="Skill">
-              <button><img src="./images/css.png" alt="CSS3 Logo" /></button
-              ><span class="Tooltip">CSS</span>
-              <p>
-                As with any web developer CSS is a major part of the process and
-                is a must know. I always strive to learn more to add to my tool
-                belt to incorporate more pure CSS solutions to boost performance
-                when possible
-              </p>
-            </div>
-            <div class="Skill">
-              <button>
-                <img src="./images/typescript.svg" alt="TypeScript Logo" /></button
-              ><span class="Tooltip">TypeScript</span>
-              <p>
-                TypeScript is the default for everything I write now. Leaning on
-                the type system to model the data an application actually works
-                with catches a whole class of bugs before they ever reach a
-                browser, and it makes handing a codebase off to another developer
-                far less painful. Most of my day to day is spent writing typed
-                components, composables, and API layers.
-              </p>
-            </div>
-            <div class="Skill">
-              <button>
-                <img src="./images/scss.png" alt="SASS Logo" /></button
-              ><span class="Tooltip">SASS</span>
-              <p>
-                SCSS has been a part of my tech stack from the beginning of my
-                career. While it's not a make or break I do believe it makes
-                writing the styles much more fluid and organized whether it's
-                nesting styles to creating deep loops to generate a style sheet
-                for extensive design systems
-              </p>
-            </div>
-            <div class="Skill">
-              <button><img src="./images/react.png" alt="React Logo" /></button
-              ><span class="Tooltip">React</span>
-              <p>
-                Maybe my favorite of them all next to JavaScript. Creating highly
-                dynamic reactive experiences to whatever the situation is thrown
-                at it is one of my favorites. I have a rather deeper knowledge in
-                React and strive to learn more and more when I can.
-              </p>
-            </div>
-            <div class="Skill">
-              <button><img src="./images/vue.svg" alt="Vue JS Logo" /></button
-              ><span class="Tooltip">Vue</span>
-              <p>
-                Vue is what I spend most of my time in these days. I've led a team
-                building large Vue applications with TypeScript, Pinia, and Vite,
-                modernized plenty of legacy options API components along the way,
-                and covered it all with Jest and Cypress. The composition API
-                paired with a good store makes it really easy to keep complex
-                state readable and testable.
-              </p>
-            </div>
-            <div class="Skill">
-              <button><img src="./images/nextjs.png" alt="Next JS Logo" /></button
-              ><span class="Tooltip">Next JS</span>
-              <p>
-                I started learning Next JS with sites I have built for local
-                businesses in my area. I tend to lean towards Next JS over Gatsby
-                for the development experience and I enjoy learning how to
-                leverage the tooling to enhance the performance of my websites
-              </p>
-            </div>
-            <div class="Skill">
-              <button>
-                <img src="./images/git.png" alt="Git Logo" /></button
-              ><span class="Tooltip">Git</span>
-              <p>
-                Surprisingly enough I never used git until I started my first job
-                which sounds absurd to me now. But over the years I've became more
-                and more comfortable by knowing how to leverage it, making cleaner
-                commits, and being able to debug and discovering when and how they
-                came about to get quicker understandings on how to fix the issue
-              </p>
-            </div>
-            <div class="Skill">
-              <button>
-                <img src="./images/node.png" alt="Node Logo" /></button
-              ><span class="Tooltip">Node</span>
-              <p>
-                Another element to many stacks I enjoy very much is Node. I enjoy
-                writing anything that will save time or crush a tedious task in a
-                blink of an eye. I've also wrote a good bit in Node while tackling
-                Project Euler problems to grow my familiarity and improve my
-                efficiency since those problems are very large scale in terms of
-                looping and calculations
-              </p>
-            </div>
-            <div class="Skill">
-              <button>
-                <img src="./images/sanity.svg" alt="Sanity Logo" /></button
-              ><span class="Tooltip">Sanity</span>
-              <p>
-                A CMS I have been rather familiar with over the years is Sanity.
-                While great for small projects like my use cases it is also
-                scalable and easy to build custom interfaces to match content
-                authors needs scalable. I've became really comfortable building
-                these custom one off solutions and discovered some best practices
-                to keep in mind when building a Sanity project
-              </p>
-            </div>
-            <div class="Skill">
-              <button>
-                <span class="Skill-Logos">
-                  <img src="./images/vite.svg" alt="Vite Logo" />
-                </span></button
-              ><span class="Tooltip">Build Tools</span>
-              <p>
-                Over the years I always had to make tweaks to webpack builds and
-                was never fully comfortable while doing so, so I took the time to
-                take a deeper dive at understanding how to leverage it in my favor
-                and it has produced great results. These days most of my builds
-                run on Vite, and the same habits carry over. Whether it's
-                improving the development experience, performance, or matching
-                requirements for desired outputs I can get the job done.
-              </p>
+          <div class="Skill-Wheel">
+            <div class="Skill-Cards">
+              <div class="Skill">
+                <button>
+                  <img
+                    src="./images/HTML5_logo_and_wordmark.svg.png"
+                    alt="HTML5 Logo"
+                  /></button
+                ><span class="Tooltip">HTML</span>
+                <p>
+                  With any tech stack as a web developer you must become well
+                  acquainted with HTML to make sure you have the most accessible and
+                  intuitive experience for the user. I often spend time browsing MDN
+                  making sure I am familiar with existing elements to make sure I
+                  can produce the most native experience for the user as I possibly
+                  can
+                </p>
+              </div>
+              <div class="Skill">
+                <button><img src="./images/css.png" alt="CSS3 Logo" /></button
+                ><span class="Tooltip">CSS</span>
+                <p>
+                  As with any web developer CSS is a major part of the process and
+                  is a must know. I always strive to learn more to add to my tool
+                  belt to incorporate more pure CSS solutions to boost performance
+                  when possible
+                </p>
+              </div>
+              <div class="Skill">
+                <button>
+                  <img src="./images/typescript.svg" alt="TypeScript Logo" /></button
+                ><span class="Tooltip">TypeScript</span>
+                <p>
+                  TypeScript is the default for everything I write now. Leaning on
+                  the type system to model the data an application actually works
+                  with catches a whole class of bugs before they ever reach a
+                  browser, and it makes handing a codebase off to another developer
+                  far less painful. Most of my day to day is spent writing typed
+                  components, composables, and API layers.
+                </p>
+              </div>
+              <div class="Skill">
+                <button>
+                  <img src="./images/scss.png" alt="SASS Logo" /></button
+                ><span class="Tooltip">SASS</span>
+                <p>
+                  SCSS has been a part of my tech stack from the beginning of my
+                  career. While it's not a make or break I do believe it makes
+                  writing the styles much more fluid and organized whether it's
+                  nesting styles to creating deep loops to generate a style sheet
+                  for extensive design systems
+                </p>
+              </div>
+              <div class="Skill">
+                <button><img src="./images/react.png" alt="React Logo" /></button
+                ><span class="Tooltip">React</span>
+                <p>
+                  Maybe my favorite of them all next to JavaScript. Creating highly
+                  dynamic reactive experiences to whatever the situation is thrown
+                  at it is one of my favorites. I have a rather deeper knowledge in
+                  React and strive to learn more and more when I can.
+                </p>
+              </div>
+              <div class="Skill">
+                <button><img src="./images/vue.svg" alt="Vue JS Logo" /></button
+                ><span class="Tooltip">Vue</span>
+                <p>
+                  Vue is what I spend most of my time in these days. I've led a team
+                  building large Vue applications with TypeScript, Pinia, and Vite,
+                  modernized plenty of legacy options API components along the way,
+                  and covered it all with Jest and Cypress. The composition API
+                  paired with a good store makes it really easy to keep complex
+                  state readable and testable.
+                </p>
+              </div>
+              <div class="Skill">
+                <button><img src="./images/nextjs.png" alt="Next JS Logo" /></button
+                ><span class="Tooltip">Next JS</span>
+                <p>
+                  I started learning Next JS with sites I have built for local
+                  businesses in my area. I tend to lean towards Next JS over Gatsby
+                  for the development experience and I enjoy learning how to
+                  leverage the tooling to enhance the performance of my websites
+                </p>
+              </div>
+              <div class="Skill">
+                <button>
+                  <img src="./images/git.png" alt="Git Logo" /></button
+                ><span class="Tooltip">Git</span>
+                <p>
+                  Surprisingly enough I never used git until I started my first job
+                  which sounds absurd to me now. But over the years I've became more
+                  and more comfortable by knowing how to leverage it, making cleaner
+                  commits, and being able to debug and discovering when and how they
+                  came about to get quicker understandings on how to fix the issue
+                </p>
+              </div>
+              <div class="Skill">
+                <button>
+                  <img src="./images/node.png" alt="Node Logo" /></button
+                ><span class="Tooltip">Node</span>
+                <p>
+                  Another element to many stacks I enjoy very much is Node. I enjoy
+                  writing anything that will save time or crush a tedious task in a
+                  blink of an eye. I've also wrote a good bit in Node while tackling
+                  Project Euler problems to grow my familiarity and improve my
+                  efficiency since those problems are very large scale in terms of
+                  looping and calculations
+                </p>
+              </div>
+              <div class="Skill">
+                <button>
+                  <img src="./images/sanity.svg" alt="Sanity Logo" /></button
+                ><span class="Tooltip">Sanity</span>
+                <p>
+                  A CMS I have been rather familiar with over the years is Sanity.
+                  While great for small projects like my use cases it is also
+                  scalable and easy to build custom interfaces to match content
+                  authors needs scalable. I've became really comfortable building
+                  these custom one off solutions and discovered some best practices
+                  to keep in mind when building a Sanity project
+                </p>
+              </div>
+              <div class="Skill">
+                <button>
+                  <span class="Skill-Logos">
+                    <img src="./images/vite.svg" alt="Vite Logo" />
+                  </span></button
+                ><span class="Tooltip">Build Tools</span>
+                <p>
+                  Over the years I always had to make tweaks to webpack builds and
+                  was never fully comfortable while doing so, so I took the time to
+                  take a deeper dive at understanding how to leverage it in my favor
+                  and it has produced great results. These days most of my builds
+                  run on Vite, and the same habits carry over. Whether it's
+                  improving the development experience, performance, or matching
+                  requirements for desired outputs I can get the job done.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
-      <section class="Summary"></section>
     </main>
     <custom-footer></custom-footer>
   </body>
