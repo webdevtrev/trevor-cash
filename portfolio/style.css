@@ -1,99 +1,293 @@
-.Content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5rem;
+/* ---------- Hero ---------- */
+/* Full-bleed dark band: breaks out of the 1000px body container, then pads its
+   content back in line with it. Black rather than the design's #0c0c0c so the
+   band reads as one surface with the fixed custom-header sitting on top. */
+section.Portfolio-Hero {
+  background-color: black;
+  color: white;
+  margin-top: -1rem;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 0;
 }
-.Category h2 {
-  width: 100%;
-  margin-bottom: 0;
-}
-.Category p {
-  width: 100%;
-  margin: 0;
-}
-.Cards {
+.Hero-Head {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
-  align-items: center;
-  justify-content: center;
-  margin-top: 4rem;
+  gap: 3rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: calc(4rem + clamp(3.5rem, 8vw, 6rem))
+    max(calc((100vw - 1000px) / 2 + 1rem), 1rem) clamp(2.5rem, 5vw, 4rem);
 }
-.Cards div {
-  position: relative;
+.Portfolio-Hero h1 {
+  margin: 0;
+  /* capped at 5rem so the un-condensed word still leaves room for the lede
+     beside it, the way the mockup's condensed 8rem does */
+  font-size: clamp(3rem, 10vw, 5rem);
+  font-weight: 800;
+  line-height: 0.84;
+  text-transform: uppercase;
 }
-.Cards img {
-  max-width: 100%;
-  height: 100px;
-  filter: grayscale(0);
-  object-fit: contain;
-  min-width: 200px;
+.Hero-Lede {
+  margin: 0;
+  max-width: 38ch;
+  font-weight: 300;
+  font-size: clamp(1rem, 1.7vw, 1.2rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.75);
 }
-.Cards a {
-  cursor: pointer;
+/* The band is full-bleed but the cells divide the 1000px content column, so the
+   dividers land on thirds of the measure rather than of the viewport. */
+.Hero-Stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 0 max(calc((100vw - 1000px) / 2 + 1rem), 1rem);
 }
-.Cards a:hover + .Tooltip,
-.Cards a:focus + .Tooltip,
-.Tooltip:hover,
-.Tooltip:focus {
-  opacity: 1;
+.Stat {
+  padding: 1.3rem 0;
 }
-
-.Cards .Tooltip {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease-in-out;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(4px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  padding: 1rem;
-  text-align: center;
+.Stat + .Stat {
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
 }
-@media screen and (min-width: 600px) {
-  .Cards img {
-    filter: grayscale(1);
+@media screen and (min-width: 700px) {
+  .Hero-Stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .Stat + .Stat {
+    border-top: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.14);
+    padding-left: 1.75rem;
   }
 }
-.Item {
+.Stat-Label {
+  margin: 0 0 0.3rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+.Stat-Value {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* ---------- Sections ---------- */
+.Category {
+  padding: 5.5rem 0 0;
+}
+.Category:last-of-type {
+  padding-bottom: 3rem;
+}
+.Section-Meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2rem;
+  border-bottom: 1px solid #e4e4e1;
+  padding-bottom: 1.2rem;
+}
+.Section-Meta p {
+  margin: 0;
+  font-size: 0.74rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #5f5f5b;
+}
+.Category-Head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  align-items: flex-start;
+  padding-top: 2.5rem;
+}
+.Category-Head h2 {
+  flex: 1 1 280px;
+  margin: 0;
+  font-size: clamp(1.9rem, 3.6vw, 2.7rem);
+  font-weight: 800;
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+.Category-Head p {
+  flex: 1 1 340px;
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 300;
+  line-height: 1.65;
+  color: #3a3a38;
+}
+
+/* ---------- Logo cards ---------- */
+.Card-Grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 3rem;
+}
+.Project-Card,
+.Project-Card:visited {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
-  font-size: 20px;
-  margin-top: 2rem;
+  gap: 1.6rem;
+  justify-content: space-between;
+  padding: 2rem 1.5rem 1.4rem;
+  color: #111;
+  text-decoration: none;
+  background-color: #f4f4f2;
+  border: 1px solid #eaeae7;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
 }
-.Item h3 {
-  margin-top: 0;
-  margin-top: 1rem;
+.Project-Card:hover,
+.Project-Card:focus {
+  border-color: #111;
+  background-color: white;
+  opacity: 1;
 }
-.Item > * {
+.Project-Card img {
+  height: 64px;
   width: 100%;
+  object-fit: contain;
+  object-position: left center;
+  filter: grayscale(1);
 }
-.Item img {
-  max-width: 100%;
+/* Reveal the logo's real colours on card hover, matching how the rest of the
+   site treats imagery. */
+.Project-Card:hover img,
+.Project-Card:focus img {
+  filter: grayscale(0);
+}
+.Card-Tech {
+  margin: 0 0 0.2rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #5f5f5b;
+}
+.Card-Name {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 600;
+}
+
+/* ---------- Side projects ---------- */
+.Project {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  align-items: center;
+  padding-top: 3rem;
+}
+.Project + .Project {
+  padding-top: 4rem;
+}
+/* Image sits first in the DOM on alternating rows; wrap-reverse puts it left of
+   the copy when there's room and back below it once the row wraps. */
+.Project.Flipped {
+  flex-wrap: wrap-reverse;
+}
+.Project-Copy {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.Project-Index {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #5f5f5b;
+}
+.Project-Copy h3 {
+  margin: 0;
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.Project-Copy h3 a,
+.Project-Copy h3 a:visited {
+  color: #111;
+  text-decoration: none;
+  border-bottom: 2px solid #111;
+  transition: opacity 0.2s;
+}
+.Project-Body {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 300;
+  line-height: 1.65;
+  color: #3a3a38;
+}
+.Project-Shot {
+  flex: 1 1 320px;
+  display: block;
+}
+.Project-Shot:hover,
+.Project-Shot:focus {
+  opacity: 1;
+}
+.Project-Shot img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid #111;
   /* Keeps logos with transparent backgrounds legible in dark mode; the
      screenshots are opaque, so it makes no difference to them. */
   background-color: white;
-  filter: grayscale(0);
-  box-shadow: 4px 8px 8px hsl(0deg 0% 0% / 0.38);
-  border: 2px solid black;
-  object-fit: contain;
-  align-self: center;
+  filter: grayscale(1);
+  transition: filter 0.3s;
 }
-@media screen and (min-width: 800px) {
-  .Item > * {
-    width: 50%;
-  }
-  .Item {
-    flex-direction: row;
-  }
+.Project-Shot:hover img,
+.Project-Shot:focus img {
+  filter: grayscale(0);
+}
+
+/* ---------- Footer ---------- */
+custom-footer {
+  padding: 3rem 0 4rem;
+}
+custom-footer p {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: #6b6b67;
+}
+
+/* ---------- Dark mode ---------- */
+/* global.css greys the header in dark mode; here it sits on top of the black
+   hero band, so keep it black. Page-scoped since only portfolio loads this. */
+.Dark custom-header {
+  background-color: black;
+}
+.Dark .Section-Meta {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.Dark .Section-Meta p,
+.Dark .Project-Index {
+  color: #a8a8a4;
+}
+.Dark .Category-Head p,
+.Dark .Project-Body {
+  color: rgba(255, 255, 255, 0.85);
+}
+.Dark .Project-Copy h3 a,
+.Dark .Project-Copy h3 a:visited {
+  color: white;
+  border-bottom-color: white;
+}
+/* Logo cards stay light in both themes — the marks are full-colour and several
+   of them disappear against a dark plate. Their text has to be pinned back to
+   dark, since global.css's `.Dark a` would otherwise turn the name white on a
+   near-white card. */
+.Dark .Project-Card,
+.Dark .Project-Card:visited,
+.Dark .Card-Name {
+  color: #111;
+}
+.Dark custom-footer p {
+  color: rgba(255, 255, 255, 0.6);
 }

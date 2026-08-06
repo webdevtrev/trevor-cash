@@ -12,9 +12,10 @@
       type="font/woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="./style.css" />
     <link rel="stylesheet" href="../global.css" />
+    <link rel="stylesheet" href="./style.css" />
     <script type="module" src="../Components/header.js"></script>
+    <script type="module" src="../Components/footer.js"></script>
 
     <!-- Google tag (gtag.js) -->
     <script
@@ -34,204 +35,301 @@
   <body>
     <custom-header page="Portfolio"></custom-header>
     <main>
-      <section>
-        <h1>Portfolio</h1>
-        <hr />
-        <div class="Content">
-          <div class="Category">
-            <h2>Current Work</h2>
-            <p>
-              Most of what I build now lives behind a login, so there isn't much
-              to link to. At Booz Allen Hamilton I lead a frontend team of four
-              on a mission critical government application serving over a
-              thousand users, built with Vue, TypeScript, Pinia, and Vite,
-              tested with Jest and Cypress, documented in Storybook, and shipped
-              through GitHub Actions. I've also been the sole frontend developer
-              on a greenfield application, contributed to a component library
-              shared across multiple government applications, and built the
-              whole thing to WCAG and Section 508 accessibility standards.
-            </p>
+      <section class="Portfolio-Hero">
+        <div class="Hero-Head">
+          <h1>Portfolio</h1>
+          <p class="Hero-Lede">
+            Client sites designed and built end to end, team builds shipped with
+            4&ndash;5 other developers, and side projects built to keep learning.
+          </p>
+        </div>
+        <div class="Hero-Stats">
+          <div class="Stat">
+            <p class="Stat-Label">Designed &amp; Built</p>
+            <p class="Stat-Value">4 client sites</p>
           </div>
-          <div class="Category Cards">
-            <h2>Personal Website Design and Builds</h2>
-            <p>
-              These websites were fully designed and built by me oldest to
-              newest. I am definitely no designer but I am learning and can see
-              progress. All these websites are powered by either Next or Gatsby
-              and use the CMS Sanity to source content from the clients into
-              their websites. My websites are listed from oldest to newest.
-            </p>
+          <div class="Stat">
+            <p class="Stat-Label">Team Builds</p>
+            <p class="Stat-Value">5 production sites</p>
+          </div>
+          <div class="Stat">
+            <p class="Stat-Label">Side Projects</p>
+            <p class="Stat-Value">4 shipped</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="Category">
+        <div class="Section-Meta">
+          <p>01 &mdash; Current Work</p>
+          <p>Booz Allen Hamilton</p>
+        </div>
+        <div class="Category-Head">
+          <h2>Leading<br />a frontend<br />team</h2>
+          <p>
+            Most of what I build now lives behind a login, so there isn't much
+            to link to. At Booz Allen Hamilton I lead a frontend team of four
+            on a mission critical government application serving over a
+            thousand users, built with Vue, TypeScript, Pinia, and Vite,
+            tested with Jest and Cypress, documented in Storybook, and shipped
+            through GitHub Actions. I've also been the sole frontend developer
+            on a greenfield application, contributed to a component library
+            shared across multiple government applications, and built the
+            whole thing to WCAG and Section 508 accessibility standards.
+          </p>
+        </div>
+      </section>
+
+      <section class="Category">
+        <div class="Section-Meta">
+          <p>02 &mdash; Personal Website Design and Builds</p>
+          <p>Oldest to newest</p>
+        </div>
+        <div class="Category-Head">
+          <h2>Designed<br />and built<br />by me</h2>
+          <p>
+            These websites were fully designed and built by me oldest to
+            newest. I am definitely no designer but I am learning and can see
+            progress. All these websites are powered by either Next or Gatsby
+            and use the CMS Sanity to source content from the clients into
+            their websites. My websites are listed from oldest to newest.
+          </p>
+        </div>
+        <div class="Card-Grid">
+          <a class="Project-Card" href="https://webdevtrev.io" target="_blank">
+            <img
+              src="../images/webdevtrevtransparent.png"
+              alt="WEBDEVTREV logo"
+            />
             <div>
-              <a href="https://webdevtrev.io" target="_blank"
-                ><img src="../images/webdevtrevtransparent.png"
-              /></a>
-              <span class="Tooltip">WEBDEVTREV</span>
+              <p class="Card-Tech">Next.js &middot; Sanity</p>
+              <p class="Card-Name">WEBDEVTREV</p>
             </div>
+          </a>
+          <a class="Project-Card" href="https://www.fbcwj.com" target="_blank">
+            <img
+              src="../images/fbcwj.svg"
+              alt="First Baptist Church of West Jefferson logo"
+            />
             <div>
-              <a href="https://www.fbcwj.com" target="_blank"
-                ><img src="../images/fbcwj.svg"
-              /></a>
-              <span class="Tooltip"
-                >First Baptist Church of West Jefferson</span
+              <p class="Card-Tech">Gatsby &middot; Sanity</p>
+              <p class="Card-Name">First Baptist Church of West Jefferson</p>
+            </div>
+          </a>
+          <a
+            class="Project-Card"
+            href="https://kelseystattoos.com"
+            target="_blank"
+          >
+            <img src="../images/kelseys.svg" alt="Kelsey's Tattoos logo" />
+            <div>
+              <p class="Card-Tech">Next.js &middot; Sanity</p>
+              <p class="Card-Name">Kelsey's Tattoos</p>
+            </div>
+          </a>
+          <a
+            class="Project-Card"
+            href="https://whoiscartier.com"
+            target="_blank"
+          >
+            <img src="../images/cartier.svg" alt="WhoisCartier logo" />
+            <div>
+              <p class="Card-Tech">Next.js &middot; Sanity</p>
+              <p class="Card-Name">WhoisCartier</p>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section class="Category">
+        <div class="Section-Meta">
+          <p>03 &mdash; Team Website Builds</p>
+          <p>Frontend</p>
+        </div>
+        <div class="Category-Head">
+          <h2>Shipped<br />with a<br />team</h2>
+          <p>
+            These websites were designed by a design team and built by a team
+            I was included on among 4-5 other developers at Reynolds and
+            Reynolds. I was responsible for building out the front end of
+            these content rich, responsive sites, keeping their Lighthouse and
+            SEO scores healthy, and integrating the Google Tag Manager
+            tracking the marketing team relied on.
+          </p>
+        </div>
+        <div class="Card-Grid">
+          <a class="Project-Card" href="https://reyrey.com" target="_blank">
+            <img src="../images/rr.svg" alt="Reynolds and Reynolds logo" />
+            <div>
+              <p class="Card-Tech">React &middot; Drupal</p>
+              <p class="Card-Name">Reynolds and Reynolds Refresh</p>
+            </div>
+          </a>
+          <a
+            class="Project-Card"
+            href="https://home.gasolineapprovalsystem.com/"
+            target="_blank"
+          >
+            <img src="../images/gas.svg" alt="Gasoline Approval System logo" />
+            <div>
+              <p class="Card-Tech">React &middot; Drupal</p>
+              <p class="Card-Name">Gasoline Approval System</p>
+            </div>
+          </a>
+          <a
+            class="Project-Card"
+            href="https://www.secureta.com/"
+            target="_blank"
+          >
+            <img
+              src="../images/secureta.svg"
+              alt="Secure Title Administration logo"
+            />
+            <div>
+              <p class="Card-Tech">React &middot; Drupal</p>
+              <p class="Card-Name">Secure Title Administration</p>
+            </div>
+          </a>
+          <a class="Project-Card" href="https://mogotrack.com" target="_blank">
+            <img src="../images/mogo.svg" alt="MOGOtrack logo" />
+            <div>
+              <p class="Card-Tech">React &middot; Drupal</p>
+              <p class="Card-Name">MOGOtrack</p>
+            </div>
+          </a>
+          <a
+            class="Project-Card"
+            href="https://www.gubagoo.com"
+            target="_blank"
+          >
+            <img src="../images/gubagoo.svg" alt="Gubagoo logo" />
+            <div>
+              <p class="Card-Tech">React &middot; Drupal</p>
+              <p class="Card-Name">Gubagoo</p>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section class="Category">
+        <div class="Section-Meta">
+          <p>04 &mdash; Projects for fun</p>
+          <p>Side work</p>
+        </div>
+
+        <div class="Project">
+          <div class="Project-Copy">
+            <p class="Project-Index">01 &middot; Next.js &middot; Sanity</p>
+            <h3>
+              <a href="https://learnnepali.netlify.app" target="_blank"
+                >Learn Nepali</a
               >
-            </div>
-            <div>
-              <a href="https://kelseystattoos.com" target="_blank"
-                ><img src="../images/kelseys.svg"
-              /></a>
-              <span class="Tooltip">Kelsey's Tattoos</span>
-            </div>
-            <div>
-              <a href="https://whoiscartier.com" target="_blank"
-                ><img src="../images/cartier.svg"
-              /></a>
-              <span class="Tooltip">WhoisCartier</span>
-            </div>
-          </div>
-          <div class="Category Cards">
-            <h2>Team Website Builds</h2>
-            <p>
-              These websites were designed by a design team and built by a team
-              I was included on among 4-5 other developers at Reynolds and
-              Reynolds. I was responsible for building out the front end of
-              these content rich, responsive sites, keeping their Lighthouse and
-              SEO scores healthy, and integrating the Google Tag Manager
-              tracking the marketing team relied on.
+            </h3>
+            <p class="Project-Body">
+              A Nepali language learning platform I built with Next.js and
+              Sanity. It pairs a word of the day with lesson, quiz, and
+              review sections so vocabulary keeps coming back around instead
+              of being seen once and forgotten, and it installs as a
+              progressive web app so it is there on a phone home screen
+              without an app store. Sanity handles the content side, which
+              makes adding new words and lessons a matter of writing them
+              rather than shipping a deploy.
             </p>
-            <div>
-              <a href="https://reyrey.com" target="_blank"
-                ><img src="../images/rr.svg"
-              /></a>
-              <span class="Tooltip">Reynolds and Reynolds Refresh</span>
-            </div>
-            <div>
-              <a href="https://home.gasolineapprovalsystem.com/" target="_blank"
-                ><img src="../images/gas.svg"
-              /></a>
-              <span class="Tooltip">Gasoline Approval System</span>
-            </div>
-            <div>
-              <a href="https://www.secureta.com/"
-                ><img src="../images/secureta.svg"
-              /></a>
-              <span class="Tooltip">Secure Title Administration</span>
-            </div>
-            <div>
-              <a href="https://mogotrack.com" target="_blank"
-                ><img src="../images/mogo.svg"
-              /></a>
-              <span class="Tooltip">MOGOtrack</span>
-            </div>
-            <div>
-              <a href="https://www.gubagoo.com" target="_blank"
-                ><img src="../images/gubagoo.svg"
-              /></a>
-              <span class="Tooltip">Gubagoo</span>
-            </div>
           </div>
-          <div class="Category">
-            <h2>Projects for fun</h2>
-            <div class="Item">
-              <div>
-                <h3>
-                  <a href="https://learnnepali.netlify.app" target="_blank"
-                    >Learn Nepali</a
-                  >
-                </h3>
-                <p>
-                  A Nepali language learning platform I built with Next.js and
-                  Sanity. It pairs a word of the day with lesson, quiz, and
-                  review sections so vocabulary keeps coming back around instead
-                  of being seen once and forgotten, and it installs as a
-                  progressive web app so it is there on a phone home screen
-                  without an app store. Sanity handles the content side, which
-                  makes adding new words and lessons a matter of writing them
-                  rather than shipping a deploy.
-                </p>
-              </div>
-              <a href="https://learnnepali.netlify.app" target="_blank">
-                <img src="../images/learnnepali.png" alt="Learn Nepali logo"
-              /></a>
-            </div>
-            <div class="Item">
-              <div>
-                <h3>
-                  <a
-                    href="https://timing-tools.netlify.app/tools/race-stopwatch"
-                    target="_blank"
-                    >Race Stopwatch</a
-                  >
-                </h3>
-                <p>
-                  A React web app I built for my hometown's cross country team.
-                  This tool gives them the ability to time multiple people at
-                  once and give estimates based on splits to give the user
-                  timing an idea how the runner is doing and what they are on
-                  track for. It heavily uses a Reducer hook to build out and
-                  update a dynamic object. Let's the user easily undo actions
-                  and add people while still timing so if a mistake is made all
-                  isn't lost since there is only one start to a race!
-                </p>
-              </div>
+          <a
+            class="Project-Shot"
+            href="https://learnnepali.netlify.app"
+            target="_blank"
+          >
+            <img src="../images/learnnepali.png" alt="Learn Nepali logo" />
+          </a>
+        </div>
+
+        <div class="Project Flipped">
+          <a
+            class="Project-Shot"
+            href="https://timing-tools.netlify.app/tools/race-stopwatch"
+            target="_blank"
+          >
+            <img src="../images/stopwatch.png" alt="Race Stopwatch screenshot" />
+          </a>
+          <div class="Project-Copy">
+            <p class="Project-Index">02 &middot; React</p>
+            <h3>
               <a
                 href="https://timing-tools.netlify.app/tools/race-stopwatch"
                 target="_blank"
+                >Race Stopwatch</a
               >
-                <img src="../images/stopwatch.png"
-              /></a>
-            </div>
-            <div class="Item">
-            <div>
-              <h3>
-                <a
-                  href="https://github.com/webdevtrev/projecteuler"
-                  target="_blank"
-                  >Project Euler</a
-                >
-              </h3>
-              <p>
-                A website I came across that has a bunch of math problems that
-                can be solved with code. I have been working through them in my
-                free time to keep my problem solving skills sharp and learn new
-                things. I have been using JavaScript to solve them and have been
-                learning a lot about the language and how to use it efficiently
-                to solve heavy looping problems.
-              </p>
-            </div>
-            <a
-              href="https://github.com/webdevtrev/projecteuler"
-              target="_blank"
-            >
-              <img src="../images/euler.jpg"
-            /></a>
+            </h3>
+            <p class="Project-Body">
+              A React web app I built for my hometown's cross country team.
+              This tool gives them the ability to time multiple people at
+              once and give estimates based on splits to give the user
+              timing an idea how the runner is doing and what they are on
+              track for. It heavily uses a Reducer hook to build out and
+              update a dynamic object. Let's the user easily undo actions
+              and add people while still timing so if a mistake is made all
+              isn't lost since there is only one start to a race!
+            </p>
           </div>
-          <div class="Item">
-            <div>
-              <h3>
-                <a
-                  href="https://webdevtrev.github.io/snake-game/"
-                  target="_blank"
-                  >Snake Game</a
-                >
-              </h3>
-              <p>
-                A React take on building the snake game I built over a weekend.
-                An old co worker told me how he was building the snake game for
-                his new job and I thought it would be fun to build it myself. I
-                used React to build it and it was a fun challenge to figure out
-                how to track the snake's location, move, and grow.
-              </p>
-            </div>
-            <a href="https://webdevtrev.github.io/snake-game/" target="_blank">
-              <img src="../images/snake.png" />
-            </a>
+        </div>
+
+        <div class="Project">
+          <div class="Project-Copy">
+            <p class="Project-Index">03 &middot; Node</p>
+            <h3>
+              <a
+                href="https://github.com/webdevtrev/projecteuler"
+                target="_blank"
+                >Project Euler</a
+              >
+            </h3>
+            <p class="Project-Body">
+              A website I came across that has a bunch of math problems that
+              can be solved with code. I have been working through them in my
+              free time to keep my problem solving skills sharp and learn new
+              things. I have been using JavaScript to solve them and have been
+              learning a lot about the language and how to use it efficiently
+              to solve heavy looping problems.
+            </p>
           </div>
+          <a
+            class="Project-Shot"
+            href="https://github.com/webdevtrev/projecteuler"
+            target="_blank"
+          >
+            <img src="../images/euler.jpg" alt="Project Euler screenshot" />
+          </a>
+        </div>
+
+        <div class="Project Flipped">
+          <a
+            class="Project-Shot"
+            href="https://webdevtrev.github.io/snake-game/"
+            target="_blank"
+          >
+            <img src="../images/snake.png" alt="Snake Game screenshot" />
+          </a>
+          <div class="Project-Copy">
+            <p class="Project-Index">04 &middot; React</p>
+            <h3>
+              <a href="https://webdevtrev.github.io/snake-game/" target="_blank"
+                >Snake Game</a
+              >
+            </h3>
+            <p class="Project-Body">
+              A React take on building the snake game I built over a weekend.
+              An old co worker told me how he was building the snake game for
+              his new job and I thought it would be fun to build it myself. I
+              used React to build it and it was a fun challenge to figure out
+              how to track the snake's location, move, and grow.
+            </p>
           </div>
-          
         </div>
       </section>
     </main>
-    <footer></footer>
+    <custom-footer></custom-footer>
   </body>
   <script type="module" src="./app.js"></script>
 </html>
