@@ -1,56 +1,265 @@
-section {
-  max-width: 800px;
-  margin: auto;
-}
-h1 span {
-  display: block;
-}
-h1 .Warm {
-  font-size: 40px;
-}
-h1 .Direct {
-  font-size: 24px;
-}
-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  margin-top: 4rem;
-}
-label {
-  flex: 1 1 300px;
-}
-input,
-select,
-textarea {
-  display: block;
-  width: 100%;
-  /* height: 2rem; */
-  font-size: 1.5rem;
-  border: none;
-  background-color: rgb(238, 238, 238);
-  border-radius: 0px;
-  padding: 1rem 0.5rem;
-  font-family: 'Hubot Sans';
-  font-weight: 100;
-  color: black;
-}
-textarea {
-  resize: vertical;
-  height: 4em;
-  min-height: 4em;
-}
-input:focus,
-select:focus,
-textarea:focus {
-  outline: 2px solid black;
-}
-input[type='submit'] {
+/* ---------- Hero ---------- */
+/* Full-bleed dark band: breaks out of the 1000px body container, then pads
+   its content back in line with it. */
+section.Contact-Hero {
+  /* black, not the design's #0c0c0c, so the band reads as one continuous
+     surface with the fixed custom-header sitting on top of it */
   background-color: black;
   color: white;
-  cursor: pointer;
-  border-radius: 0px;
+  margin-top: -1rem;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-top: calc(4rem + clamp(3.5rem, 8vw, 5.5rem));
+  padding-bottom: 0;
+}
+.Contact-Title {
+  /* content-box so the gutter padding doesn't eat into the 18ch measure */
+  box-sizing: content-box;
+  margin: 0 0 clamp(2.5rem, 5vw, 3.5rem);
+  padding: 0 max(calc((100vw - 1000px) / 2 + 1rem), 1rem);
+  font-size: clamp(3rem, 8vw, 4rem);
+  font-weight: 800;
+  line-height: 0.86;
+  text-transform: uppercase;
+  max-width: 18ch;
+}
+.Contact-Title span {
+  display: block;
+  margin-top: 0.5rem;
+}
+/* Filled grey rather than the design's -webkit-text-stroke outline: Hubot Sans's
+   contours leave stray marks inside stroked glyphs. Same muted value the hero
+   uses for the channel labels. */
+.Contact-Title .Muted {
+  color: rgb(92, 92, 92);
+}
+/* The band is full-bleed but the cells divide the 1000px content column, so
+   the dividers land on thirds of the measure rather than of the viewport. */
+.Contact-Channels {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 0 max(calc((100vw - 1000px) / 2 + 1rem), 1rem);
+}
+.Contact-Channels .Channel,
+.Contact-Channels .Channel:visited {
+  padding: 1.3rem 0;
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+.Contact-Channels .Channel + .Channel {
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+.Contact-Channels .Channel:hover,
+.Contact-Channels .Channel:focus {
+  background-color: rgba(255, 255, 255, 0.07);
+  opacity: 1;
+}
+@media screen and (min-width: 700px) {
+  .Contact-Channels {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .Contact-Channels .Channel + .Channel {
+    border-top: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.14);
+    padding-left: 1.75rem;
+  }
+}
+.Channel-Label {
+  margin: 0 0 0.3rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+.Channel-Value {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* ---------- Form ---------- */
+.Contact-Form-Section {
+  padding: 5rem 0 2rem;
+}
+.Section-Meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2rem;
+  border-bottom: 1px solid #e4e4e1;
+  padding-bottom: 1.2rem;
+}
+.Section-Meta p {
+  margin: 0;
+  font-size: 0.74rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #5f5f5b;
+}
+.Contact-Form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem 1.75rem;
+  padding-top: 3rem;
+}
+.Field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.Field-Wide {
+  grid-column: 1 / -1;
+}
+.Field-Label {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #5f5f5b;
 }
 .Required-Mark {
-  color: red;
+  color: #111;
+}
+.Contact-Form input,
+.Contact-Form select,
+.Contact-Form textarea {
+  font-family: "Hubot Sans";
+  font-size: 1rem;
+  font-weight: 300;
+  color: #111;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #c9c9c4;
+  border-radius: 0;
+  padding: 0.6rem 0;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.Contact-Form input::placeholder,
+.Contact-Form textarea::placeholder {
+  color: #9a9a95;
+}
+.Contact-Form input:focus,
+.Contact-Form select:focus {
+  border-bottom-color: #111;
+}
+.Contact-Form select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 1.6rem;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%23111' stroke-width='1.5'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.15rem center;
+}
+.Contact-Form textarea {
+  line-height: 1.6;
+  background-color: #f4f4f2;
+  border: 1px solid #e4e4e1;
+  padding: 1rem;
+  resize: vertical;
+}
+.Contact-Form textarea:focus {
+  border-color: #111;
+}
+.Form-Actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #e4e4e1;
+  padding-top: 1.5rem;
+}
+.Form-Note {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: #5f5f5b;
+}
+.Button-Submit {
+  cursor: pointer;
+  font-family: "Hubot Sans";
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: white;
+  background-color: #111;
+  border: 1px solid #111;
+  border-radius: 0;
+  padding: 0.9rem 2rem;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+.Button-Submit:hover,
+.Button-Submit:focus {
+  background-color: white;
+  color: #111;
+}
+
+/* ---------- Footer ---------- */
+custom-footer {
+  padding: 3rem 0 4rem;
+}
+custom-footer p {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: #6b6b67;
+}
+
+/* ---------- Dark mode ---------- */
+/* global.css greys the header in dark mode; on this page it sits on top of the
+   black hero band, so keep it black. Page-scoped since only contact loads this. */
+.Dark custom-header {
+  background-color: black;
+}
+.Dark .Section-Meta,
+.Dark .Form-Actions {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.Dark .Section-Meta p,
+.Dark .Field-Label,
+.Dark .Form-Note {
+  color: #a8a8a4;
+}
+.Dark .Required-Mark {
+  color: white;
+}
+.Dark .Contact-Form input,
+.Dark .Contact-Form select,
+.Dark .Contact-Form textarea {
+  color: white;
+  background-color: transparent;
+  border-bottom-color: rgba(255, 255, 255, 0.25);
+}
+.Dark .Contact-Form input:focus,
+.Dark .Contact-Form select:focus {
+  border-bottom-color: white;
+}
+.Dark .Contact-Form select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%23ffffff' stroke-width='1.5'/></svg>");
+}
+.Dark .Contact-Form textarea {
+  background-color: rgb(63, 63, 63);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.Dark .Contact-Form textarea:focus {
+  border-color: white;
+}
+.Dark .Button-Submit {
+  color: rgb(50, 50, 50);
+  background-color: white;
+  border-color: white;
+}
+.Dark .Button-Submit:hover,
+.Dark .Button-Submit:focus {
+  color: white;
+  background-color: transparent;
+}
+.Dark custom-footer p {
+  color: rgba(255, 255, 255, 0.6);
 }

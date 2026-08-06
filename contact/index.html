@@ -12,9 +12,10 @@
       type="font/woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="./style.css" />
     <link rel="stylesheet" href="../global.css" />
+    <link rel="stylesheet" href="./style.css" />
     <script type="module" src="../Components/header.js"></script>
+    <script type="module" src="../Components/footer.js"></script>
 
     <!-- Google tag (gtag.js) -->
     <script
@@ -34,39 +35,90 @@
   <body>
     <custom-header page="Contact"></custom-header>
     <main>
-      <section>
-        <h1>
-          <span class="Warm">I'd love to hear from you,</span
-          ><span class="Direct">get in touch below</span>
+      <section class="Contact-Hero">
+        <h1 class="Contact-Title">
+          <span>I'd love to hear from you,</span
+          ><span class="Muted">get in touch below</span>
         </h1>
-        <form name="contact" method="POST" netlify>
-          <label
-            >Name<span class="Required-Mark">*</span
-            ><input required type="text" name="Name"
-          /></label>
-          <label
-            >Email<span class="Required-Mark">*</span
-            ><input required type="text" name="Email"
-          /></label>
-          <label>Phone<input type="text" name="Phone" /></label>
-          <label
-            >Purpose
+        <div class="Contact-Channels">
+          <a class="Channel" href="mailto:trevorcash.cs@gmail.com">
+            <p class="Channel-Label">Email</p>
+            <p class="Channel-Value">trevorcash.cs@gmail.com</p>
+          </a>
+          <a class="Channel" href="tel:9376084417">
+            <p class="Channel-Label">Phone</p>
+            <p class="Channel-Value">937-608-4417</p>
+          </a>
+          <a
+            class="Channel"
+            href="https://linkedin.com/in/trevorcash"
+            target="_blank"
+          >
+            <p class="Channel-Label">LinkedIn</p>
+            <p class="Channel-Value">in/trevorcash</p>
+          </a>
+        </div>
+      </section>
+      <section class="Contact-Form-Section">
+        <div class="Section-Meta">
+          <p>01 &mdash; Send a message</p>
+          <p>Fairborn, Ohio</p>
+        </div>
+        <form
+          class="Contact-Form"
+          name="contact"
+          method="POST"
+          data-netlify="true"
+        >
+          <label class="Field">
+            <span class="Field-Label"
+              >Name <span class="Required-Mark">*</span></span
+            >
+            <input required type="text" name="Name" placeholder="Your name" />
+          </label>
+          <label class="Field">
+            <span class="Field-Label"
+              >Email <span class="Required-Mark">*</span></span
+            >
+            <input
+              required
+              type="email"
+              name="Email"
+              placeholder="you@example.com"
+            />
+          </label>
+          <label class="Field">
+            <span class="Field-Label">Phone</span>
+            <input type="tel" name="Phone" placeholder="Optional" />
+          </label>
+          <label class="Field">
+            <span class="Field-Label">Purpose</span>
             <select name="Purpose">
               <option value="">Select a purpose</option>
               <option value="Networking">Networking</option>
               <option value="Site Build">Site Build</option>
               <option value="Employment">Employment</option>
-            </select></label
-          >
-          <label
-            >Message<span class="Required-Mark">*</span
-            ><textarea required name="Message"></textarea>
+            </select>
           </label>
-          <input type="submit" />
+          <label class="Field Field-Wide">
+            <span class="Field-Label"
+              >Message <span class="Required-Mark">*</span></span
+            >
+            <textarea
+              required
+              name="Message"
+              rows="6"
+              placeholder="What are you working on?"
+            ></textarea>
+          </label>
+          <div class="Form-Actions">
+            <p class="Form-Note">Fields marked * are required.</p>
+            <button class="Button-Submit" type="submit">Send Message</button>
+          </div>
         </form>
       </section>
     </main>
-    <footer></footer>
+    <custom-footer></custom-footer>
   </body>
   <script type="module" src="./app.js"></script>
 </html>
