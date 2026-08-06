@@ -3,6 +3,7 @@
   padding: 4rem 0;
   display: flex;
   min-height: 100vh;
+  gap: 2rem;
   align-items: center;
   flex-direction: column;
   align-items: flex-start;
@@ -42,13 +43,41 @@
   color: rgb(8 126 164);
   border-color: rgb(8 126 164);
 }
+.Introduction h1 .Areas .Vue {
+  color: rgb(48, 129, 96);
+  border-color: rgb(48, 129, 96);
+}
+.Introduction h1 .Areas .TS {
+  color: rgb(49, 120, 198);
+  border-color: rgb(49, 120, 198);
+}
 .Introduction h1 .Areas .JS {
   color: #c0af18;
   border-color: #c0af18;
 }
-.Introduction h1 .Areas .Build {
-  color: rgb(195, 24, 24);
-  border-color: rgb(195, 24, 24);
+.Dark .Introduction h1 .Areas .React {
+  color: rgb(88 196 220);
+  border-color: rgb(88 196 220);
+}
+.Dark .Introduction h1 .Areas .Vue {
+  color: #42b883;
+  border-color: #42b883;
+}
+.Introduction h1 .Areas .Vue {
+  color: rgb(48, 129, 96);
+  border-color: rgb(48, 129, 96);
+}
+.Introduction h1 .Areas .TS {
+  color: rgb(49, 120, 198);
+  border-color: rgb(49, 120, 198);
+}
+.Dark .Introduction h1 .Areas .TS {
+  color: rgb(106 169 233);
+  border-color: rgb(106 169 233);
+}
+.Dark .Introduction h1 .Areas .JS {
+  color: #f0db4f;
+  border-color: #f0db4f;
 }
 @media screen and (min-width: 600px) {
   .Introduction {
@@ -78,34 +107,49 @@
 }
 .Skills > div {
   width: 100%;
-  padding-bottom: 3rem;
 }
 
+/* Centering column for the ring. The ring itself is 80% of it, matching the
+   design's 10% inset, which leaves room for icons that overhang its edge. */
+.Skill-Wheel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .Skill-Cards {
   transform-origin: center;
   position: relative;
-  animation: rotating 20s linear infinite;
+  /* animation: rotating 26s linear infinite; */
   aspect-ratio: 1/1;
-  width: 50%;
+  width: 80%;
+  max-width: 336px;
   border-radius: 50%;
   background-color: white;
-  box-shadow: 0px 0px 11px 13px white;
+  box-shadow:
+    0 0 0 1px #eee,
+    0 20px 60px -20px rgba(0, 0, 0, 0.15);
 }
-.Skill-Cards:hover,
 .Paused,
-.Skill-Cards:hover .Skill,
 .Paused .Skill {
   animation-play-state: paused;
 }
 .Skill {
+  /* Re-anchors the card from its bottom-left corner onto its center, so the
+     left/bottom percentages app.js computes land on the middle of the icon.
+     Must stay identical here and in @keyframes orientation, or the cards
+     drift as the ring spins. */
+  --Skill-Anchor: translate(-50%, 50%);
   position: absolute;
-  animation: orientation 20s linear infinite;
+  /* animation: orientation 26s linear infinite; */
   z-index: 10;
-  width: 16%;
+  width: 15%;
   height: fit-content;
-  transform: translate(-50%, 50%);
+  transform: var(--Skill-Anchor);
   transform-origin: bottom left;
-  transition: 0.3s;
+  transition:
+    width 0.3s,
+    left 0.3s,
+    bottom 0.3s;
 }
 .Skill:hover {
   z-index: 20;
@@ -115,21 +159,45 @@
   left: 50% !important;
   max-height: 50%;
   max-width: 50%;
-  width: 35%;
-}
-.Skill.Large img {
-  filter: grayscale(0);
+  width: 34%;
+  z-index: 30;
 }
 .Skill button {
   cursor: pointer;
   background-color: transparent;
   border: none;
+  display: block;
+  width: 100%;
+  padding: 0.4rem;
+  border-radius: 12px;
+  line-height: 0;
+  transition: background-color 0.3s;
+}
+.Skill button:hover,
+.Skill.Large button {
+  background-color: #f4f4f4;
 }
 .Skill img {
   width: 100%;
-  /* filter: grayscale(0); */
+  filter: grayscale(1);
+  transition: filter 0.3s;
 }
-.Skill:not(.Large) button:hover + .Tooltip {
+/* Build Tools carries two logos, so they split the icon's footprint between
+   them rather than each taking the card's full width. */
+.Skill-Logos {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+.Skill-Logos img {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.Skill.Large img {
+  filter: grayscale(0);
+}
+/* No tooltips at all while a skill is selected. */
+.Skill-Cards:not(.Paused) .Skill button:hover + .Tooltip {
   opacity: 1;
 }
 .Skill p {
@@ -137,28 +205,20 @@
 }
 .Skill .Tooltip {
   position: absolute;
-  background-color: black;
+  background-color: #111;
   color: white;
-  padding: 1rem;
-  border-radius: 15px;
+  padding: 0.5rem 0.9rem;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  white-space: nowrap;
   transform: translateX(-50%);
   left: 50%;
-  top: calc(100% + 15px);
+  top: calc(100% + 12px);
   opacity: 0;
   transition: opacity 0.2s;
-  z-index: 50;
+  z-index: 60;
   text-align: center;
   pointer-events: none;
-}
-.Skill .Tooltip::before {
-  content: '';
-  position: absolute;
-  border-style: solid;
-  border-width: 0 15px 15px 15px;
-  border-color: transparent transparent black transparent;
-  bottom: calc(100% - 1px);
-  left: 50%;
-  transform: translateX(-50%);
 }
 .Skills-Info .Placeholder {
   transition: opacity 0.3s;
@@ -177,10 +237,10 @@
 }
 @keyframes orientation {
   from {
-    transform: rotate(0deg) translate(-50%, 50%);
+    transform: rotate(0deg) var(--Skill-Anchor);
   }
   to {
-    transform: rotate(-360deg) translate(-50%, 50%);
+    transform: rotate(-360deg) var(--Skill-Anchor);
   }
 }
 @media screen and (min-width: 600px) {

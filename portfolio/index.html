@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <Tooltip>Trevor Cash | Portfolio</Tooltip>
+    <title>Trevor Cash | Portfolio</title>
     <link
       rel="preload"
       href="../assets/Hubot-Sans.woff2"
@@ -38,6 +38,20 @@
         <h1>Portfolio</h1>
         <hr />
         <div class="Content">
+          <div class="Category">
+            <h2>Current Work</h2>
+            <p>
+              Most of what I build now lives behind a login, so there isn't much
+              to link to. At Booz Allen Hamilton I lead a frontend team of four
+              on a mission critical government application serving over a
+              thousand users, built with Vue, TypeScript, Pinia, and Vite,
+              tested with Jest and Cypress, documented in Storybook, and shipped
+              through GitHub Actions. I've also been the sole frontend developer
+              on a greenfield application, contributed to a component library
+              shared across multiple government applications, and built the
+              whole thing to WCAG and Section 508 accessibility standards.
+            </p>
+          </div>
           <div class="Category Cards">
             <h2>Personal Website Design and Builds</h2>
             <p>
@@ -77,10 +91,12 @@
           <div class="Category Cards">
             <h2>Team Website Builds</h2>
             <p>
-              These websites were by a design team and built by a team I was
-              included on among 4-5 other developers. I was responsible for
-              building out the front end of these websites that are content rich
-              and responsive.
+              These websites were designed by a design team and built by a team
+              I was included on among 4-5 other developers at Reynolds and
+              Reynolds. I was responsible for building out the front end of
+              these content rich, responsive sites, keeping their Lighthouse and
+              SEO scores healthy, and integrating the Google Tag Manager
+              tracking the marketing team relied on.
             </p>
             <div>
               <a href="https://reyrey.com" target="_blank"
@@ -106,9 +122,37 @@
               /></a>
               <span class="Tooltip">MOGOtrack</span>
             </div>
+            <div>
+              <a href="https://www.gubagoo.com" target="_blank"
+                ><img src="../images/gubagoo.svg"
+              /></a>
+              <span class="Tooltip">Gubagoo</span>
+            </div>
           </div>
           <div class="Category">
             <h2>Projects for fun</h2>
+            <div class="Item">
+              <div>
+                <h3>
+                  <a href="https://learnnepali.netlify.app" target="_blank"
+                    >Learn Nepali</a
+                  >
+                </h3>
+                <p>
+                  A Nepali language learning platform I built with Next.js and
+                  Sanity. It pairs a word of the day with lesson, quiz, and
+                  review sections so vocabulary keeps coming back around instead
+                  of being seen once and forgotten, and it installs as a
+                  progressive web app so it is there on a phone home screen
+                  without an app store. Sanity handles the content side, which
+                  makes adding new words and lessons a matter of writing them
+                  rather than shipping a deploy.
+                </p>
+              </div>
+              <a href="https://learnnepali.netlify.app" target="_blank">
+                <img src="../images/learnnepali.png" alt="Learn Nepali logo"
+              /></a>
+            </div>
             <div class="Item">
               <div>
                 <h3>
@@ -136,8 +180,7 @@
                 <img src="../images/stopwatch.png"
               /></a>
             </div>
-          </div>
-          <div class="Item">
+            <div class="Item">
             <div>
               <h3>
                 <a
@@ -183,6 +226,8 @@
               <img src="../images/snake.png" />
             </a>
           </div>
+          </div>
+          
         </div>
       </section>
     </main>

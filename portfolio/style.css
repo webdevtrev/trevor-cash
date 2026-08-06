@@ -69,6 +69,7 @@
   flex-direction: column;
   gap: 3rem;
   font-size: 20px;
+  margin-top: 2rem;
 }
 .Item h3 {
   margin-top: 0;
@@ -79,6 +80,9 @@
 }
 .Item img {
   max-width: 100%;
+  /* Keeps logos with transparent backgrounds legible in dark mode; the
+     screenshots are opaque, so it makes no difference to them. */
+  background-color: white;
   filter: grayscale(0);
   box-shadow: 4px 8px 8px hsl(0deg 0% 0% / 0.38);
   border: 2px solid black;
