@@ -28,9 +28,10 @@ class Header extends HTMLElement {
     });
     // A link, not an h1 — each page already has its own h1.
     if (this.page !== "Home") {
-      const wordmark = document.createElement("h1");
+      const wordmark = document.createElement("a");
       wordmark.className = "Wordmark";
       wordmark.innerText = "Trevor Cash";
+      wordmark.href = "/";
       this.append(wordmark);
     } else {
       this.classList.add("Home");
