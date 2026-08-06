@@ -35,6 +35,9 @@ section {
 .About img.portrait {
   object-position: top;
 }
+.About img.cabriolet {
+  object-position: 75% 25%;
+}
 
 @media screen and (min-width: 600px) {
   .Group {
