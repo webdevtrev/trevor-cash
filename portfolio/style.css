@@ -244,6 +244,13 @@ section.Portfolio-Hero {
   filter: grayscale(0);
 }
 
+/* The Run Bud lockup is a wide wordmark, not a screenshot, so on its own it
+   would sit as a thin strip beside a tall column of copy. Padding inside the
+   plate gives it the height the row needs. */
+.Project-Shot.Logo-Plate img {
+  padding: clamp(2rem, 6vw, 3.5rem) clamp(1.5rem, 4vw, 2.5rem);
+}
+
 /* ---------- Footer ---------- */
 custom-footer {
   padding: 3rem 0 4rem;
