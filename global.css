@@ -128,12 +128,12 @@ custom-header nav {
   }
   custom-header nav {
     width: 100%;
-    gap: 1.25rem;
+    gap: 0.9rem;
   }
   custom-header nav a,
   custom-header nav a:visited {
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
   }
 }
 custom-footer {

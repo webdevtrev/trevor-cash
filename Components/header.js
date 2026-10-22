@@ -36,7 +36,7 @@ class Header extends HTMLElement {
     } else {
       this.classList.add("Home");
     }
-    const pages = ["Home", "Portfolio", "About", "Contact"];
+    const pages = ["Home", "Portfolio", "About", "Photos", "Contact"];
     const nav = document.createElement("nav");
     pages.forEach((page) => {
       // if (this.page !== page) {

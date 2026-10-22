@@ -13,9 +13,11 @@ Static, vanilla HTML/CSS/JS — no framework, no bundler, no build step. Pages a
 | `index.html` | Home page (`/`) |
 | `about/` | About page (`/about`) |
 | `portfolio/` | Portfolio page (`/portfolio`) |
+| `photos/` | Photo gallery (`/photos`), fed by Sanity |
+| `studio/` | Sanity Studio (own `package.json`; not served publicly) |
 | `contact/` | Contact page (`/contact`) — form handled by Netlify |
 | `global.css` | Shared styles used by every page |
-| `Components/` | Vanilla Web Components (`<custom-header>`, `<custom-footer>`) |
+| `Components/` | Vanilla Web Components (`<custom-header>`, `<custom-footer>`, `<photo-lightbox>`) |
 | `images/` | Site imagery |
 | `assets/` | Hubot-Sans variable font |
 
@@ -29,7 +31,28 @@ npx serve .
 
 Or open `index.html` directly in a browser.
 
+## Photo gallery & Sanity Studio
+
+The `/photos` page reads photos from a Sanity project (dataset `production`) using the public HTTP API. Edit the project ID in `photos/config.js` (and `studio/sanity.config.js` + `studio/sanity.cli.js`).
+
+Run the Studio locally (Node 22.12 or newer):
+
+```bash
+cd studio
+npm install
+npm run dev   # http://localhost:3333
+```
+
+Deploy the Studio to Sanity's hosting:
+
+```bash
+cd studio
+npx sanity deploy
+```
+
+One-time Sanity setup: the dataset must be public, and CORS origins are needed for the site's domains and `http://localhost:3000` (add without credentials) and for `http://localhost:3333` (with credentials, for the local Studio).
+
 ## Deployment
 
-Deployed via Netlify. Pushing to `main` triggers an automatic deploy.
+Deployed via Netlify. Pushing to `main` triggers an automatic deploy. `_redirects` keeps `/studio/*` from being served.
 

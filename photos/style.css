@@ -1,0 +1,461 @@
+/* Gallery photos are the content: undo global.css's grayscale-until-hover. */
+main img,
+photo-lightbox img {
+  filter: none;
+}
+main img:hover {
+  filter: none;
+}
+button {
+  font: inherit;
+  color: inherit;
+}
+:root {
+  --Mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --Amber: #e39a3b;
+}
+
+/* ---------- Hero ---------- */
+/* Same full-bleed breakout as portfolio/ (see portfolio/style.css). */
+section.Photos-Hero {
+  margin-top: -1rem;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 0;
+  overflow: hidden;
+}
+.Hero-Head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: calc(4rem + clamp(3.5rem, 8vw, 6rem))
+    max(calc((100vw - 1000px) / 2 + 1rem), 1rem) clamp(2rem, 4vw, 3rem);
+}
+.Photos-Hero h1 {
+  margin: 0;
+  /* the mockup's condensed display type, via Hubot Sans's width axis */
+  font-size: clamp(3.5rem, 12vw, 7rem);
+  font-weight: 800;
+  font-stretch: 62%;
+  line-height: 0.86;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+.Hero-Lede {
+  margin: 0;
+  max-width: 38ch;
+  font-weight: 300;
+  font-size: clamp(1rem, 1.7vw, 1.2rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* ---------- Film strip ---------- */
+.Strip {
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 1.5rem;
+}
+.Strip::-webkit-scrollbar {
+  display: none;
+}
+.Strip-Track {
+  display: flex;
+  gap: 14px;
+  width: max-content;
+  padding: 30px 14px;
+  /* sprocket holes above and below the frames */
+  background:
+    linear-gradient(90deg, transparent 8px, #eeebe4 8px 20px, transparent 20px)
+      0 4px / 28px 13px repeat-x,
+    linear-gradient(90deg, transparent 8px, #eeebe4 8px 20px, transparent 20px)
+      0 calc(100% - 4px) / 28px 13px repeat-x;
+}
+.Strip-Frame {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  text-align: left;
+}
+.Strip-Frame img {
+  display: block;
+  height: clamp(200px, 42vh, 460px);
+  width: auto;
+  max-width: 85vw;
+  background-color: #2a2724;
+  background-size: cover;
+}
+.Strip-Meta {
+  /* width:0 + min-width:100% keeps the caption from widening a narrow frame */
+  width: 0;
+  min-width: 100%;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: 1em;
+  font-family: var(--Mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--Amber);
+}
+.Strip-Frame:focus-visible,
+.Tile:focus-visible,
+.Density button:focus-visible,
+.Status-Retry:focus-visible,
+.Lightbox button:focus-visible {
+  outline: 2px solid var(--Amber);
+  outline-offset: 3px;
+}
+.Strip.Marquee {
+  overflow: hidden;
+}
+.Strip.Marquee .Strip-Track {
+  animation: Marquee var(--Strip-Duration, 40s) linear infinite;
+}
+.Strip.Marquee:hover .Strip-Track,
+.Strip.Marquee:focus-within .Strip-Track {
+  animation-play-state: paused;
+}
+@keyframes Marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+/* Touch and reduced-motion users scroll the strip themselves instead. */
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .Strip.Marquee {
+    overflow-x: auto;
+  }
+  .Strip.Marquee .Strip-Track {
+    animation: none;
+  }
+  .Strip-Frame[aria-hidden="true"] {
+    display: none;
+  }
+}
+
+/* ---------- Index ---------- */
+.Index {
+  padding: 4rem 0 0;
+}
+.Section-Meta {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  border-bottom: 1px solid #e4e4e1;
+  padding-bottom: 1.2rem;
+}
+.Index-Title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  font-stretch: 70%;
+  text-transform: uppercase;
+}
+.Section-Meta p {
+  margin: 0 auto 0 0;
+  font-family: var(--Mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #5f5f5b;
+}
+.Density {
+  display: flex;
+  border: 1px solid currentColor;
+}
+.Density[hidden] {
+  display: none;
+}
+.Density button {
+  padding: 0.5rem 0.9rem;
+  border: 0;
+  background: transparent;
+  font-family: var(--Mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+}
+.Density button[aria-pressed="true"] {
+  background: black;
+  color: white;
+}
+
+.Grid {
+  margin-top: 2rem;
+  column-gap: 1.5rem;
+}
+.Grid[data-density="S"] {
+  column-width: 200px;
+}
+.Grid[data-density="M"] {
+  column-width: 320px;
+}
+.Grid[data-density="L"] {
+  column-width: 520px;
+}
+@media screen and (max-width: 600px) {
+  .Grid {
+    column-gap: 0.75rem;
+  }
+  .Grid[data-density="S"] {
+    column-count: 3;
+    column-width: auto;
+  }
+  .Grid[data-density="M"] {
+    column-count: 2;
+    column-width: auto;
+  }
+  .Grid[data-density="L"] {
+    column-count: 1;
+    column-width: auto;
+  }
+}
+.Tile {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  border: 0;
+  background: #1b1a18;
+  break-inside: avoid;
+  cursor: zoom-in;
+  overflow: hidden;
+}
+@media screen and (max-width: 600px) {
+  .Tile {
+    margin-bottom: 0.75rem;
+  }
+}
+.Tile img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background-size: cover;
+  background-position: center;
+}
+.Tile-Meta {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 0.75rem;
+  padding: 1.75rem 0.9rem 0.75rem;
+  background: linear-gradient(transparent, rgba(14, 13, 12, 0.85));
+  color: #eeebe4;
+  font-family: var(--Mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  text-align: left;
+  text-transform: uppercase;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.Tile:hover .Tile-Meta,
+.Tile:focus-visible .Tile-Meta {
+  opacity: 1;
+}
+/* No hover on touch: show the caption all the time, but keep it small. */
+@media (hover: none) {
+  .Tile-Meta {
+    opacity: 1;
+  }
+}
+@media screen and (max-width: 600px) {
+  .Grid[data-density="S"] .Tile-Meta {
+    display: none;
+  }
+}
+
+/* ---------- Loading / empty / error ---------- */
+.Skeleton {
+  margin: 0 0 1.5rem;
+  break-inside: avoid;
+  background: linear-gradient(90deg, #ececea 25%, #f6f6f4 50%, #ececea 75%) 0 0 / 200% 100%;
+  animation: Shimmer 1.4s linear infinite;
+}
+@keyframes Shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .Skeleton {
+    animation: none;
+  }
+}
+.Status {
+  margin-top: 2rem;
+  padding: 3rem 1.5rem;
+  border: 1px dashed #bdb7ac;
+  text-align: center;
+}
+.Status[hidden] {
+  display: none;
+}
+.Status p {
+  margin: 0;
+  color: #3a3a38;
+}
+.Status-Title {
+  margin-bottom: 0.5rem !important;
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-stretch: 70%;
+  text-transform: uppercase;
+  color: inherit !important;
+}
+.Status-Retry {
+  margin-top: 1.25rem;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid currentColor;
+  background: transparent;
+  font-family: var(--Mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.Status-Retry:hover {
+  background: black;
+  color: white;
+}
+
+/* ---------- <photo-lightbox> ---------- */
+.Lightbox {
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #0e0d0c;
+  color: #eeebe4;
+}
+.Lightbox[open] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+.Lightbox::backdrop {
+  background: #0e0d0c;
+}
+.Lightbox-Bar,
+.Lightbox-Info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  padding: 1rem clamp(1rem, 3vw, 2rem);
+  font-family: var(--Mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.Lightbox p {
+  margin: 0;
+}
+.Lightbox-Close {
+  padding: 0.5rem 0.9rem;
+  border: 1px solid #4a4640;
+  background: none;
+  font: inherit;
+  text-transform: uppercase;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+.Lightbox-Close:hover {
+  border-color: #eeebe4;
+}
+.Lightbox-Stage {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) 56px;
+  align-items: center;
+  min-height: 0;
+}
+.Lightbox-Arrow {
+  height: 100%;
+  border: 0;
+  background: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.Lightbox-Arrow:hover {
+  color: var(--Amber);
+}
+.Lightbox-Frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 0;
+  padding: 0.5rem 0;
+}
+.Lightbox-Image {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  background-size: cover;
+}
+.Lightbox-Info {
+  color: #bdb7ac;
+}
+.Lightbox-Meta {
+  color: #eeebe4;
+}
+.Lightbox-Caption {
+  flex-basis: 100%;
+  max-width: 70ch;
+  font-family: "Hubot Sans";
+  font-size: 0.95rem;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.5;
+}
+.Lightbox-Caption[hidden] {
+  display: none;
+}
+@media screen and (max-width: 600px) {
+  .Lightbox-Stage {
+    grid-template-columns: 36px minmax(0, 1fr) 36px;
+  }
+}
+
+/* ---------- Dark mode (.Dark on <body>) ---------- */
+.Dark .Section-Meta {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.Dark .Section-Meta p,
+.Dark .Status p {
+  color: rgba(255, 255, 255, 0.7);
+}
+.Dark .Density button[aria-pressed="true"] {
+  background: white;
+  color: rgb(50, 50, 50);
+}
+.Dark .Skeleton {
+  background: linear-gradient(90deg, #3c3c3c 25%, #484848 50%, #3c3c3c 75%) 0 0 / 200% 100%;
+}
+.Dark .Status {
+  border-color: rgba(255, 255, 255, 0.35);
+}
+.Dark .Status-Retry:hover {
+  background: white;
+  color: rgb(50, 50, 50);
+}
