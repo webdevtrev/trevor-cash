@@ -48,6 +48,7 @@ export function BulkUpload() {
   const input = useRef(null)
   const rowsRef = useRef([])
   const [series, setSeries] = useState([])
+  const [stocks, setStocks] = useState([])
   const [fields, setFields] = useState(EMPTY_FIELDS)
   const [keepFields, setKeepFields] = useState(false)
   const [rows, setRows] = useState([])
@@ -61,6 +62,14 @@ export function BulkUpload() {
       .fetch('*[_type == "series" && !(_id in path("drafts.**"))] | order(title asc){_id, title}')
       .then(setSeries)
       .catch(() => setSeries([]))
+  }, [client])
+
+  // Film types already used on any photo, offered as suggestions while typing.
+  useEffect(() => {
+    client
+      .fetch('array::unique(*[_type == "photo" && defined(filmStock)].filmStock)')
+      .then((list) => setStocks([...list].sort((a, b) => a.localeCompare(b))))
+      .catch(() => setStocks([]))
   }, [client])
 
   // Free the preview thumbnails when the tool closes.
@@ -139,6 +148,8 @@ export function BulkUpload() {
       }
     }
     await Promise.all(Array.from({length: Math.min(CONCURRENCY, targets.length)}, worker))
+    const used = details.filmStock.trim()
+    if (used) setStocks((l) => (l.includes(used) ? l : [...l, used].sort((a, b) => a.localeCompare(b))))
     setBusy(false)
   }
 
@@ -223,9 +234,16 @@ export function BulkUpload() {
                 <TextInput
                   value={fields.filmStock}
                   onChange={setField('filmStock')}
-                  placeholder="e.g. Kodak Portra 400"
+                  placeholder="Type to search, or enter a new one"
+                  list="bulk-upload-film-types"
+                  autoComplete="off"
                   disabled={busy}
                 />
+                <datalist id="bulk-upload-film-types">
+                  {stocks.map((name) => (
+                    <option key={name} value={name} />
+                  ))}
+                </datalist>
               </Stack>
 
               <Stack gap={2}>
