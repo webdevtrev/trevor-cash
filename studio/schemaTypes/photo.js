@@ -27,6 +27,13 @@ export const photo = defineType({
     defineField({name: 'location', title: 'Location', type: 'string'}),
     defineField({name: 'caption', title: 'Caption', type: 'text', rows: 3}),
     defineField({
+      name: 'series',
+      title: 'Series',
+      type: 'reference',
+      to: [{type: 'series'}],
+      description: 'Optional. Leave empty for a standalone photo.',
+    }),
+    defineField({
       name: 'featured',
       title: 'Featured',
       type: 'boolean',
@@ -47,10 +54,10 @@ export const photo = defineType({
     },
   ],
   preview: {
-    select: {title: 'title', subtitle: 'takenAt', media: 'image'},
-    prepare: ({title, subtitle, media}) => ({
+    select: {title: 'title', date: 'takenAt', series: 'series.title', media: 'image'},
+    prepare: ({title, date, series, media}) => ({
       title: title || 'Untitled photo',
-      subtitle,
+      subtitle: [series, date].filter(Boolean).join(' · '),
       media,
     }),
   },

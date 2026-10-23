@@ -43,6 +43,8 @@ npm install
 npm run dev   # http://localhost:3333
 ```
 
+In the Studio, group photos into optional **Series**, and use the **Bulk upload** tool (top bar) to upload many images at once as draft photos; add alt text (required) and publish each.
+
 Deploy the Studio to Sanity's hosting:
 
 ```bash

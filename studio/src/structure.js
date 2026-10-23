@@ -12,4 +12,20 @@ export const structure = (S) =>
             .title('Photos')
             .defaultOrdering([{field: 'takenAt', direction: 'desc'}]),
         ),
+      S.listItem()
+        .title('Photos by series')
+        .child(
+          S.documentTypeList('series')
+            .title('Series')
+            .child((seriesId) =>
+              S.documentList()
+                .title('Photos in series')
+                .schemaType('photo')
+                .filter('_type == "photo" && series._ref == $seriesId')
+                .params({seriesId})
+                .defaultOrdering([{field: 'takenAt', direction: 'desc'}]),
+            ),
+        ),
+      S.divider(),
+      S.documentTypeListItem('series').title('Manage series'),
     ])
