@@ -75,6 +75,7 @@ a:focus-visible,
 .Tile:focus-visible,
 .Frame-Button:focus-visible,
 .Density button:focus-visible,
+.Layout button:focus-visible,
 .Filter button:focus-visible,
 .Status-Retry:focus-visible,
 .Lightbox button:focus-visible {
@@ -378,9 +379,17 @@ section.Photos-Hero {
   gap: 16px;
 }
 .Filter,
-.Density {
+.Density,
+.Layout {
   display: flex;
   border: 1px solid var(--Ink);
+}
+.Filter[hidden],
+.Density[hidden],
+.Grid[hidden],
+.Roll[hidden],
+.Frames[hidden] {
+  display: none;
 }
 .Filter button {
   display: flex;
@@ -401,7 +410,8 @@ section.Photos-Hero {
   background: var(--Ink);
   color: var(--Bg);
 }
-.Density button {
+.Density button,
+.Layout button {
   padding: 0.55rem 0.9rem;
   border: 0;
   background: transparent;
@@ -410,7 +420,8 @@ section.Photos-Hero {
   letter-spacing: 0.05em;
   cursor: pointer;
 }
-.Density button[aria-pressed="true"] {
+.Density button[aria-pressed="true"],
+.Layout button[aria-pressed="true"] {
   background: var(--Ink);
   color: var(--Bg);
 }
@@ -545,6 +556,12 @@ section.Photos-Hero {
 }
 .Fact dd {
   margin: 0;
+}
+.Series-Tools {
+  margin-top: 32px;
+}
+#series-grid {
+  margin: 24px 0 64px;
 }
 .Roll {
   margin: 32px 0 64px;

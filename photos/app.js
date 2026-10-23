@@ -272,34 +272,41 @@ const TONES = [
   ["bw", "B&W"],
 ];
 
-function renderFilter() {
-  const filter = $("filter");
-  // Only offer the filter once at least one photo has been tagged.
-  filter.hidden = !photos.some((p) => p.tone);
-  filter.replaceChildren();
+const byTone = (list, tone) => (tone === "all" ? list : list.filter((p) => p.tone === tone));
+
+// Colour / B&W buttons for `source`. Hidden until at least one photo is tagged.
+function buildFilter(host, source, current, onPick) {
+  host.hidden = !source.some((p) => p.tone);
+  host.replaceChildren();
   TONES.forEach(([key, label]) => {
-    const n = key === "all" ? photos.length : photos.filter((p) => p.tone === key).length;
     const b = el("button", "", label);
     b.type = "button";
-    b.setAttribute("aria-pressed", String(toneFilter === key));
-    b.append(el("span", "", String(n)));
-    b.addEventListener("click", () => {
-      toneFilter = key;
-      renderFilter();
-      renderIndex();
-    });
-    filter.append(b);
+    b.setAttribute("aria-pressed", String(current === key));
+    b.append(el("span", "", String(byTone(source, key).length)));
+    b.addEventListener("click", () => onPick(key));
+    host.append(b);
+  });
+}
+
+function renderFilter() {
+  buildFilter($("filter"), photos, toneFilter, (key) => {
+    toneFilter = key;
+    renderFilter();
+    renderIndex();
   });
 }
 
 function renderIndex() {
-  grid.replaceChildren();
-  const list = toneFilter === "all" ? photos : photos.filter((p) => p.tone === toneFilter);
+  fillGrid(grid, byTone(photos, toneFilter));
+}
+
+function fillGrid(target, list) {
+  target.replaceChildren();
   list.forEach((p, i) => {
     const tile = el("button", "Tile");
     tile.type = "button";
     tile.setAttribute("aria-label", frameLabel(p));
-    tile.append(makeImage(p, SIZES[grid.dataset.density], i < 4));
+    tile.append(makeImage(p, SIZES[target.dataset.density], i < 4));
     if (p.location || p.date || p.stock) {
       const cap = el("span", "Tile-Meta");
       const left = el("span", "Tile-Where");
@@ -308,10 +315,53 @@ function renderIndex() {
       tile.append(cap);
     }
     tile.addEventListener("click", () => openLightbox(list, i, tile));
-    grid.append(tile);
+    target.append(tile);
   });
-  grid.setAttribute("aria-busy", "false");
+  target.setAttribute("aria-busy", "false");
 }
+
+/* ---------- series grid layout ---------- */
+
+const seriesGrid = $("series-grid");
+let currentSeries = null;
+let seriesTone = "all";
+let seriesLayout = "frames";
+try {
+  if (localStorage.photoSeriesLayout === "grid") seriesLayout = "grid";
+} catch (_) {}
+
+function renderSeriesGrid() {
+  const source = currentSeries.photos;
+  buildFilter($("series-filter"), source, seriesTone, (key) => {
+    seriesTone = key;
+    renderSeriesGrid();
+    applyLayout();
+  });
+  fillGrid(seriesGrid, byTone(source, seriesTone));
+}
+
+// Frames: the roll and full-width frames. Grid: filter, size and a thumbnail grid.
+function applyLayout() {
+  const gridMode = seriesLayout === "grid";
+  $("roll").hidden = gridMode;
+  $("frames").hidden = gridMode;
+  seriesGrid.hidden = !gridMode;
+  $("series-density").hidden = !gridMode;
+  $("series-filter").hidden = !gridMode || !currentSeries.photos.some((p) => p.tone);
+  document.querySelectorAll(".Layout button").forEach((b) => {
+    b.setAttribute("aria-pressed", String(b.dataset.layout === seriesLayout));
+  });
+}
+
+document.querySelector(".Layout").addEventListener("click", (e) => {
+  const btn = e.target.closest("button[data-layout]");
+  if (!btn) return;
+  seriesLayout = btn.dataset.layout;
+  applyLayout();
+  try {
+    localStorage.photoSeriesLayout = seriesLayout;
+  } catch (_) {}
+});
 
 function renderSeries(slug) {
   const i = seriesList.findIndex((s) => s.slug === slug);
@@ -335,6 +385,11 @@ function renderSeries(slug) {
       item.append(el("dt", "", k), el("dd", "", v));
       facts.append(item);
     });
+
+  if (currentSeries !== s) seriesTone = "all";
+  currentSeries = s;
+  renderSeriesGrid();
+  applyLayout();
 
   fillStrip($("roll"), $("roll-track"), s.photos, {
     sizes: "(max-width: 600px) 40vw, 240px",
@@ -464,22 +519,26 @@ async function load() {
 
 /* ---------- density ---------- */
 
-const density = document.querySelector(".Density");
+// The index and the series grid share one size setting.
 function setDensity(d) {
-  grid.dataset.density = d;
-  density.querySelectorAll("button").forEach((b) => {
+  [grid, seriesGrid].forEach((g) => {
+    g.dataset.density = d;
+    g.querySelectorAll(".Tile img").forEach((img) => (img.sizes = SIZES[d]));
+  });
+  document.querySelectorAll(".Density button").forEach((b) => {
     b.setAttribute("aria-pressed", String(b.dataset.density === d));
   });
-  grid.querySelectorAll(".Tile img").forEach((img) => (img.sizes = SIZES[d]));
 }
-density.addEventListener("click", (e) => {
-  const btn = e.target.closest("button[data-density]");
-  if (!btn) return;
-  setDensity(btn.dataset.density);
-  try {
-    localStorage.photoDensity = btn.dataset.density;
-  } catch (_) {}
-});
+document.querySelectorAll(".Density").forEach((group) =>
+  group.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-density]");
+    if (!btn) return;
+    setDensity(btn.dataset.density);
+    try {
+      localStorage.photoDensity = btn.dataset.density;
+    } catch (_) {}
+  }),
+);
 
 let saved = "M";
 try {
