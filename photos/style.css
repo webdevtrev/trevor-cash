@@ -681,10 +681,15 @@ section.Photos-Hero {
 }
 
 /* ---------- <photo-lightbox> ---------- */
+/* 100%, not 100vw: vw includes the page scrollbar, which pushed the right
+   arrow and Close button under it. The page behind doesn't scroll while open. */
+html:has(.Lightbox[open]) {
+  overflow: hidden;
+}
 .Lightbox {
-  width: 100vw;
+  width: 100%;
   max-width: none;
-  height: 100dvh;
+  height: 100%;
   max-height: none;
   margin: 0;
   padding: 0;
