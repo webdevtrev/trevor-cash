@@ -1,6 +1,6 @@
 // Photos open newest-first by default (takenAt desc), via the `Date taken`
 // ordering defined on the photo schema.
-export const structure = (S) =>
+export const structure = (S, context) =>
   S.list()
     .title('Content')
     .items([
@@ -28,18 +28,42 @@ export const structure = (S) =>
         ),
       S.listItem()
         .title('Photos by series')
-        .child(
-          S.documentTypeList('series')
-            .title('Series')
-            .child((seriesId) =>
-              S.documentList()
-                .title('Photos in series')
+        .child(async () => {
+          // Series are fetched when the pane opens so "No series" can sit above them.
+          const rows = await context
+            .getClient({apiVersion: '2025-01-01'})
+            .fetch('*[_type == "series"]{_id, title} | order(title asc)')
+          const byId = new Map()
+          rows.forEach((r) => byId.set(r._id.replace(/^drafts\./, ''), r.title))
+          const photosList = (title, filter, params = {}) =>
+            S.documentList()
+              .title(title)
+              .schemaType('photo')
+              .filter(filter)
+              .params(params)
+              .defaultOrdering([{field: 'takenAt', direction: 'desc'}])
+          return S.list()
+            .title('Photos by series')
+            .items([
+              S.listItem()
+                .id('no-series')
+                .title('No series')
                 .schemaType('photo')
-                .filter('_type == "photo" && series._ref == $seriesId')
-                .params({seriesId})
-                .defaultOrdering([{field: 'takenAt', direction: 'desc'}]),
-            ),
-        ),
+                .child(photosList('Photos without a series', '_type == "photo" && !defined(series)')),
+              S.divider(),
+              ...[...byId].map(([seriesId, title]) =>
+                S.listItem()
+                  .id(seriesId)
+                  .title(title || 'Untitled series')
+                  .schemaType('photo')
+                  .child(
+                    photosList(title || 'Photos in series', '_type == "photo" && series._ref == $seriesId', {
+                      seriesId,
+                    }),
+                  ),
+              ),
+            ])
+        }),
       S.divider(),
       S.documentTypeListItem('series').title('Manage series'),
     ])
