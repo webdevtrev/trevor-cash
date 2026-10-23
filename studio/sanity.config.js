@@ -7,7 +7,7 @@ import {structure} from './src/structure'
 export default defineConfig({
   name: 'default',
   title: 'Trevor Cash',
-  projectId: 'YOUR_PROJECT_ID',
+  projectId: 'cmwk642f',
   dataset: 'production',
   plugins: [structureTool({structure}), visionTool()],
   schema: {types: schemaTypes},
