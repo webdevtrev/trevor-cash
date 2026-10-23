@@ -27,6 +27,31 @@ export const photo = defineType({
     defineField({name: 'location', title: 'Location', type: 'string'}),
     defineField({name: 'caption', title: 'Caption', type: 'text', rows: 3}),
     defineField({
+      name: 'tone',
+      title: 'Colour or black & white',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Colour', value: 'colour'},
+          {title: 'Black & white', value: 'bw'},
+        ],
+        layout: 'radio',
+      },
+      description: 'Optional. Powers the Colour / B&W filter on the Index page.',
+    }),
+    defineField({
+      name: 'filmStock',
+      title: 'Film stock',
+      type: 'string',
+      description: 'Optional, e.g. Kodak Portra 400. Shown on the film strip.',
+    }),
+    defineField({
+      name: 'frame',
+      title: 'Frame number',
+      type: 'string',
+      description: 'Optional, the frame on the roll, e.g. 35. Shown as ▸ 35A.',
+    }),
+    defineField({
       name: 'series',
       title: 'Series',
       type: 'reference',

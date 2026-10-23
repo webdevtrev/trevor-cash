@@ -8,6 +8,9 @@ const QUERY = `*[_type == "photo" && defined(image.asset)] | order(takenAt desc,
   location,
   caption,
   featured,
+  tone,
+  filmStock,
+  frame,
   "series": series->{ _id, title, "slug": slug.current, description, location, date },
   "url": image.asset->url,
   "dimensions": image.asset->metadata.dimensions,
@@ -83,10 +86,17 @@ function toPhoto(p) {
     date: formatDate(p.takenAt),
     caption: p.caption || "",
     featured: !!p.featured,
+    tone: p.tone || "",
+    stock: p.filmStock || "",
+    frame: p.frame || "",
     seriesId: series ? series._id : null,
     series,
   };
 }
+
+// Film-edge style label: "KODAK GOLD 200 ▸ 35A"
+const edgeText = (p) =>
+  [p.stock, p.frame ? `▸ ${p.frame}A` : ""].filter(Boolean).join(" ");
 
 function toLightboxItem(p) {
   return {
@@ -98,7 +108,7 @@ function toLightboxItem(p) {
     height: p.height,
     label: p.series ? p.series.title : p.title,
     meta: [p.location, p.date].filter(Boolean).join(" · "),
-    side: p.series ? p.title : "",
+    side: edgeText(p) || (p.series ? p.title : ""),
     caption: p.caption,
   };
 }
@@ -117,10 +127,14 @@ function buildSeries() {
         location: s.location || "",
         dateValue: s.date || "",
         date: formatMonth(s.date),
+        stock: "",
         photos: [],
       });
     }
     map.get(p.seriesId).photos.push(p);
+  });
+  map.forEach((s) => {
+    s.stock = [...new Set(s.photos.map((p) => p.stock).filter(Boolean))].join(", ");
   });
   seriesList = [...map.values()].sort((a, b) =>
     a.dateValue === b.dateValue
@@ -166,7 +180,11 @@ function stripFrame(p, list, index, { clone, sizes, eager }) {
     img.alt = "";
   }
   const cap = el("span", "Strip-Meta");
-  cap.append(el("span", "", p.location), el("span", "", p.date));
+  // film-edge text when the photo has it, otherwise where and when
+  cap.append(
+    el("span", "", p.stock || p.location),
+    el("span", "", p.frame ? `▸ ${p.frame}A` : p.date),
+  );
   btn.append(img, cap);
   btn.addEventListener("click", () => openLightbox(list, index, btn));
   return btn;
@@ -215,7 +233,7 @@ function renderOverview() {
       el(
         "span",
         "Series-Meta",
-        [s.location, s.date, `${s.photos.length} ${s.photos.length === 1 ? "frame" : "frames"}`]
+        [s.location, s.date, s.stock, `${s.photos.length} ${s.photos.length === 1 ? "frame" : "frames"}`]
           .filter(Boolean)
           .join(" · "),
       ),
@@ -231,21 +249,49 @@ function renderOverview() {
   });
 }
 
+let toneFilter = "all";
+const TONES = [
+  ["all", "All"],
+  ["colour", "Colour"],
+  ["bw", "B&W"],
+];
+
+function renderFilter() {
+  const filter = $("filter");
+  // Only offer the filter once at least one photo has been tagged.
+  filter.hidden = !photos.some((p) => p.tone);
+  filter.replaceChildren();
+  TONES.forEach(([key, label]) => {
+    const n = key === "all" ? photos.length : photos.filter((p) => p.tone === key).length;
+    const b = el("button", "", label);
+    b.type = "button";
+    b.setAttribute("aria-pressed", String(toneFilter === key));
+    b.append(el("span", "", String(n)));
+    b.addEventListener("click", () => {
+      toneFilter = key;
+      renderFilter();
+      renderIndex();
+    });
+    filter.append(b);
+  });
+}
+
 function renderIndex() {
   grid.replaceChildren();
-  photos.forEach((p, i) => {
+  const list = toneFilter === "all" ? photos : photos.filter((p) => p.tone === toneFilter);
+  list.forEach((p, i) => {
     const tile = el("button", "Tile");
     tile.type = "button";
     tile.setAttribute("aria-label", frameLabel(p));
     tile.append(makeImage(p, SIZES[grid.dataset.density], i < 4));
-    if (p.location || p.date) {
+    if (p.location || p.date || p.stock) {
       const cap = el("span", "Tile-Meta");
       const left = el("span", "Tile-Where");
       left.append(el("span", "", p.location), el("span", "", p.date));
-      cap.append(left, el("span", "", p.series ? p.series.title : ""));
+      cap.append(left, el("span", "", p.stock));
       tile.append(cap);
     }
-    tile.addEventListener("click", () => openLightbox(photos, i, tile));
+    tile.addEventListener("click", () => openLightbox(list, i, tile));
     grid.append(tile);
   });
   grid.setAttribute("aria-busy", "false");
@@ -264,6 +310,7 @@ function renderSeries(slug) {
   [
     ["Place", s.location],
     ["Date", s.date],
+    ["Stock", s.stock],
     ["Frames", String(s.photos.length)],
   ]
     .filter(([, v]) => v)
@@ -289,8 +336,8 @@ function renderSeries(slug) {
     btn.addEventListener("click", () => openLightbox(s.photos, n, btn));
     const cap = el("figcaption", "Frame-Meta");
     cap.append(
-      el("span", "", `Frame ${pad(n + 1)}`),
-      el("span", "", [p.title, p.date].filter(Boolean).join(" · ")),
+      el("span", "", `Frame ${p.frame ? p.frame.padStart(2, "0") : pad(n + 1)}`),
+      el("span", "", p.stock || [p.title, p.date].filter(Boolean).join(" · ")),
     );
     fig.append(btn, cap);
     frames.append(fig);
@@ -384,6 +431,7 @@ async function load() {
     buildSeries();
     $("series-link").hidden = !seriesList.length;
     renderOverview();
+    renderFilter();
     renderIndex();
     route();
   } catch (err) {
@@ -424,8 +472,14 @@ function syncHeaderHeight() {
   if (h) document.documentElement.style.setProperty("--Header-H", `${h.offsetHeight}px`);
 }
 syncHeaderHeight();
-window.addEventListener("resize", syncHeaderHeight);
-window.addEventListener("load", syncHeaderHeight);
+// The header is fixed and its height changes as it wraps and as fonts load.
+const headerEl = document.querySelector("custom-header");
+if (headerEl && "ResizeObserver" in window) {
+  new ResizeObserver(syncHeaderHeight).observe(headerEl);
+} else {
+  window.addEventListener("resize", syncHeaderHeight);
+  window.addEventListener("load", syncHeaderHeight);
+}
 
 let saved = "M";
 try {

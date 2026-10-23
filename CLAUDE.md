@@ -20,7 +20,7 @@ Deployed via Netlify (see the contact form's `netlify` attribute in [contact/ind
 
 ## Photos & Sanity Studio
 
-Photos are content in Sanity (dataset `production`, document types `photo`: image, title, alt, takenAt, location, caption, featured, optional `series` reference; and `series`: title, slug, description, location, date, coverPhoto). The Studio has a Bulk upload tool (`studio/src/BulkUpload.jsx`) that creates draft photos from many files at once. The public `/photos` page shows series. The Studio lives in `studio/`; the site reads the public dataset through the CDN API, so the dataset must be public and the site's origins must be in the project's CORS list (without credentials).
+Photos are content in Sanity (dataset `production`, document types `photo`: image, title, alt, takenAt, location, caption, featured, optional `series` reference, optional `tone` (colour/bw), `filmStock` and `frame`; and `series`: title, slug, description, location, date, coverPhoto). The Studio has a Bulk upload tool (`studio/src/BulkUpload.jsx`) that creates draft photos from many files at once. The public `/photos` page shows series. The Studio lives in `studio/`; the site reads the public dataset through the CDN API, so the dataset must be public and the site's origins must be in the project's CORS list (without credentials).
 
 Run the Studio locally (needs Node >= 22.12):
 ```
@@ -36,7 +36,7 @@ Each route is its own directory with a self-contained `index.html`, `style.css`,
 - `index.html` / `app.js` / `style.css` — Home page (`/`)
 - `about/` — About page (`/about`)
 - `portfolio/` — Portfolio page (`/portfolio`)
-- `photos/` — Photo gallery (`/photos`): `index.html`, `style.css`, `app.js` plus `config.js` (the Sanity `PROJECT_ID`/`DATASET`, the only place the public site stores them). `app.js` fetches photos from the Sanity HTTP API with plain `fetch` (no `@sanity/client`) and is a small hash-routed page (`#/` overview with film-strip hero and series list, `#/index` masonry grid, `#/series/<slug>` series page, matching the Claude Design mockup "Cash Photography") with loading/empty/error states
+- `photos/` — Photo gallery (`/photos`): `index.html`, `style.css`, `app.js` plus `config.js` (the Sanity `PROJECT_ID`/`DATASET`, the only place the public site stores them). `app.js` fetches photos from the Sanity HTTP API with plain `fetch` (no `@sanity/client`) and is a small hash-routed page (`#/` overview with film-strip hero and series list, `#/index` masonry grid, `#/series/<slug>` series page, matching the Claude Design mockup "Cash Photography") with loading/empty/error states. The page loads Archivo and IBM Plex Mono from Google Fonts in its own `<head>` (gallery content only; the site header/footer keep Hubot Sans)
 - `studio/` — Sanity Studio for the photo gallery. **The only part of the repo with dependencies** (its own `package.json`; never add one at the repo root). It is not part of the public site: `_redirects` forces `/studio` and `/studio/*` to 404
 - `contact/` — Contact page (`/contact`), has a Netlify-powered contact form
 - `global.css` — shared styles/resets used by every page (font-face, dark mode, header/footer, base typography)

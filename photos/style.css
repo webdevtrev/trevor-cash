@@ -8,9 +8,9 @@ body {
   --Rule: #d6d1c6;
   --Accent: #c2401b;
   --Amber: #e39a3b;
-  --Mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --Mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --Sans: "Archivo", "Hubot Sans", sans-serif;
   --Gutter: clamp(16px, 4vw, 48px);
-  --Header-H: 70px;
   max-width: none;
   padding: 0;
   background: var(--Bg);
@@ -24,16 +24,18 @@ body.Dark {
   background: var(--Bg);
   color: var(--Ink);
 }
-/* the fixed site header lines up with the 1440px mockup grid on this page */
-custom-header {
-  padding-left: max(calc((100vw - 1440px) / 2 + var(--Gutter)), var(--Gutter));
-  padding-right: max(calc((100vw - 1440px) / 2 + var(--Gutter)), var(--Gutter));
-}
 /* Gallery photos are the content: undo global.css's grayscale-until-hover. */
 main img,
 photo-lightbox img,
 main img:hover {
   filter: none;
+}
+/* The mockup's typefaces (Archivo, IBM Plex Mono), loaded in this page's <head>.
+   Scoped to the gallery so the site header and footer keep Hubot Sans. */
+main.Photos,
+photo-lightbox {
+  font-family: var(--Sans);
+  -webkit-font-smoothing: antialiased;
 }
 button {
   font: inherit;
@@ -73,6 +75,7 @@ a:focus-visible,
 .Tile:focus-visible,
 .Frame-Button:focus-visible,
 .Density button:focus-visible,
+.Filter button:focus-visible,
 .Status-Retry:focus-visible,
 .Lightbox button:focus-visible {
   outline: 2px solid var(--Accent);
@@ -85,9 +88,9 @@ a:focus-visible,
 /* ---------- Sub-nav (Trevor Cash / Photography · Overview Index Series) ---------- */
 .Subnav {
   position: sticky;
-  top: var(--Header-H);
+  top: var(--Header-H, 70px);
   z-index: 20;
-  margin-top: var(--Header-H);
+  margin-top: var(--Header-H, 70px);
   background: var(--Bg);
   border-bottom: 1px solid var(--Rule);
 }
@@ -368,9 +371,34 @@ section.Photos-Hero {
   font-size: clamp(3rem, 7vw, 6.5rem);
   line-height: 0.88;
 }
+.Page-Tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.Filter,
 .Density {
   display: flex;
   border: 1px solid var(--Ink);
+}
+.Filter button {
+  display: flex;
+  gap: 8px;
+  padding: 0.55rem 0.9rem;
+  border: 0;
+  background: transparent;
+  font-family: var(--Mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.Filter button span {
+  opacity: 0.6;
+}
+.Filter button[aria-pressed="true"] {
+  background: var(--Ink);
+  color: var(--Bg);
 }
 .Density button {
   padding: 0.55rem 0.9rem;
@@ -744,7 +772,7 @@ section.Photos-Hero {
 }
 .Lightbox-Caption {
   flex: 0 0 100%;
-  font-family: "Hubot Sans";
+  font-family: var(--Sans);
   font-size: 0.95rem;
   letter-spacing: 0;
   text-transform: none;

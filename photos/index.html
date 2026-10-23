@@ -12,6 +12,13 @@
       type="font/woff2"
       crossorigin
     />
+    <!-- Typefaces from the Cash Photography mockup (gallery content only) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="../global.css" />
     <link rel="stylesheet" href="./style.css" />
     <script type="module" src="../Components/header.js"></script>
@@ -74,10 +81,13 @@
       <div id="view-index" class="Wrap View" hidden>
         <div class="Page-Head">
           <h1 tabindex="-1">Index</h1>
-          <div class="Density" role="group" aria-label="Thumbnail size">
-            <button type="button" data-density="S" aria-label="Small thumbnails">S</button>
-            <button type="button" data-density="M" aria-label="Medium thumbnails">M</button>
-            <button type="button" data-density="L" aria-label="Large thumbnails">L</button>
+          <div class="Page-Tools">
+            <div class="Filter" id="filter" role="group" aria-label="Filter by tone" hidden></div>
+            <div class="Density" role="group" aria-label="Thumbnail size">
+              <button type="button" data-density="S" aria-label="Small thumbnails">S</button>
+              <button type="button" data-density="M" aria-label="Medium thumbnails">M</button>
+              <button type="button" data-density="L" aria-label="Large thumbnails">L</button>
+            </div>
           </div>
         </div>
         <div class="Grid" id="grid" data-density="M" aria-busy="true"></div>
