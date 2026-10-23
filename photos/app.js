@@ -161,7 +161,10 @@ function makeImage(p, sizes, eager) {
   img.height = p.height;
   img.loading = eager ? "eager" : "lazy";
   img.decoding = "async";
-  if (p.lqip) img.style.backgroundImage = `url("${p.lqip}")`;
+  if (p.lqip) {
+    img.style.backgroundImage = `url("${p.lqip}")`;
+    img.addEventListener("load", () => (img.style.backgroundImage = ""), { once: true });
+  }
   return img;
 }
 

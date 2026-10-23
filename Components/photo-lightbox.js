@@ -43,6 +43,11 @@ class PhotoLightbox extends HTMLElement {
     this.image = document.createElement("img");
     this.image.className = "Lightbox-Image";
     this.image.decoding = "async";
+    // The blurred placeholder only covers the wait; once the real photo is
+    // in, drop it so its rounded aspect ratio can't peek out around the edges.
+    this.image.addEventListener("load", () => {
+      this.image.style.backgroundImage = "";
+    });
     frame.append(this.image);
     stage.append(this.prevButton, frame, this.nextButton);
 
