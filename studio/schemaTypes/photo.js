@@ -19,9 +19,8 @@ export const photo = defineType({
       name: 'alt',
       title: 'Alt text',
       type: 'string',
-      description: 'Describe the photo for people using screen readers.',
-      validation: (rule) =>
-        rule.required().error('Alt text is required so the photo is accessible.'),
+      description:
+        'Optional. Describe the photo for people using screen readers; the title is used if left empty.',
     }),
     defineField({name: 'takenAt', title: 'Date taken', type: 'date'}),
     defineField({name: 'location', title: 'Location', type: 'string'}),

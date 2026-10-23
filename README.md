@@ -43,7 +43,7 @@ npm install
 npm run dev   # http://localhost:3333
 ```
 
-In the Studio, group photos into optional **Series**, and use the **Bulk upload** tool (top bar): add many images, optionally set a series, film type, colour/B&W and location for the whole batch, press **Upload**, then **Reset** to start the next batch. Each image becomes a draft photo; add alt text (required) and publish each.
+In the Studio, group photos into optional **Series**, and use the **Bulk upload** tool (top bar): add many images, optionally set a series, film type, colour/B&W and location for the whole batch, press **Upload**, then **Reset** to start the next batch. Each image becomes a draft photo; optionally add alt text, then publish each.
 
 Deploy the Studio to Sanity's hosting:
 

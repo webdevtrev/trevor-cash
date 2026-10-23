@@ -29,7 +29,7 @@ const STATE_LABEL = {
 // 1. Choose or drop images (they are only staged, nothing uploads yet).
 // 2. Optionally fill in details that apply to every photo in the batch.
 // 3. Press the upload button. Each image becomes a draft `photo` document: open
-//    them in Photos to add the required alt text, then publish.
+//    them in Photos to add details, then publish.
 // 4. Reset clears the batch so the next one starts clean.
 export function BulkUpload() {
   const client = useClient({apiVersion: '2025-01-01'})
@@ -144,8 +144,8 @@ export function BulkUpload() {
             <Text size={4} weight="bold">Bulk upload photos</Text>
             <Text muted size={1}>
               Add images, fill in any details they share, then press Upload. Each image becomes a
-              draft photo titled from its filename. Open them in Photos to add alt text
-              (required), then publish.
+              draft photo titled from its filename. Open them in Photos to add more
+              details, then publish.
             </Text>
           </Stack>
 
