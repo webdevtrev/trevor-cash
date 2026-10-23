@@ -12,6 +12,18 @@ export const structure = (S) =>
             .title('Photos')
             .defaultOrdering([{field: 'takenAt', direction: 'desc'}]),
         ),
+      // Everything with unpublished changes, which includes each bulk upload
+      // until alt text is added and it is published.
+      S.listItem()
+        .title('Draft photos')
+        .schemaType('photo')
+        .child(
+          S.documentList()
+            .title('Draft photos')
+            .schemaType('photo')
+            .filter('_type == "photo" && _id in path("drafts.**")')
+            .defaultOrdering([{field: '_createdAt', direction: 'desc'}]),
+        ),
       S.listItem()
         .title('Photos by series')
         .child(
