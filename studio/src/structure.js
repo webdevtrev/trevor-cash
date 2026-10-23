@@ -13,7 +13,9 @@ export const structure = (S) =>
             .defaultOrdering([{field: 'takenAt', direction: 'desc'}]),
         ),
       // Everything with unpublished changes, which includes each bulk upload
-      // until alt text is added and it is published.
+      // until alt text is added and it is published. The Studio queries with the
+      // drafts perspective, which strips the `drafts.` prefix from `_id` and keeps
+      // it in `_originalId`, so match on that (and `_id` for the raw perspective).
       S.listItem()
         .title('Draft photos')
         .schemaType('photo')
@@ -21,7 +23,7 @@ export const structure = (S) =>
           S.documentList()
             .title('Draft photos')
             .schemaType('photo')
-            .filter('_type == "photo" && _id in path("drafts.**")')
+            .filter('_type == "photo" && (_originalId in path("drafts.**") || _id in path("drafts.**"))')
             .defaultOrdering([{field: '_createdAt', direction: 'desc'}]),
         ),
       S.listItem()
