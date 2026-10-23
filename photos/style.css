@@ -489,19 +489,20 @@ section.Photos-Hero {
   flex-direction: column;
   gap: 3px;
 }
-.Tile:hover .Tile-Meta,
-.Tile:focus-visible .Tile-Meta {
+/* Caption visibility follows the thumbnail size:
+   S never, M on hover or keyboard focus, L always. Touch screens have no
+   hover, so M shows its caption there instead of hiding it for good. */
+.Grid[data-density="S"] .Tile-Meta {
+  display: none;
+}
+.Grid[data-density="M"] .Tile:hover .Tile-Meta,
+.Grid[data-density="M"] .Tile:focus-visible .Tile-Meta,
+.Grid[data-density="L"] .Tile-Meta {
   opacity: 1;
 }
-/* No hover on touch: show the caption all the time. */
 @media (hover: none) {
-  .Tile-Meta {
+  .Grid[data-density="M"] .Tile-Meta {
     opacity: 1;
-  }
-}
-@media screen and (max-width: 600px) {
-  .Grid[data-density="S"] .Tile-Meta {
-    display: none;
   }
 }
 
