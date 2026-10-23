@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trevor Cash | Photos</title>
+    <link
+      rel="preload"
+      href="../assets/Hubot-Sans.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <!-- Typefaces from the Cash Photography mockup (gallery content only) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../global.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <!-- No <custom-header> on this page (it is shared by link, not linked from the
+         site nav), but header.js still applies the saved dark-mode preference. -->
+    <script type="module" src="../Components/header.js"></script>
+    <script type="module" src="../Components/footer.js"></script>
+    <script type="module" src="../Components/photo-lightbox.js"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-15G72Q4KRZ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'G-15G72Q4KRZ');
+    </script>
+  </head>
+  <body>
+    <main class="Photos">
+      <header class="Subnav">
+        <div class="Subnav-Inner">
+          <a class="Subnav-Brand" href="#/"><span>Trevor Cash /</span> Photography</a>
+          <nav class="Subnav-Links" aria-label="Photography">
+            <a href="#/" data-view="overview">Overview</a>
+            <a href="#/index" data-view="index">Index</a>
+            <a href="#/series" data-view="series" id="series-link" hidden>Series</a>
+          </nav>
+        </div>
+      </header>
+
+      <div class="Status" id="status" role="status" hidden></div>
+
+      <!-- Overview -->
+      <div id="view-overview" hidden>
+        <section class="Hero Photos-Hero">
+          <div class="Wrap Hero-Head">
+            <h1 tabindex="-1">Friends,<br />on film.</h1>
+            <p class="Hero-Lede">
+              Colour and black &amp; white, shot on 35mm. Scroll the strip or
+              pick a series below.
+            </p>
+          </div>
+          <div class="Strip" id="strip"><div class="Strip-Track" id="strip-track"></div></div>
+        </section>
+        <section class="Wrap Overview-Series" id="series-section">
+          <div class="Rule-Head">
+            <h2>Series</h2>
+            <p id="series-count"></p>
+          </div>
+          <div id="series-list"></div>
+        </section>
+      </div>
+
+      <!-- Index -->
+      <div id="view-index" class="Wrap View" hidden>
+        <div class="Page-Head">
+          <h1 tabindex="-1">Index</h1>
+          <div class="Page-Tools">
+            <div class="Filter" id="filter" role="group" aria-label="Filter by tone" hidden></div>
+            <div class="Density" role="group" aria-label="Thumbnail size">
+              <button type="button" data-density="S" aria-label="Small thumbnails">S</button>
+              <button type="button" data-density="M" aria-label="Medium thumbnails">M</button>
+              <button type="button" data-density="L" aria-label="Large thumbnails">L</button>
+            </div>
+          </div>
+        </div>
+        <div class="Grid" id="grid" data-density="M" aria-busy="true"></div>
+      </div>
+
+      <!-- Series -->
+      <div id="view-series" class="Wrap View" hidden>
+        <div class="Series-Head">
+          <p class="Mono-Label" id="series-eyebrow"></p>
+          <h1 tabindex="-1" id="series-title"></h1>
+          <p class="Series-Desc" id="series-desc"></p>
+          <dl class="Series-Facts" id="series-facts"></dl>
+        </div>
+        <div class="Series-Tools Page-Tools" id="series-tools">
+          <div class="Layout" role="group" aria-label="Layout">
+            <button type="button" data-layout="frames">Frames</button>
+            <button type="button" data-layout="grid">Grid</button>
+          </div>
+          <div class="Filter" id="series-filter" role="group" aria-label="Filter by tone" hidden></div>
+          <div class="Density" id="series-density" role="group" aria-label="Thumbnail size" hidden>
+            <button type="button" data-density="S" aria-label="Small thumbnails">S</button>
+            <button type="button" data-density="M" aria-label="Medium thumbnails">M</button>
+            <button type="button" data-density="L" aria-label="Large thumbnails">L</button>
+          </div>
+        </div>
+        <div class="Roll" id="roll"><div class="Roll-Track" id="roll-track"></div></div>
+        <div class="Frames" id="frames"></div>
+        <div class="Grid" id="series-grid" data-density="M" hidden></div>
+        <nav class="Series-Pager" id="pager" aria-label="Other series"></nav>
+      </div>
+    </main>
+    <photo-lightbox id="lightbox"></photo-lightbox>
+    <custom-footer></custom-footer>
+  </body>
+  <script type="module" src="./app.js"></script>
+</html>
