@@ -213,7 +213,9 @@ section.Photos-Hero {
   display: block;
   height: clamp(240px, 50vh, 540px);
   width: auto;
-  max-width: 92vw;
+  /* no max-width: capping it below the natural width at this height squashes
+     wide photos; the strip scrolls sideways instead */
+  max-width: none;
   background-color: #2a2724;
   background-size: cover;
 }
