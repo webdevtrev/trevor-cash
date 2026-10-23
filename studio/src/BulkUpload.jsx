@@ -13,7 +13,7 @@ import {
 } from '@sanity/ui'
 
 const CONCURRENCY = 3
-const EMPTY_FIELDS = {seriesId: '', filmStock: '', tone: '', location: ''}
+const EMPTY_FIELDS = {seriesId: '', filmStock: '', tone: '', location: '', takenAt: ''}
 
 // "IMG_1234-sunset.JPG" -> "IMG 1234 sunset"
 const titleFromName = (name) =>
@@ -117,6 +117,7 @@ export function BulkUpload() {
             ...(details.filmStock.trim() ? {filmStock: details.filmStock.trim()} : {}),
             ...(details.tone ? {tone: details.tone} : {}),
             ...(details.location.trim() ? {location: details.location.trim()} : {}),
+            ...(details.takenAt ? {takenAt: details.takenAt} : {}),
           }
           await client.create(doc)
           patchRow(row.key, {state: 'done'})
@@ -220,6 +221,16 @@ export function BulkUpload() {
                   <option value="colour">Colour</option>
                   <option value="bw">Black &amp; white</option>
                 </Select>
+              </Stack>
+
+              <Stack gap={2}>
+                <Text size={1} muted>Date taken</Text>
+                <TextInput
+                  type="date"
+                  value={fields.takenAt}
+                  onChange={setField('takenAt')}
+                  disabled={busy}
+                />
               </Stack>
 
               <Stack gap={2}>
