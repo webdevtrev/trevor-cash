@@ -475,22 +475,6 @@ density.addEventListener("click", (e) => {
   } catch (_) {}
 });
 
-/* ---------- sticky sub-nav sits just under the fixed site header ---------- */
-
-function syncHeaderHeight() {
-  const h = document.querySelector("custom-header");
-  if (h) document.documentElement.style.setProperty("--Header-H", `${h.offsetHeight}px`);
-}
-syncHeaderHeight();
-// The header is fixed and its height changes as it wraps and as fonts load.
-const headerEl = document.querySelector("custom-header");
-if (headerEl && "ResizeObserver" in window) {
-  new ResizeObserver(syncHeaderHeight).observe(headerEl);
-} else {
-  window.addEventListener("resize", syncHeaderHeight);
-  window.addEventListener("load", syncHeaderHeight);
-}
-
 let saved = "M";
 try {
   saved = localStorage.photoDensity || "M";

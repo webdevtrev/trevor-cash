@@ -21,6 +21,8 @@
     />
     <link rel="stylesheet" href="../global.css" />
     <link rel="stylesheet" href="./style.css" />
+    <!-- No <custom-header> on this page (it is shared by link, not linked from the
+         site nav), but header.js still applies the saved dark-mode preference. -->
     <script type="module" src="../Components/header.js"></script>
     <script type="module" src="../Components/footer.js"></script>
     <script type="module" src="../Components/photo-lightbox.js"></script>
@@ -41,7 +43,6 @@
     </script>
   </head>
   <body>
-    <custom-header page="Photos"></custom-header>
     <main class="Photos">
       <header class="Subnav">
         <div class="Subnav-Inner">

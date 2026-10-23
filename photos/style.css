@@ -88,9 +88,8 @@ a:focus-visible,
 /* ---------- Sub-nav (Trevor Cash / Photography · Overview Index Series) ---------- */
 .Subnav {
   position: sticky;
-  top: var(--Header-H, 70px);
+  top: 0;
   z-index: 20;
-  margin-top: var(--Header-H, 70px);
   background: var(--Bg);
   border-bottom: 1px solid var(--Rule);
 }
