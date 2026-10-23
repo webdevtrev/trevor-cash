@@ -95,6 +95,7 @@ export function BulkUpload() {
         key: crypto.randomUUID(),
         file,
         preview: URL.createObjectURL(file),
+        title: titleFromName(file.name),
         state: 'staged',
       })),
     ])
@@ -130,7 +131,7 @@ export function BulkUpload() {
           const doc = {
             _id: details.publish ? crypto.randomUUID() : `drafts.${crypto.randomUUID()}`,
             _type: 'photo',
-            title: titleFromName(row.file.name),
+            title: row.title.trim() || titleFromName(row.file.name),
             image: {_type: 'image', asset: {_type: 'reference', _ref: asset._id}},
             ...(details.seriesId
               ? {series: {_type: 'reference', _ref: details.seriesId}}
@@ -169,8 +170,8 @@ export function BulkUpload() {
             <Text size={4} weight="bold">Bulk upload photos</Text>
             <Text muted size={1}>
               Add images, fill in any details they share, then press Upload. Each image becomes a
-              draft photo titled from its filename (or is published right away if
-              you tick Publish immediately). Open them in Photos to add more details.
+              photo titled from its filename; edit the titles in the list before uploading. Photos
+              are saved as drafts unless you tick Publish immediately.
             </Text>
           </Stack>
 
@@ -343,7 +344,19 @@ export function BulkUpload() {
                         style={{width: 40, height: 40, objectFit: 'cover', borderRadius: 2}}
                       />
                       <Box flex={1} style={{minWidth: 0}}>
-                        <Text size={1} textOverflow="ellipsis">{r.file.name}</Text>
+                        {r.state === 'staged' || r.state === 'error' ? (
+                          <TextInput
+                            fontSize={1}
+                            padding={2}
+                            value={r.title}
+                            placeholder={r.file.name}
+                            aria-label={`Title for ${r.file.name}`}
+                            disabled={busy}
+                            onChange={(e) => patchRow(r.key, {title: e.currentTarget.value})}
+                          />
+                        ) : (
+                          <Text size={1} textOverflow="ellipsis">{r.title || r.file.name}</Text>
+                        )}
                       </Box>
                       <Text size={1} muted={r.state !== 'error'} style={{whiteSpace: 'nowrap'}}>
                         {r.state === 'error' ? `Failed: ${r.message}` : STATE_LABEL[r.state]}
