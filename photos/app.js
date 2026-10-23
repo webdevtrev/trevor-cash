@@ -19,6 +19,7 @@ const QUERY = `*[_type == "photo" && defined(image.asset)] | order(takenAt desc,
 const ENDPOINT = `https://${PROJECT_ID}.apicdn.sanity.io/${API_VERSION}/data/query/${DATASET}?query=${encodeURIComponent(QUERY)}`;
 
 const WIDTHS = [240, 480, 800, 1200, 1800];
+const MAX_WIDTH = 2400; // largest rendition requested, for retina lightbox
 // Match the column widths in style.css for each density.
 const SIZES = {
   S: "(max-width: 600px) 34vw, 220px",
@@ -41,8 +42,14 @@ let seriesList = [];
 
 const pad = (n) => String(n).padStart(2, "0");
 const imageUrl = (base, w) => `${base}?w=${w}&auto=format&fit=max`;
-const srcsetFor = (base) =>
-  WIDTHS.map((w) => `${imageUrl(base, w)} ${w}w`).join(", ");
+// Only advertise widths the original can actually deliver (the CDN never
+// upscales), so the browser's size maths matches the real pixels.
+const srcsetFor = (base, original) => {
+  const top = Math.min(original, MAX_WIDTH);
+  return [...WIDTHS.filter((w) => w < top), top]
+    .map((w) => `${imageUrl(base, w)} ${w}w`)
+    .join(", ");
+};
 
 // Plain dates are built in local time so they can't shift a day.
 function parseDate(value) {
@@ -75,8 +82,8 @@ function toPhoto(p) {
   return {
     id: p._id,
     base: p.url,
-    src: imageUrl(p.url, 1800),
-    srcset: srcsetFor(p.url),
+    src: imageUrl(p.url, Math.min(1800, width)),
+    srcset: srcsetFor(p.url, width),
     alt: p.alt || p.title || "",
     lqip: p.lqip,
     width,
@@ -146,8 +153,8 @@ function buildSeries() {
 
 function makeImage(p, sizes, eager) {
   const img = document.createElement("img");
-  img.src = imageUrl(p.base, 800);
-  img.srcset = srcsetFor(p.base);
+  img.src = imageUrl(p.base, Math.min(800, p.width));
+  img.srcset = srcsetFor(p.base, p.width);
   img.sizes = sizes;
   img.alt = p.alt;
   img.width = p.width;
