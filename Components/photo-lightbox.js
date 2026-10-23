@@ -4,8 +4,10 @@
 //
 //   lightbox.open(items, index, openerElement)
 //
-// Each item: { src, srcset, alt, lqip, width, height, title, meta, caption }
-// where `meta` is a pre-formatted "Location · Date" string. All text is
+// Each item: { src, srcset, alt, lqip, width, height, label, meta, side, caption }
+// where `label` is shown beside the counter (the series title), `meta` is a
+// pre-formatted "Location · Date" string and `side` is the amber text at the
+// bottom right. All text is
 // inserted with textContent.
 class PhotoLightbox extends HTMLElement {
   constructor() {
@@ -50,7 +52,9 @@ class PhotoLightbox extends HTMLElement {
     this.meta.className = "Lightbox-Meta";
     this.caption = document.createElement("p");
     this.caption.className = "Lightbox-Caption";
-    this.info.append(this.meta, this.caption);
+    this.side = document.createElement("p");
+    this.side.className = "Lightbox-Side";
+    this.info.append(this.meta, this.side, this.caption);
 
     dialog.append(bar, stage, this.info);
     this.append(dialog);
@@ -105,9 +109,10 @@ class PhotoLightbox extends HTMLElement {
     img.alt = item.alt;
     const pad = (n) => String(n).padStart(2, "0");
     this.counter.textContent = `${pad(index + 1)} / ${pad(this.items.length)}${
-      item.title ? " · " + item.title : ""
+      item.label ? " · " + item.label : ""
     }`;
     this.meta.textContent = item.meta || "";
+    this.side.textContent = item.side || "";
     this.caption.textContent = item.caption || "";
     this.caption.hidden = !item.caption;
     const single = this.items.length < 2;

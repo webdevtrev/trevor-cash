@@ -35,33 +35,66 @@
   </head>
   <body>
     <custom-header page="Photos"></custom-header>
-    <main>
-      <section class="Photos-Hero Hero">
-        <div class="Hero-Head">
-          <h1>Photos</h1>
-          <p class="Hero-Lede">
-            Friends, trips and everyday light, mostly shot on film. Hover a
-            frame for where and when, or open one to see it full size.
-          </p>
+    <main class="Photos">
+      <header class="Subnav">
+        <div class="Subnav-Inner">
+          <a class="Subnav-Brand" href="#/"><span>Trevor Cash /</span> Photography</a>
+          <nav class="Subnav-Links" aria-label="Photography">
+            <a href="#/" data-view="overview">Overview</a>
+            <a href="#/index" data-view="index">Index</a>
+            <a href="#/series" data-view="series" id="series-link" hidden>Series</a>
+          </nav>
         </div>
-        <div class="Strip" id="strip" hidden>
-          <div class="Strip-Track" id="strip-track"></div>
-        </div>
-      </section>
+      </header>
 
-      <section class="Index" aria-labelledby="index-heading">
-        <div class="Section-Meta">
-          <h2 id="index-heading" class="Index-Title">Index</h2>
-          <p id="count" aria-live="polite"></p>
-          <div class="Density" role="group" aria-label="Thumbnail size" hidden>
+      <div class="Status" id="status" role="status" hidden></div>
+
+      <!-- Overview -->
+      <div id="view-overview" hidden>
+        <section class="Hero Photos-Hero">
+          <div class="Wrap Hero-Head">
+            <h1 tabindex="-1">Friends,<br />on film.</h1>
+            <p class="Hero-Lede">
+              Colour and black &amp; white, shot on 35mm. Scroll the strip or
+              pick a series below.
+            </p>
+          </div>
+          <div class="Strip" id="strip"><div class="Strip-Track" id="strip-track"></div></div>
+        </section>
+        <section class="Wrap Overview-Series" id="series-section">
+          <div class="Rule-Head">
+            <h2>Series</h2>
+            <p id="series-count"></p>
+          </div>
+          <div id="series-list"></div>
+        </section>
+      </div>
+
+      <!-- Index -->
+      <div id="view-index" class="Wrap View" hidden>
+        <div class="Page-Head">
+          <h1 tabindex="-1">Index</h1>
+          <div class="Density" role="group" aria-label="Thumbnail size">
             <button type="button" data-density="S" aria-label="Small thumbnails">S</button>
             <button type="button" data-density="M" aria-label="Medium thumbnails">M</button>
             <button type="button" data-density="L" aria-label="Large thumbnails">L</button>
           </div>
         </div>
-        <div class="Status" id="status" role="status" hidden></div>
         <div class="Grid" id="grid" data-density="M" aria-busy="true"></div>
-      </section>
+      </div>
+
+      <!-- Series -->
+      <div id="view-series" class="Wrap View" hidden>
+        <div class="Series-Head">
+          <p class="Mono-Label" id="series-eyebrow"></p>
+          <h1 tabindex="-1" id="series-title"></h1>
+          <p class="Series-Desc" id="series-desc"></p>
+          <dl class="Series-Facts" id="series-facts"></dl>
+        </div>
+        <div class="Roll" id="roll"><div class="Roll-Track" id="roll-track"></div></div>
+        <div class="Frames" id="frames"></div>
+        <nav class="Series-Pager" id="pager" aria-label="Other series"></nav>
+      </div>
     </main>
     <photo-lightbox id="lightbox"></photo-lightbox>
     <custom-footer></custom-footer>
