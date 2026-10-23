@@ -73,6 +73,7 @@ class PhotoLightbox extends HTMLElement {
       if (e.target === dialog) this.close();
     });
     dialog.addEventListener("keydown", (e) => this.onKey(e));
+    this.initSwipe(frame);
     dialog.addEventListener("close", () => this.onClosed());
   }
 
@@ -123,6 +124,33 @@ class PhotoLightbox extends HTMLElement {
     const single = this.items.length < 2;
     this.prevButton.hidden = single;
     this.nextButton.hidden = single;
+  }
+
+  // Swipe left/right on the photo to move through the set. Only a clearly
+  // horizontal, single-finger gesture counts, so vertical scrolling and
+  // pinch-zoom (see touch-action in style.css) are left alone.
+  initSwipe(frame) {
+    const MIN_DISTANCE = 50;
+    let start = null;
+    frame.addEventListener("pointerdown", (e) => {
+      if (e.pointerType === "mouse" || !e.isPrimary) return;
+      start = { id: e.pointerId, x: e.clientX, y: e.clientY };
+    });
+    frame.addEventListener("pointerup", (e) => {
+      if (!start || e.pointerId !== start.id) return;
+      const dx = e.clientX - start.x;
+      const dy = e.clientY - start.y;
+      start = null;
+      if (Math.abs(dx) >= MIN_DISTANCE && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        this.step(dx < 0 ? 1 : -1);
+      }
+    });
+    const cancel = () => (start = null);
+    frame.addEventListener("pointercancel", cancel);
+    // a second finger down means pinch, not swipe
+    frame.addEventListener("pointerdown", (e) => {
+      if (!e.isPrimary) cancel();
+    });
   }
 
   onKey(e) {

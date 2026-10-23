@@ -748,6 +748,8 @@ html:has(.Lightbox[open]) {
   color: var(--Amber);
 }
 .Lightbox-Frame {
+  /* vertical scroll and pinch-zoom stay native; horizontal swipes are ours */
+  touch-action: pan-y pinch-zoom;
   min-width: 0;
   min-height: 0;
   padding: 0.5rem 0;
