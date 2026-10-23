@@ -13,6 +13,18 @@ import {
 } from '@sanity/ui'
 
 const CONCURRENCY = 3
+// The Studio's global styles can strip native checkbox rendering, so restore it.
+const CHECKBOX_STYLE = {
+  appearance: 'auto',
+  WebkitAppearance: 'checkbox',
+  position: 'static',
+  opacity: 1,
+  width: 16,
+  height: 16,
+  margin: 0,
+  flex: 'none',
+  accentColor: '#2276fc',
+}
 const EMPTY_FIELDS = {seriesId: '', filmStock: '', tone: '', location: '', takenAt: '', publish: false}
 
 // "IMG_1234-sunset.JPG" -> "IMG 1234 sunset"
@@ -248,6 +260,7 @@ export function BulkUpload() {
               <label style={{display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer'}}>
                 <input
                   type="checkbox"
+                  style={CHECKBOX_STYLE}
                   checked={fields.publish}
                   disabled={busy}
                   onChange={(e) => {
@@ -277,6 +290,7 @@ export function BulkUpload() {
               <label style={{display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer'}}>
                 <input
                   type="checkbox"
+                  style={CHECKBOX_STYLE}
                   checked={keepFields}
                   onChange={(e) => setKeepFields(e.currentTarget.checked)}
                 />
