@@ -70,15 +70,16 @@ export function BulkUpload() {
   const failed = rows.filter((r) => r.state === 'error').length
 
   return (
-    <Container width={2} padding={4}>
-      <Stack space={4}>
+    <Box style={{height: '100%', overflow: 'auto'}}>
+    <Container width={1} padding={5}>
+      <Stack gap={5}>
         <Text size={4} weight="bold">Bulk upload photos</Text>
         <Text muted size={1}>
           Each image becomes a draft photo titled from its filename. Open them in Photos to add alt
           text (required) and details, then publish.
         </Text>
 
-        <Stack space={2}>
+        <Stack gap={2}>
           <Text size={1} weight="semibold">Add all to a series (optional)</Text>
           <Select value={seriesId} onChange={(e) => setSeriesId(e.currentTarget.value)} disabled={busy}>
             <option value="">No series</option>
@@ -105,7 +106,7 @@ export function BulkUpload() {
             upload(e.dataTransfer.files)
           }}
         >
-          <Stack space={3}>
+          <Stack gap={3}>
             <Text>Drag and drop images here</Text>
             <Box>
               <Button
@@ -130,21 +131,28 @@ export function BulkUpload() {
         </Card>
 
         {rows.length > 0 && (
-          <Stack space={2}>
+          <Stack gap={3}>
             <Text size={1} weight="semibold">
               {done} of {rows.length} uploaded{failed ? `, ${failed} failed` : ''}
             </Text>
-            {rows.map((r, i) => (
-              <Flex key={i} justify="space-between" gap={3}>
-                <Text size={1} textOverflow="ellipsis">{r.name}</Text>
-                <Text size={1} muted={r.state !== 'error'} style={{whiteSpace: 'nowrap'}}>
-                  {r.state === 'error' ? `Failed: ${r.message}` : r.state}
-                </Text>
-              </Flex>
-            ))}
+            <Card border radius={2}>
+              {rows.map((r, i) => (
+                <Card key={i} padding={3} borderTop={i > 0} tone={r.state === 'error' ? 'critical' : 'default'}>
+                  <Flex justify="space-between" gap={3}>
+                    <Box flex={1} style={{minWidth: 0}}>
+                      <Text size={1} textOverflow="ellipsis">{r.name}</Text>
+                    </Box>
+                    <Text size={1} muted={r.state !== 'error'} style={{whiteSpace: 'nowrap'}}>
+                      {r.state === 'error' ? `Failed: ${r.message}` : r.state}
+                    </Text>
+                  </Flex>
+                </Card>
+              ))}
+            </Card>
           </Stack>
         )}
       </Stack>
     </Container>
+    </Box>
   )
 }
