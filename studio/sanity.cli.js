@@ -7,4 +7,7 @@ export default defineCliConfig({
     dataset: 'production',
   },
   studioHost: 'trevor-cash',
+  deployment: {
+    appId: 'oqgh23gt37bqiivgl3m03x7e',
+  },
 })
