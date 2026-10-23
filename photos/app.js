@@ -91,6 +91,7 @@ function toPhoto(p) {
     title: p.title || "",
     location: p.location || "",
     date: formatDate(p.takenAt),
+    takenAt: p.takenAt || "",
     caption: p.caption || "",
     featured: !!p.featured,
     tone: p.tone || "",
@@ -133,7 +134,7 @@ function buildSeries() {
         description: s.description || "",
         location: s.location || "",
         dateValue: s.date || "",
-        date: formatMonth(s.date),
+        date: "",
         stock: "",
         photos: [],
       });
@@ -141,13 +142,18 @@ function buildSeries() {
     map.get(p.seriesId).photos.push(p);
   });
   map.forEach((s) => {
+    // A series without its own date takes its newest photo's date.
+    if (!s.dateValue) s.dateValue = s.photos.map((p) => p.takenAt).sort().pop() || "";
+    s.date = formatMonth(s.dateValue);
     s.stock = [...new Set(s.photos.map((p) => p.stock).filter(Boolean))].join(", ");
   });
-  seriesList = [...map.values()].sort((a, b) =>
-    a.dateValue === b.dateValue
+  // Newest first; series with no date anywhere go last.
+  seriesList = [...map.values()].sort((a, b) => {
+    if (!a.dateValue !== !b.dateValue) return a.dateValue ? -1 : 1;
+    return a.dateValue === b.dateValue
       ? a.title.localeCompare(b.title)
-      : b.dateValue.localeCompare(a.dateValue),
-  );
+      : b.dateValue.localeCompare(a.dateValue);
+  });
   seriesList.forEach((s, i) => (s.num = pad(i + 1)));
 }
 
