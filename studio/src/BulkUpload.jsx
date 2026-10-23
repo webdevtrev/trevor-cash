@@ -13,7 +13,7 @@ import {
 } from '@sanity/ui'
 
 const CONCURRENCY = 3
-const EMPTY_FIELDS = {seriesId: '', filmStock: '', tone: '', location: '', takenAt: ''}
+const EMPTY_FIELDS = {seriesId: '', filmStock: '', tone: '', location: '', takenAt: '', publish: false}
 
 // "IMG_1234-sunset.JPG" -> "IMG 1234 sunset"
 const titleFromName = (name) =>
@@ -107,7 +107,7 @@ export function BulkUpload() {
         try {
           const asset = await client.assets.upload('image', row.file, {filename: row.file.name})
           const doc = {
-            _id: `drafts.${crypto.randomUUID()}`,
+            _id: details.publish ? crypto.randomUUID() : `drafts.${crypto.randomUUID()}`,
             _type: 'photo',
             title: titleFromName(row.file.name),
             image: {_type: 'image', asset: {_type: 'reference', _ref: asset._id}},
@@ -134,7 +134,9 @@ export function BulkUpload() {
   const failed = rows.filter((r) => r.state === 'error').length
   const submitLabel = busy
     ? 'Uploading…'
-    : `Upload ${queue.length} photo${queue.length === 1 ? '' : 's'}`
+    : `${fields.publish ? 'Upload and publish' : 'Upload'} ${queue.length} photo${
+        queue.length === 1 ? '' : 's'
+      }`
 
   return (
     <Box style={{height: '100%', overflow: 'auto'}}>
@@ -144,8 +146,8 @@ export function BulkUpload() {
             <Text size={4} weight="bold">Bulk upload photos</Text>
             <Text muted size={1}>
               Add images, fill in any details they share, then press Upload. Each image becomes a
-              draft photo titled from its filename. Open them in Photos to add more
-              details, then publish.
+              draft photo titled from its filename (or is published right away if
+              you tick Publish immediately). Open them in Photos to add more details.
             </Text>
           </Stack>
 
@@ -242,6 +244,19 @@ export function BulkUpload() {
                   disabled={busy}
                 />
               </Stack>
+
+              <label style={{display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer'}}>
+                <input
+                  type="checkbox"
+                  checked={fields.publish}
+                  disabled={busy}
+                  onChange={(e) => {
+                    const publish = e.currentTarget.checked
+                    setFields((f) => ({...f, publish}))
+                  }}
+                />
+                <Text size={1}>Publish immediately (skip drafts, photos go live on the site)</Text>
+              </label>
             </Stack>
           </Card>
 
