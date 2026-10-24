@@ -1,5 +1,8 @@
 import {useCallback, useEffect, useRef, useState} from 'react'
 import {useClient} from 'sanity'
+import {ChevronDownIcon} from '@sanity/icons/ChevronDown'
+import {ChevronUpIcon} from '@sanity/icons/ChevronUp'
+import {DragHandleIcon} from '@sanity/icons/DragHandle'
 import {
   Box,
   Button,
@@ -25,7 +28,7 @@ const CHECKBOX_STYLE = {
   flex: 'none',
   accentColor: '#2276fc',
 }
-const EMPTY_FIELDS = {seriesId: '', filmStock: '', tone: '', location: '', takenAt: '', publish: false}
+const EMPTY_FIELDS = {seriesId: '', filmStock: '', tone: '', location: '', takenAt: '', publish: false, numberFrames: true}
 
 // "IMG_1234-sunset.JPG" -> "IMG 1234 sunset"
 const titleFromName = (name) =>
@@ -54,6 +57,8 @@ export function BulkUpload() {
   const [rows, setRows] = useState([])
   const [busy, setBusy] = useState(false)
   const [dragging, setDragging] = useState(false)
+  const [dragKey, setDragKey] = useState(null)
+  const [overKey, setOverKey] = useState(null)
 
   rowsRef.current = rows
 
@@ -107,6 +112,17 @@ export function BulkUpload() {
     setRows((r) => r.filter((x) => x.key !== key))
   }
 
+  // Move a row to the position currently held by `toKey` (or by index).
+  const moveRow = (key, to) =>
+    setRows((r) => {
+      const from = r.findIndex((x) => x.key === key)
+      const dest = typeof to === 'number' ? to : r.findIndex((x) => x.key === to)
+      if (from < 0 || dest < 0 || dest >= r.length || from === dest) return r
+      const next = [...r]
+      next.splice(dest, 0, next.splice(from, 1)[0])
+      return next
+    })
+
   const reset = () => {
     rows.forEach((r) => URL.revokeObjectURL(r.preview))
     setRows([])
@@ -119,6 +135,8 @@ export function BulkUpload() {
     const targets = queue
     if (!targets.length || busy) return
     const details = {...fields} // the values at the moment of submitting
+    // A photo's place in the list is its frame number on the roll.
+    const position = new Map(rowsRef.current.map((r, i) => [r.key, i + 1]))
     setBusy(true)
     targets.forEach((t) => patchRow(t.key, {state: 'waiting', message: undefined}))
     let next = 0
@@ -140,6 +158,7 @@ export function BulkUpload() {
             ...(details.tone ? {tone: details.tone} : {}),
             ...(details.location.trim() ? {location: details.location.trim()} : {}),
             ...(details.takenAt ? {takenAt: details.takenAt} : {}),
+            ...(details.numberFrames ? {frame: String(position.get(row.key))} : {}),
           }
           await client.create(doc)
           patchRow(row.key, {state: 'done'})
@@ -164,7 +183,7 @@ export function BulkUpload() {
 
   return (
     <Box style={{height: '100%', overflow: 'auto'}}>
-      <Container width={1} padding={5}>
+      <Container width={2} padding={5}>
         <Stack gap={5}>
           <Stack gap={3}>
             <Text size={4} weight="bold">Bulk upload photos</Text>
@@ -280,6 +299,20 @@ export function BulkUpload() {
                 <input
                   type="checkbox"
                   style={CHECKBOX_STYLE}
+                  checked={fields.numberFrames}
+                  disabled={busy}
+                  onChange={(e) => {
+                    const numberFrames = e.currentTarget.checked
+                    setFields((f) => ({...f, numberFrames}))
+                  }}
+                />
+                <Text size={1}>Number frames from the order of the list below</Text>
+              </label>
+
+              <label style={{display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer'}}>
+                <input
+                  type="checkbox"
+                  style={CHECKBOX_STYLE}
                   checked={fields.publish}
                   disabled={busy}
                   onChange={(e) => {
@@ -330,50 +363,128 @@ export function BulkUpload() {
                 {failed ? ` · ${failed} failed` : ''}
               </Text>
               <Card border radius={2}>
-                {rows.map((r, i) => (
-                  <Card
-                    key={r.key}
-                    padding={3}
-                    borderTop={i > 0}
-                    tone={r.state === 'error' ? 'critical' : 'default'}
-                  >
-                    <Flex align="center" gap={3}>
-                      <img
-                        src={r.preview}
-                        alt=""
-                        style={{width: 40, height: 40, objectFit: 'cover', borderRadius: 2}}
-                      />
-                      <Box flex={1} style={{minWidth: 0}}>
-                        {r.state === 'staged' || r.state === 'error' ? (
-                          <TextInput
+                {rows.map((r, i) => {
+                  const editable = r.state === 'staged' || r.state === 'error'
+                  return (
+                    <Card
+                      key={r.key}
+                      data-row
+                      padding={3}
+                      borderTop={i > 0}
+                      tone={r.state === 'error' ? 'critical' : 'default'}
+                      onDragOver={(e) => {
+                        if (!dragKey) return
+                        e.preventDefault()
+                        setOverKey(r.key)
+                      }}
+                      onDrop={(e) => {
+                        if (!dragKey) return
+                        e.preventDefault()
+                        moveRow(dragKey, r.key)
+                        setDragKey(null)
+                        setOverKey(null)
+                      }}
+                      style={{
+                        opacity: dragKey === r.key ? 0.4 : 1,
+                        boxShadow:
+                          overKey === r.key && dragKey && dragKey !== r.key
+                            ? 'inset 0 3px 0 0 #2276fc'
+                            : undefined,
+                      }}
+                    >
+                      <Flex align="center" gap={3}>
+                        <Flex align="center" gap={1} style={{flex: 'none'}}>
+                          <span
+                            draggable={!busy}
+                            title="Drag to reorder"
+                            style={{cursor: busy ? 'default' : 'grab', display: 'flex'}}
+                            onDragStart={(e) => {
+                              e.dataTransfer.effectAllowed = 'move'
+                              e.dataTransfer.setData('text/plain', r.key)
+                              const row = e.currentTarget.closest('[data-row]')
+                              if (row) e.dataTransfer.setDragImage(row, 16, 16)
+                              setDragKey(r.key)
+                            }}
+                            onDragEnd={() => {
+                              setDragKey(null)
+                              setOverKey(null)
+                            }}
+                          >
+                            <Text size={2} muted>
+                              <DragHandleIcon />
+                            </Text>
+                          </span>
+                          <Flex direction="column">
+                            <Button
+                              icon={ChevronUpIcon}
+                              mode="bleed"
+                              padding={1}
+                              aria-label="Move up"
+                              disabled={busy || i === 0}
+                              onClick={() => moveRow(r.key, i - 1)}
+                            />
+                            <Button
+                              icon={ChevronDownIcon}
+                              mode="bleed"
+                              padding={1}
+                              aria-label="Move down"
+                              disabled={busy || i === rows.length - 1}
+                              onClick={() => moveRow(r.key, i + 1)}
+                            />
+                          </Flex>
+                        </Flex>
+                        <Box style={{width: 40, flex: 'none', textAlign: 'center'}}>
+                          <Text size={2} weight="semibold" muted={!fields.numberFrames}>
+                            {i + 1}
+                          </Text>
+                        </Box>
+                        <img
+                          src={r.preview}
+                          alt=""
+                          style={{
+                            width: 140,
+                            height: 140,
+                            flex: 'none',
+                            objectFit: 'contain',
+                            borderRadius: 2,
+                            background: 'rgba(128, 128, 128, 0.15)',
+                          }}
+                        />
+                        <Box flex={1} style={{minWidth: 0}}>
+                          <Stack gap={2}>
+                            {editable ? (
+                              <TextInput
+                                fontSize={1}
+                                padding={2}
+                                value={r.title}
+                                placeholder={r.file.name}
+                                aria-label={`Title for ${r.file.name}`}
+                                disabled={busy}
+                                onChange={(e) => patchRow(r.key, {title: e.currentTarget.value})}
+                              />
+                            ) : (
+                              <Text size={1} textOverflow="ellipsis">{r.title || r.file.name}</Text>
+                            )}
+                            <Text size={0} muted textOverflow="ellipsis">{r.file.name}</Text>
+                          </Stack>
+                        </Box>
+                        <Text size={1} muted={r.state !== 'error'} style={{whiteSpace: 'nowrap'}}>
+                          {r.state === 'error' ? `Failed: ${r.message}` : STATE_LABEL[r.state]}
+                        </Text>
+                        {editable && (
+                          <Button
+                            text="Remove"
+                            mode="bleed"
                             fontSize={1}
                             padding={2}
-                            value={r.title}
-                            placeholder={r.file.name}
-                            aria-label={`Title for ${r.file.name}`}
                             disabled={busy}
-                            onChange={(e) => patchRow(r.key, {title: e.currentTarget.value})}
+                            onClick={() => remove(r.key)}
                           />
-                        ) : (
-                          <Text size={1} textOverflow="ellipsis">{r.title || r.file.name}</Text>
                         )}
-                      </Box>
-                      <Text size={1} muted={r.state !== 'error'} style={{whiteSpace: 'nowrap'}}>
-                        {r.state === 'error' ? `Failed: ${r.message}` : STATE_LABEL[r.state]}
-                      </Text>
-                      {(r.state === 'staged' || r.state === 'error') && (
-                        <Button
-                          text="Remove"
-                          mode="bleed"
-                          fontSize={1}
-                          padding={2}
-                          disabled={busy}
-                          onClick={() => remove(r.key)}
-                        />
-                      )}
-                    </Flex>
-                  </Card>
-                ))}
+                      </Flex>
+                    </Card>
+                  )
+                })}
               </Card>
             </Stack>
           )}
