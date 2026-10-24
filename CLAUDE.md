@@ -28,7 +28,7 @@ cd studio && npm install && npm run dev   # http://localhost:3333
 ```
 Deploy the Studio to Sanity's hosting with `cd studio && npx sanity deploy`. Netlify never builds or serves it.
 
-When changing the schema, update the GROQ query in `photos/app.js` too. `photos/style.css` overrides the global grayscale `img` filter, since gallery photos must show in colour.
+When changing the schema, update the GROQ query in `photos/app.js` too. The query reads `people[]->name` for the People filter; it stays empty until photos are tagged. `photos/style.css` overrides the global grayscale `img` filter, since gallery photos must show in colour.
 
 ## Site structure
 
@@ -36,7 +36,7 @@ Each route is its own directory with a self-contained `index.html`, `style.css`,
 - `index.html` / `app.js` / `style.css` — Home page (`/`)
 - `about/` — About page (`/about`)
 - `portfolio/` — Portfolio page (`/portfolio`)
-- `photos/` — Photo gallery (`/photos`): `index.html`, `style.css`, `app.js` plus `config.js` (the Sanity `PROJECT_ID`/`DATASET`, the only place the public site stores them). `app.js` fetches photos from the Sanity HTTP API with plain `fetch` (no `@sanity/client`) and is a small hash-routed page (`#/` overview with film-strip hero and series list, `#/index` masonry grid, `#/series/<slug>` series page with a Frames/Grid toggle (the grid has the same colour filter and S/M/L size as the index), matching the Claude Design mockup "Cash Photography") with loading/empty/error states. The page loads Archivo and IBM Plex Mono from Google Fonts in its own `<head>` (gallery content only; the footer keeps Hubot Sans). The page deliberately has **no `<custom-header>`** (its own sub-nav replaces it) and is **not linked from the site nav**: it is shared by direct URL for now. Add `Photos` to the `pages` array in `Components/header.js` to publish it
+- `photos/` — Photo gallery (`/photos`): `index.html`, `style.css`, `app.js` plus `config.js` (the Sanity `PROJECT_ID`/`DATASET`, the only place the public site stores them). `app.js` fetches photos from the Sanity HTTP API with plain `fetch` (no `@sanity/client`) and is a small hash-routed page (`#/` overview with film-strip hero and series list, `#/index` masonry grid with Film (colour/B&W and stock) and People filters, which also drive the series grid, `#/series/<slug>` series page with a Frames/Grid toggle (the grid has the same colour filter and S/M/L size as the index), matching the Claude Design mockup "Cash Photography") with loading/empty/error states. The page loads Archivo and IBM Plex Mono from Google Fonts in its own `<head>` (gallery content only; the footer keeps Hubot Sans). The page deliberately has **no `<custom-header>`** (its own sub-nav replaces it) and is **not linked from the site nav**: it is shared by direct URL for now. Add `Photos` to the `pages` array in `Components/header.js` to publish it
 - `studio/` — Sanity Studio for the photo gallery. **The only part of the repo with dependencies** (its own `package.json`; never add one at the repo root). It is not part of the public site: `_redirects` forces `/studio` and `/studio/*` to 404
 - `contact/` — Contact page (`/contact`), has a Netlify-powered contact form
 - `global.css` — shared styles/resets used by every page (font-face, dark mode, header/footer, base typography)

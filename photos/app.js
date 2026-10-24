@@ -11,6 +11,7 @@ const QUERY = `*[_type == "photo" && defined(image.asset)] | order(takenAt desc,
   tone,
   filmStock,
   frame,
+  "people": people[]->name,
   "series": series->{ _id, title, "slug": slug.current, description, location, date },
   "url": image.asset->url,
   "dimensions": image.asset->metadata.dimensions,
@@ -95,6 +96,7 @@ function toPhoto(p) {
     caption: p.caption || "",
     featured: !!p.featured,
     tone: p.tone || "",
+    people: (p.people || []).filter(Boolean),
     stock: p.filmStock || "",
     frame: p.frame || "",
     seriesId: series ? series._id : null,
@@ -265,52 +267,195 @@ function renderOverview() {
   });
 }
 
-let toneFilter = "all";
 const TONES = [
   ["all", "All"],
   ["colour", "Colour"],
   ["bw", "B&W"],
 ];
+const STOCK_SWATCH = { colour: "#e39a3b", bw: "#8a857c", "": "#bdb7ac" };
 
-const byTone = (list, tone) => (tone === "all" ? list : list.filter((p) => p.tone === tone));
+const newFilters = () => ({ tone: "all", stock: null, people: [], match: "any" });
+const hasFilters = (f) => f.tone !== "all" || !!f.stock || f.people.length > 0;
+let indexFilters = newFilters();
+let seriesFilters = newFilters();
 
-// Colour / B&W buttons for `source`. Hidden until at least one photo is tagged.
-function buildFilter(host, source, current, onPick) {
-  host.hidden = !source.some((p) => p.tone);
-  host.replaceChildren();
-  TONES.forEach(([key, label]) => {
-    const b = el("button", "", label);
+// Does `p` pass the filters? `skip` leaves one facet out, so each option can
+// show how many photos it would add given the other selections.
+function matches(p, f, skip) {
+  if (skip !== "tone" && f.tone !== "all" && p.tone !== f.tone) return false;
+  if (skip !== "stock" && f.stock && p.stock !== f.stock) return false;
+  if (skip !== "people" && f.people.length) {
+    const test = (name) => p.people.includes(name);
+    if (f.match === "all" ? !f.people.every(test) : !f.people.some(test)) return false;
+  }
+  return true;
+}
+const applyFilters = (list, f) => list.filter((p) => matches(p, f));
+
+function toggleGroup(label, options, current, onPick) {
+  const group = el("div", "Filter");
+  group.setAttribute("role", "group");
+  group.setAttribute("aria-label", label);
+  options.forEach(([key, text, count]) => {
+    const b = el("button", "", text);
     b.type = "button";
     b.setAttribute("aria-pressed", String(current === key));
-    b.append(el("span", "", String(byTone(source, key).length)));
+    if (count !== undefined) b.append(el("span", "", String(count)));
     b.addEventListener("click", () => onPick(key));
-    host.append(b);
+    group.append(b);
   });
+  return group;
 }
 
-function renderFilter() {
-  buildFilter($("filter"), photos, toneFilter, (key) => {
-    toneFilter = key;
-    renderFilter();
-    renderIndex();
+// Film (colour / B&W and stock chips) and People (avatar chips, Any/Together)
+// rows plus a result line. Rows with nothing to choose from are left out.
+function renderFacets(host, source, f, apply) {
+  host.replaceChildren();
+  const change = (patch) => {
+    Object.assign(f, patch);
+    apply();
+  };
+
+  const row = (label) => {
+    const r = el("div", "Facet-Row");
+    const body = el("div", "Facet-Body");
+    r.append(el("span", "Facet-Label", label), body);
+    host.append(r);
+    return body;
+  };
+
+  const tagged = source.some((p) => p.tone);
+  const stocks = new Map();
+  source.forEach((p) => {
+    if (p.stock && !stocks.has(p.stock)) stocks.set(p.stock, p.tone);
+    else if (p.stock && !stocks.get(p.stock)) stocks.set(p.stock, p.tone);
   });
+  const stockList = [...stocks]
+    .filter(([, tone]) => f.tone === "all" || tone === f.tone)
+    .sort(([a], [b]) => a.localeCompare(b));
+
+  if (tagged || stockList.length) {
+    const body = row("Film");
+    if (tagged) {
+      body.append(
+        toggleGroup(
+          "Filter by tone",
+          TONES.map(([key, text]) => [
+            key,
+            text,
+            source.filter((p) => matches(p, f, "tone") && (key === "all" || p.tone === key)).length,
+          ]),
+          f.tone,
+          (key) => {
+            const keep = f.stock && (key === "all" || stocks.get(f.stock) === key);
+            change({ tone: key, stock: keep ? f.stock : null });
+          },
+        ),
+      );
+    }
+    const chips = el("div", "Chips");
+    stockList.forEach(([name, tone]) => {
+      const on = f.stock === name;
+      const count = source.filter((p) => matches(p, f, "stock") && p.stock === name).length;
+      const b = el("button", "Chip");
+      b.type = "button";
+      b.setAttribute("aria-pressed", String(on));
+      b.style.opacity = count || on ? "" : "0.4";
+      const swatch = el("span", "Chip-Swatch");
+      swatch.style.background = STOCK_SWATCH[tone || ""];
+      b.append(swatch, name, el("span", "Chip-Count", String(count)));
+      b.addEventListener("click", () => change({ stock: on ? null : name }));
+      chips.append(b);
+    });
+    body.append(chips);
+  }
+
+  const names = [...new Set(source.flatMap((p) => p.people))].sort((a, b) => a.localeCompare(b));
+  if (names.length) {
+    const body = row("People");
+    const chips = el("div", "Chips");
+    names.forEach((name) => {
+      const on = f.people.includes(name);
+      const count = source.filter((p) => matches(p, f, "people") && p.people.includes(name)).length;
+      const b = el("button", "Person");
+      b.type = "button";
+      b.setAttribute("aria-pressed", String(on));
+      b.style.opacity = count || on ? "" : "0.4";
+      b.append(
+        el("span", "Person-Avatar", name.charAt(0).toUpperCase()),
+        name,
+        el("span", "Chip-Count", String(count)),
+      );
+      b.addEventListener("click", () =>
+        change({ people: on ? f.people.filter((x) => x !== name) : [...f.people, name] }),
+      );
+      chips.append(b);
+    });
+    body.append(chips);
+    if (f.people.length > 1) {
+      const match = el("div", "Match");
+      match.append(
+        el("span", "", "Match"),
+        toggleGroup("Match people", [["any", "Any"], ["all", "Together"]], f.match, (key) =>
+          change({ match: key }),
+        ),
+      );
+      body.append(match);
+    }
+  }
+
+  if (!host.children.length) return;
+  const shown = applyFilters(source, f).length;
+  const parts = [];
+  if (f.tone !== "all") parts.push(f.tone === "bw" ? "B&W" : "Colour");
+  if (f.stock) parts.push(f.stock);
+  if (f.people.length) parts.push(`with ${f.people.join(f.match === "all" ? " + " : " or ")}`);
+  const result = el("div", "Results");
+  const summary = el("span", "");
+  summary.append(
+    el("strong", "", `${pad(shown)} ${shown === 1 ? "frame" : "frames"}`),
+    ` · ${parts.length ? parts.join(" · ") : "everything"}`,
+  );
+  result.append(summary);
+  if (parts.length) {
+    const clear = el("button", "Link-Button", "Clear filters");
+    clear.type = "button";
+    clear.addEventListener("click", () => change(newFilters()));
+    result.append(clear);
+  }
+  host.append(result);
 }
 
 function renderIndex() {
-  fillGrid(grid, byTone(photos, toneFilter));
+  const clear = () => {
+    Object.assign(indexFilters, newFilters());
+    renderIndex();
+  };
+  renderFacets($("facets"), photos, indexFilters, renderIndex);
+  fillGrid(grid, applyFilters(photos, indexFilters), clear);
 }
 
-function fillGrid(target, list) {
+function fillGrid(target, list, onClear) {
   target.replaceChildren();
+  if (!list.length && onClear) {
+    const empty = el("div", "Empty");
+    empty.append(el("p", "Empty-Title", "Nothing on this roll"), el("p", "", "No frames match these filters."));
+    const clear = el("button", "Empty-Clear", "Clear filters");
+    clear.type = "button";
+    clear.addEventListener("click", onClear);
+    empty.append(clear);
+    target.append(empty);
+  }
   list.forEach((p, i) => {
     const tile = el("button", "Tile");
     tile.type = "button";
     tile.setAttribute("aria-label", frameLabel(p));
     tile.append(makeImage(p, SIZES[target.dataset.density], i < 4));
-    if (p.location || p.date || p.stock) {
+    if (p.people.length || p.location || p.date || p.stock) {
       const cap = el("span", "Tile-Meta");
       const left = el("span", "Tile-Where");
-      left.append(el("span", "", p.location), el("span", "", p.date));
+      if (p.people.length) left.append(el("span", "Tile-Who", p.people.join(", ")));
+      left.append(el("span", "", [p.location, p.date].filter(Boolean).join(" · ")));
       cap.append(left, el("span", "", p.stock));
       tile.append(cap);
     }
@@ -324,7 +469,6 @@ function fillGrid(target, list) {
 
 const seriesGrid = $("series-grid");
 let currentSeries = null;
-let seriesTone = "all";
 let seriesLayout = "frames";
 try {
   if (localStorage.photoSeriesLayout === "grid") seriesLayout = "grid";
@@ -332,12 +476,12 @@ try {
 
 function renderSeriesGrid() {
   const source = currentSeries.photos;
-  buildFilter($("series-filter"), source, seriesTone, (key) => {
-    seriesTone = key;
+  const clear = () => {
+    Object.assign(seriesFilters, newFilters());
     renderSeriesGrid();
-    applyLayout();
-  });
-  fillGrid(seriesGrid, byTone(source, seriesTone));
+  };
+  renderFacets($("series-facets"), source, seriesFilters, renderSeriesGrid);
+  fillGrid(seriesGrid, applyFilters(source, seriesFilters), clear);
 }
 
 // Frames: the roll and full-width frames. Grid: filter, size and a thumbnail grid.
@@ -347,7 +491,7 @@ function applyLayout() {
   $("frames").hidden = gridMode;
   seriesGrid.hidden = !gridMode;
   $("series-density").hidden = !gridMode;
-  $("series-filter").hidden = !gridMode || !currentSeries.photos.some((p) => p.tone);
+  $("series-facets").hidden = !gridMode;
   document.querySelectorAll(".Layout button").forEach((b) => {
     b.setAttribute("aria-pressed", String(b.dataset.layout === seriesLayout));
   });
@@ -386,7 +530,7 @@ function renderSeries(slug) {
       facts.append(item);
     });
 
-  if (currentSeries !== s) seriesTone = "all";
+  if (currentSeries !== s) Object.assign(seriesFilters, newFilters());
   currentSeries = s;
   renderSeriesGrid();
   applyLayout();
@@ -502,7 +646,6 @@ async function load() {
     buildSeries();
     $("series-link").hidden = !seriesList.length;
     renderOverview();
-    renderFilter();
     renderIndex();
     route();
   } catch (err) {

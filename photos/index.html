@@ -83,7 +83,6 @@
         <div class="Page-Head">
           <h1 tabindex="-1">Index</h1>
           <div class="Page-Tools">
-            <div class="Filter" id="filter" role="group" aria-label="Filter by tone" hidden></div>
             <div class="Density" role="group" aria-label="Thumbnail size">
               <button type="button" data-density="S" aria-label="Small thumbnails">S</button>
               <button type="button" data-density="M" aria-label="Medium thumbnails">M</button>
@@ -91,6 +90,7 @@
             </div>
           </div>
         </div>
+        <div class="Facets" id="facets"></div>
         <div class="Grid" id="grid" data-density="M" aria-busy="true"></div>
       </div>
 
@@ -107,7 +107,6 @@
             <button type="button" data-layout="frames">Frames</button>
             <button type="button" data-layout="grid">Grid</button>
           </div>
-          <div class="Filter" id="series-filter" role="group" aria-label="Filter by tone" hidden></div>
           <div class="Density" id="series-density" role="group" aria-label="Thumbnail size" hidden>
             <button type="button" data-density="S" aria-label="Small thumbnails">S</button>
             <button type="button" data-density="M" aria-label="Medium thumbnails">M</button>
@@ -116,6 +115,7 @@
         </div>
         <div class="Roll" id="roll"><div class="Roll-Track" id="roll-track"></div></div>
         <div class="Frames" id="frames"></div>
+        <div class="Facets" id="series-facets" hidden></div>
         <div class="Grid" id="series-grid" data-density="M" hidden></div>
         <nav class="Series-Pager" id="pager" aria-label="Other series"></nav>
       </div>
