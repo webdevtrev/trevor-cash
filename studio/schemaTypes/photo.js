@@ -58,6 +58,14 @@ export const photo = defineType({
       description: 'Optional. Leave empty for a standalone photo.',
     }),
     defineField({
+      name: 'people',
+      title: 'People',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'person'}]}],
+      description: 'Optional. Tag the people in this photo. Pick an existing person or create a new one.',
+      validation: (rule) => rule.unique(),
+    }),
+    defineField({
       name: 'featured',
       title: 'Featured',
       type: 'boolean',

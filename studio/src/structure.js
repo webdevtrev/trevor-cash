@@ -66,4 +66,5 @@ export const structure = (S, context) =>
         }),
       S.divider(),
       S.documentTypeListItem('series').title('Manage series'),
+      S.documentTypeListItem('person').title('People'),
     ])
