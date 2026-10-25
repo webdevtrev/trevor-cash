@@ -446,100 +446,6 @@ section.Photos-Hero {
 }
 .Facet-Label,
 .Results,
-.Match {
-  font-family: var(--Mono);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-.Facet-Label {
-  font-size: 0.6875rem;
-  color: var(--Muted);
-}
-.Facet-Body {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 16px;
-}
-.Chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.Chip,
-.Person {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid #bdb7ac;
-  background: transparent;
-  color: var(--Ink);
-  cursor: pointer;
-  white-space: nowrap;
-}
-.Chip {
-  padding: 7px 12px;
-  font-family: var(--Mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.Chip-Swatch {
-  width: 8px;
-  height: 8px;
-  border: 1px solid var(--Ink);
-}
-.Person {
-  padding: 4px 12px 4px 4px;
-  border-radius: 999px;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-.Person-Avatar {
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: var(--Rule);
-  color: var(--Ink);
-  font-family: var(--Mono);
-  font-size: 0.6875rem;
-}
-.Chip-Count {
-  font-family: var(--Mono);
-  font-size: 0.6875rem;
-  opacity: 0.6;
-}
-.Chip[aria-pressed="true"],
-.Person[aria-pressed="true"] {
-  border-color: var(--Ink);
-  background: var(--Ink);
-  color: var(--Bg);
-}
-.Person[aria-pressed="true"] .Person-Avatar {
-  background: var(--Accent);
-  color: #eeebe4;
-}
-.Chip:focus-visible,
-.Person:focus-visible,
-.Link-Button:focus-visible,
-.Empty-Clear:focus-visible {
-  outline: 2px solid var(--Accent);
-  outline-offset: 2px;
-}
-.Match {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-left: auto;
-  font-size: 0.6875rem;
-  color: var(--Muted);
-}
-.Match .Filter button {
-  padding: 0.4rem 0.65rem;
-  font-size: 0.6875rem;
-}
 .Results {
   display: flex;
   justify-content: space-between;
@@ -606,9 +512,6 @@ section.Photos-Hero {
   .Facet-Row {
     grid-template-columns: 1fr;
     gap: 8px;
-  }
-  .Match {
-    margin-left: 0;
   }
 }
 .Tile-Who {

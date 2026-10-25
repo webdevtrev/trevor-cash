@@ -274,7 +274,7 @@ const TONES = [
 ];
 const STOCK_SWATCH = { colour: "#e39a3b", bw: "#8a857c", "": "#bdb7ac" };
 
-const newFilters = () => ({ tone: "all", stock: null, people: [], match: "any" });
+const newFilters = () => ({ tone: "all", stock: null, people: [] });
 const hasFilters = (f) => f.tone !== "all" || !!f.stock || f.people.length > 0;
 let indexFilters = newFilters();
 let seriesFilters = newFilters();
@@ -285,8 +285,8 @@ function matches(p, f, skip) {
   if (skip !== "tone" && f.tone !== "all" && p.tone !== f.tone) return false;
   if (skip !== "stock" && f.stock && p.stock !== f.stock) return false;
   if (skip !== "people" && f.people.length) {
-    const test = (name) => p.people.includes(name);
-    if (f.match === "all" ? !f.people.every(test) : !f.people.some(test)) return false;
+    // Several people means photos that have all of them in the frame.
+    if (!f.people.every((name) => p.people.includes(name))) return false;
   }
   return true;
 }
@@ -376,7 +376,8 @@ function renderFacets(host, source, f, apply) {
     const chips = el("div", "Chips");
     names.forEach((name) => {
       const on = f.people.includes(name);
-      const count = source.filter((p) => matches(p, f, "people") && p.people.includes(name)).length;
+      // Photos left if this person is added to (or kept in) the selection.
+      const count = source.filter((p) => matches(p, f) && (on || p.people.includes(name))).length;
       const b = el("button", "Person");
       b.type = "button";
       b.setAttribute("aria-pressed", String(on));
@@ -392,16 +393,6 @@ function renderFacets(host, source, f, apply) {
       chips.append(b);
     });
     body.append(chips);
-    if (f.people.length > 1) {
-      const match = el("div", "Match");
-      match.append(
-        el("span", "", "Match"),
-        toggleGroup("Match people", [["any", "Any"], ["all", "Together"]], f.match, (key) =>
-          change({ match: key }),
-        ),
-      );
-      body.append(match);
-    }
   }
 
   if (!host.children.length) return;
@@ -409,7 +400,7 @@ function renderFacets(host, source, f, apply) {
   const parts = [];
   if (f.tone !== "all") parts.push(f.tone === "bw" ? "B&W" : "Colour");
   if (f.stock) parts.push(f.stock);
-  if (f.people.length) parts.push(`with ${f.people.join(f.match === "all" ? " + " : " or ")}`);
+  if (f.people.length) parts.push(`with ${f.people.join(" + ")}`);
   const result = el("div", "Results");
   const summary = el("span", "");
   summary.append(
@@ -469,9 +460,9 @@ function fillGrid(target, list, onClear) {
 
 const seriesGrid = $("series-grid");
 let currentSeries = null;
-let seriesLayout = "frames";
+let seriesLayout = "grid";
 try {
-  if (localStorage.photoSeriesLayout === "grid") seriesLayout = "grid";
+  if (localStorage.photoSeriesLayout === "frames") seriesLayout = "frames";
 } catch (_) {}
 
 function renderSeriesGrid() {
