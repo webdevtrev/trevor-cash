@@ -1,5 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import {ImageIcon} from '@sanity/icons/Image'
+import {QuickPeopleInput} from '../src/QuickPeopleInput'
 
 export const photo = defineType({
   name: 'photo',
@@ -63,6 +64,7 @@ export const photo = defineType({
       type: 'array',
       of: [{type: 'reference', to: [{type: 'person'}]}],
       description: 'Optional. Tag the people in this photo. Pick an existing person or create a new one.',
+      components: {input: QuickPeopleInput},
       validation: (rule) => rule.unique(),
     }),
     defineField({
