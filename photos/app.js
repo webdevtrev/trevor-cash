@@ -12,7 +12,7 @@ const QUERY = `*[_type == "photo" && defined(image.asset)] | order(takenAt desc,
   filmStock,
   frame,
   "people": people[]->name,
-  "avatars": people[]->{ name, "url": avatar.asset->url, "hotspot": avatar.hotspot },
+  "avatars": people[]->{ name, "url": avatar.asset->url, "hotspot": avatar.hotspot, "crop": avatar.crop, "dimensions": avatar.asset->metadata.dimensions },
   "series": series->{ _id, title, "slug": slug.current, description, location, date },
   "url": image.asset->url,
   "dimensions": image.asset->metadata.dimensions,
@@ -80,10 +80,25 @@ function el(tag, className, text) {
 
 // Person name -> { url, hotspot } for people who have an avatar in the Studio.
 const AVATARS = new Map();
-// Square crop centred on the hotspot the author set in the Studio.
-const avatarUrl = ({ url, hotspot }, size) =>
-  `${url}?w=${size}&h=${size}&fit=crop&auto=format` +
-  (hotspot ? `&crop=focalpoint&fp-x=${hotspot.x}&fp-y=${hotspot.y}` : "");
+// Square avatar from the crop and hotspot the author set in the Studio. The crop
+// is fractions trimmed from each edge, so it is turned into a pixel rect first;
+// the hotspot is relative to the whole image, so it is re-based onto that rect.
+const clamp01 = (n) => Math.min(1, Math.max(0, n));
+function avatarUrl({ url, hotspot, crop, dimensions }, size) {
+  const params = [`w=${size}`, `h=${size}`, "fit=crop", "auto=format"];
+  const { left = 0, right = 0, top = 0, bottom = 0 } = crop || {};
+  if (crop && dimensions) {
+    const { width, height } = dimensions;
+    const rect = [left * width, top * height, (1 - left - right) * width, (1 - top - bottom) * height];
+    params.push(`rect=${rect.map(Math.round).join(",")}`);
+  }
+  if (hotspot) {
+    const x = clamp01((hotspot.x - left) / (1 - left - right));
+    const y = clamp01((hotspot.y - top) / (1 - top - bottom));
+    params.push("crop=focalpoint", `fp-x=${x.toFixed(4)}`, `fp-y=${y.toFixed(4)}`);
+  }
+  return `${url}?${params.join("&")}`;
+}
 
 function toPhoto(p) {
   (p.avatars || []).forEach((a) => a && a.url && AVATARS.set(a.name, a));

@@ -526,6 +526,11 @@ section.Photos-Hero {
 main .Avatar-Img:hover {
   filter: grayscale(1);
 }
+/* Colour once the person is picked. */
+main [aria-pressed="true"] .Avatar-Img,
+main [aria-pressed="true"] .Avatar-Img:hover {
+  filter: none;
+}
 .Chip-Count {
   font-family: var(--Mono);
   font-size: 0.6875rem;
