@@ -6,6 +6,7 @@ body {
   --Ink: #161513;
   --Muted: #5e5a52;
   --Rule: #d6d1c6;
+  --Panel: #f6f4ef;
   --Accent: #c2401b;
   --Amber: #e39a3b;
   --Mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -21,6 +22,7 @@ body.Dark {
   --Ink: #eeebe4;
   --Muted: #bdb7ac;
   --Rule: rgba(255, 255, 255, 0.2);
+  --Panel: rgba(255, 255, 255, 0.06);
   background: var(--Bg);
   color: var(--Ink);
 }
@@ -505,6 +507,25 @@ section.Photos-Hero {
   font-family: var(--Mono);
   font-size: 0.6875rem;
 }
+.Person-Avatar,
+.People-Avatar {
+  position: relative;
+  flex: none;
+  overflow: hidden;
+}
+/* Avatars sit over the initials; global.css's grayscale rule is already undone
+   for main img, so the black & white look is set here. */
+.Avatar-Img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+}
+main .Avatar-Img:hover {
+  filter: grayscale(1);
+}
 .Chip-Count {
   font-family: var(--Mono);
   font-size: 0.6875rem;
@@ -524,6 +545,114 @@ section.Photos-Hero {
 .Person:focus-visible,
 .Link-Button:focus-visible,
 .Empty-Clear:focus-visible {
+  outline: 2px solid var(--Accent);
+  outline-offset: 2px;
+}
+.People-More {
+  padding: 7px 14px;
+  border: 1px dashed var(--Ink);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--Ink);
+  font-family: var(--Mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.People-More[aria-expanded="true"] {
+  background: var(--Ink);
+  color: var(--Bg);
+}
+.People-Panel {
+  flex: 1 0 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--Ink);
+  background: var(--Panel);
+}
+.People-Bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--Rule);
+}
+.People-Search {
+  flex: 1;
+  min-width: 180px;
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid var(--Ink);
+  background: transparent;
+  color: var(--Ink);
+  font-family: var(--Sans);
+  font-size: 1rem;
+  outline: none;
+}
+.People-Grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 2px;
+  max-height: 320px;
+  padding: 8px;
+  overflow-y: auto;
+}
+.People-Row {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 6px 8px;
+  border: 0;
+  background: transparent;
+  color: var(--Ink);
+  text-align: left;
+  cursor: pointer;
+}
+.People-Row[aria-pressed="true"] {
+  background: var(--Ink);
+  color: var(--Bg);
+}
+.People-Avatar {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--Rule);
+  color: var(--Ink);
+  font-family: var(--Mono);
+  font-size: 0.75rem;
+}
+.People-Row[aria-pressed="true"] .People-Avatar {
+  background: var(--Accent);
+  color: #eeebe4;
+}
+.People-Name {
+  overflow: hidden;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.People-Empty,
+.People-Note {
+  margin: 0;
+  padding: 10px 14px;
+  font-family: var(--Mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--Muted);
+}
+.People-Note {
+  border-top: 1px solid var(--Rule);
+}
+.People-More:focus-visible,
+.People-Row:focus-visible {
   outline: 2px solid var(--Accent);
   outline-offset: 2px;
 }
