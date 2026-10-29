@@ -20,7 +20,7 @@ Deployed via Netlify (see the contact form's `netlify` attribute in [contact/ind
 
 ## Photos & Sanity Studio
 
-Photos are content in Sanity (dataset `production`, document types `photo`: image, title, optional alt, takenAt, location, caption, featured, optional `series` reference, optional `people` (references to `person`), optional `tone` (colour/bw), `filmStock` and `frame`; and `series`: title, slug, description, location, date, coverPhoto; and `person`: name, used only for tagging photos in the Studio, the public site does not read it). The Studio has a Bulk upload tool (`studio/src/BulkUpload.jsx`) that stages many files, applies shared details (series, film type, colour/B&W, date taken, location) on an explicit Upload press, and creates one draft photo per file, titled from the filename and editable in the staged list (or publishes them straight away when "Publish immediately" is ticked); the staged list can be reordered (drag or arrows) and each photo's position becomes its frame number; Reset clears the batch. The public `/photos` page shows series. The Studio lives in `studio/`; the site reads the public dataset through the CDN API, so the dataset must be public and the site's origins must be in the project's CORS list (without credentials).
+Photos are content in Sanity (dataset `production`, document types `photo`: image, title, optional alt, takenAt, location, caption, featured, optional `series` reference, optional `people` (references to `person`), optional `tone` (colour/bw), `filmStock` and `frame`; and `series`: title, slug, description, location, date, coverPhoto; and `person`: name and optional `avatar` image with hotspot; the public site reads both for the People filter, and crops the round avatar around the hotspot with the image CDN's focal-point params). The Studio has a Bulk upload tool (`studio/src/BulkUpload.jsx`) that stages many files, applies shared details (series, film type, colour/B&W, date taken, location) on an explicit Upload press, and creates one draft photo per file, titled from the filename and editable in the staged list (or publishes them straight away when "Publish immediately" is ticked); the staged list can be reordered (drag or arrows) and each photo's position becomes its frame number; Reset clears the batch. The public `/photos` page shows series. The Studio lives in `studio/`; the site reads the public dataset through the CDN API, so the dataset must be public and the site's origins must be in the project's CORS list (without credentials).
 
 Run the Studio locally (needs Node >= 22.12):
 ```
@@ -28,7 +28,7 @@ cd studio && npm install && npm run dev   # http://localhost:3333
 ```
 Deploy the Studio to Sanity's hosting with `cd studio && npx sanity deploy`. Netlify never builds or serves it.
 
-When changing the schema, update the GROQ query in `photos/app.js` too. The query reads `people[]->name` for the People filter; it stays empty until photos are tagged. `photos/style.css` overrides the global grayscale `img` filter, since gallery photos must show in colour.
+When changing the schema, update the GROQ query in `photos/app.js` too. The query reads `people[]->name` and `people[]->{name, avatar url, hotspot}` for the People filter; it stays empty until photos are tagged, and people without an avatar show initials. `photos/style.css` overrides the global grayscale `img` filter, since gallery photos must show in colour.
 
 ## Site structure
 
