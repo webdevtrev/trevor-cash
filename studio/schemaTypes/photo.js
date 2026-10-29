@@ -1,5 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import {ImageIcon} from '@sanity/icons/Image'
+import {QuickPeopleInput} from '../src/QuickPeopleInput'
 
 export const photo = defineType({
   name: 'photo',
@@ -63,6 +64,7 @@ export const photo = defineType({
       type: 'array',
       of: [{type: 'reference', to: [{type: 'person'}]}],
       description: 'Optional. Tag the people in this photo. Pick an existing person or create a new one.',
+      components: {input: QuickPeopleInput},
       validation: (rule) => rule.unique(),
     }),
     defineField({
@@ -86,11 +88,31 @@ export const photo = defineType({
     },
   ],
   preview: {
-    select: {title: 'title', date: 'takenAt', series: 'series.title', media: 'image'},
-    prepare: ({title, date, series, media}) => ({
-      title: title || 'Untitled photo',
-      subtitle: [series, date].filter(Boolean).join(' · '),
-      media,
-    }),
+    select: {
+      title: 'title',
+      date: 'takenAt',
+      media: 'image',
+      person: 'people.0',
+      tone: 'tone',
+      filmStock: 'filmStock',
+      location: 'location',
+      alt: 'alt',
+    },
+    prepare: ({title, date, media, person, tone, filmStock, location, alt}) => {
+      // Most important first, so the list shows what to fill in next.
+      const missing = [
+        !person && 'people',
+        !tone && 'colour/B&W',
+        !filmStock && 'film',
+        !location && 'location',
+        !date && 'date',
+        !alt && 'alt text',
+      ].filter(Boolean)
+      return {
+        title: title || 'Untitled photo',
+        subtitle: missing.length ? `Missing: ${missing.join(', ')}` : '✓ Complete',
+        media,
+      }
+    },
   },
 })

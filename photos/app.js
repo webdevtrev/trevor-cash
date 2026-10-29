@@ -12,6 +12,7 @@ const QUERY = `*[_type == "photo" && defined(image.asset)] | order(takenAt desc,
   filmStock,
   frame,
   "people": people[]->name,
+  "avatars": people[]->{ name, "url": avatar.asset->url, "hotspot": avatar.hotspot, "crop": avatar.crop, "dimensions": avatar.asset->metadata.dimensions },
   "series": series->{ _id, title, "slug": slug.current, description, location, date },
   "url": image.asset->url,
   "dimensions": image.asset->metadata.dimensions,
@@ -77,7 +78,30 @@ function el(tag, className, text) {
   return e;
 }
 
+// Person name -> { url, hotspot } for people who have an avatar in the Studio.
+const AVATARS = new Map();
+// Square avatar from the crop and hotspot the author set in the Studio. The crop
+// is fractions trimmed from each edge, so it is turned into a pixel rect first;
+// the hotspot is relative to the whole image, so it is re-based onto that rect.
+const clamp01 = (n) => Math.min(1, Math.max(0, n));
+function avatarUrl({ url, hotspot, crop, dimensions }, size) {
+  const params = [`w=${size}`, `h=${size}`, "fit=crop", "auto=format"];
+  const { left = 0, right = 0, top = 0, bottom = 0 } = crop || {};
+  if (crop && dimensions) {
+    const { width, height } = dimensions;
+    const rect = [left * width, top * height, (1 - left - right) * width, (1 - top - bottom) * height];
+    params.push(`rect=${rect.map(Math.round).join(",")}`);
+  }
+  if (hotspot) {
+    const x = clamp01((hotspot.x - left) / (1 - left - right));
+    const y = clamp01((hotspot.y - top) / (1 - top - bottom));
+    params.push("crop=focalpoint", `fp-x=${x.toFixed(4)}`, `fp-y=${y.toFixed(4)}`);
+  }
+  return `${url}?${params.join("&")}`;
+}
+
 function toPhoto(p) {
+  (p.avatars || []).forEach((a) => a && a.url && AVATARS.set(a.name, a));
   const { width, height } = p.dimensions;
   const series = p.series && p.series._id ? p.series : null;
   return {
@@ -307,9 +331,157 @@ function toggleGroup(label, options, current, onPick) {
   return group;
 }
 
+// People: the most photographed people (plus anyone picked) as avatar chips,
+// and a "+ N more" panel with search and a Most seen / A-Z sort for the rest.
+const PEOPLE_INLINE = 8;
+const peopleUiState = new WeakMap();
+const peopleUi = (f) => {
+  if (!peopleUiState.has(f)) peopleUiState.set(f, { open: false, query: "", sort: "count", scroll: 0, focus: false });
+  return peopleUiState.get(f);
+};
+const initialsOf = (name) =>
+  name
+    .split(/\s+/)
+    .map((w) => w.charAt(0))
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
+// Initials, with the person's avatar over them when they have one.
+function avatarEl(name, className, size) {
+  const a = el("span", className, initialsOf(name));
+  const person = AVATARS.get(name);
+  if (person) {
+    const img = el("img", "Avatar-Img");
+    img.alt = "";
+    img.src = avatarUrl(person, size * 2);
+    img.addEventListener("error", () => img.remove());
+    a.append(img);
+  }
+  return a;
+}
+
+function renderPeople(body, source, names, f, change) {
+  const ui = peopleUi(f);
+  const people = names.map((name) => {
+    const on = f.people.includes(name);
+    return {
+      name,
+      on,
+      total: source.filter((p) => p.people.includes(name)).length,
+      // Photos left if this person is added to (or kept in) the selection.
+      count: source.filter((p) => matches(p, f) && (on || p.people.includes(name))).length,
+    };
+  });
+  const byCount = [...people].sort((a, b) => b.total - a.total || a.name.localeCompare(b.name));
+  const toggle = (name, on) =>
+    change({ people: on ? f.people.filter((x) => x !== name) : [...f.people, name] });
+
+  const inline = [
+    ...f.people.map((name) => people.find((p) => p.name === name)).filter(Boolean),
+    ...byCount.filter((p) => !p.on && p.count),
+  ].slice(0, Math.max(PEOPLE_INLINE, f.people.length));
+
+  const chips = el("div", "Chips");
+  inline.forEach((p) => {
+    const b = el("button", "Person");
+    b.type = "button";
+    b.title = p.name;
+    b.setAttribute("aria-pressed", String(p.on));
+    b.append(avatarEl(p.name, "Person-Avatar", 28), p.name, el("span", "Chip-Count", String(p.count)));
+    b.addEventListener("click", () => toggle(p.name, p.on));
+    chips.append(b);
+  });
+
+  const hidden = people.length - inline.length;
+  const more = el("button", "People-More", ui.open ? "Close" : hidden > 0 ? `+ ${hidden} more` : "All people");
+  more.type = "button";
+  more.setAttribute("aria-expanded", String(ui.open));
+  more.addEventListener("click", () => {
+    ui.open = !ui.open;
+    ui.query = "";
+    ui.scroll = 0;
+    ui.focus = ui.open;
+    change({});
+  });
+  chips.append(more);
+  body.append(chips);
+
+  if (!ui.open) return;
+
+  const panel = el("div", "People-Panel");
+  const bar = el("div", "People-Bar");
+  const search = el("input", "People-Search");
+  search.type = "search";
+  search.placeholder = `Search ${people.length} people`;
+  search.setAttribute("aria-label", "Search people");
+  search.value = ui.query;
+  const sort = el("div", "Filter");
+  sort.setAttribute("role", "group");
+  sort.setAttribute("aria-label", "Sort people");
+  const done = el("button", "Link-Button", "Done");
+  done.type = "button";
+  done.addEventListener("click", () => {
+    ui.open = false;
+    ui.query = "";
+    change({});
+  });
+
+  const grid = el("div", "People-Grid");
+  const empty = el("p", "People-Empty", "No one by that name.");
+  const fill = () => {
+    const q = ui.query.trim().toLowerCase();
+    const sorted = ui.sort === "count" ? byCount : [...people].sort((a, b) => a.name.localeCompare(b.name));
+    const list = sorted.filter((p) => !q || p.name.toLowerCase().includes(q));
+    grid.replaceChildren();
+    list.forEach((p) => {
+      const b = el("button", "People-Row");
+      b.type = "button";
+      b.setAttribute("aria-pressed", String(p.on));
+      b.style.opacity = p.count || p.on ? "" : "0.35";
+      b.append(avatarEl(p.name, "People-Avatar", 36), el("span", "People-Name", p.name), el("span", "Chip-Count", String(p.count)));
+      b.addEventListener("click", () => toggle(p.name, p.on));
+      grid.append(b);
+    });
+    empty.hidden = list.length > 0;
+  };
+  // Typing only refills the list, so the input keeps focus.
+  search.addEventListener("input", () => {
+    ui.query = search.value;
+    fill();
+  });
+  [["count", "Most seen"], ["az", "A\u2013Z"]].forEach(([key, text]) => {
+    const b = el("button", "", text);
+    b.type = "button";
+    b.setAttribute("aria-pressed", String(ui.sort === key));
+    b.addEventListener("click", () => {
+      ui.sort = key;
+      change({});
+    });
+    sort.append(b);
+  });
+  bar.append(search, sort, done);
+  panel.append(
+    bar,
+    grid,
+    empty,
+    el("div", "People-Note", "Picking several shows frames where they\u2019re all together. Faded names aren\u2019t in any frame with the people already picked."),
+  );
+  fill();
+  body.append(panel);
+  grid.scrollTop = ui.scroll;
+  if (ui.focus) {
+    search.focus();
+    ui.focus = false;
+  }
+}
+
 // Film (colour / B&W and stock chips) and People (avatar chips, Any/Together)
 // rows plus a result line. Rows with nothing to choose from are left out.
 function renderFacets(host, source, f, apply) {
+  const ui = peopleUi(f);
+  const oldGrid = host.querySelector(".People-Grid");
+  if (oldGrid) ui.scroll = oldGrid.scrollTop;
   host.replaceChildren();
   const change = (patch) => {
     Object.assign(f, patch);
@@ -370,30 +542,8 @@ function renderFacets(host, source, f, apply) {
     body.append(chips);
   }
 
-  const names = [...new Set(source.flatMap((p) => p.people))].sort((a, b) => a.localeCompare(b));
-  if (names.length) {
-    const body = row("People");
-    const chips = el("div", "Chips");
-    names.forEach((name) => {
-      const on = f.people.includes(name);
-      // Photos left if this person is added to (or kept in) the selection.
-      const count = source.filter((p) => matches(p, f) && (on || p.people.includes(name))).length;
-      const b = el("button", "Person");
-      b.type = "button";
-      b.setAttribute("aria-pressed", String(on));
-      b.style.opacity = count || on ? "" : "0.4";
-      b.append(
-        el("span", "Person-Avatar", name.charAt(0).toUpperCase()),
-        name,
-        el("span", "Chip-Count", String(count)),
-      );
-      b.addEventListener("click", () =>
-        change({ people: on ? f.people.filter((x) => x !== name) : [...f.people, name] }),
-      );
-      chips.append(b);
-    });
-    body.append(chips);
-  }
+  const names = [...new Set(source.flatMap((p) => p.people))];
+  if (names.length) renderPeople(row("People"), source, names, f, change);
 
   if (!host.children.length) return;
   const shown = applyFilters(source, f).length;
