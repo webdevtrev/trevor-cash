@@ -70,8 +70,8 @@
           <p>
             Most of what I build now lives on a secure network, so there isn't much
             to link to. At Booz Allen Hamilton I lead a frontend team of four
-            on a mission critical government application serving over a
-            thousand users, built with Vue, TypeScript, Pinia, and Vite,
+            on a mission critical government application serving more than
+            10,000 users, built with Vue, TypeScript, Pinia, and Vite,
             tested with Jest and Cypress, documented in Storybook, and shipped
             through GitHub Actions. I've also been the sole frontend developer
             on a greenfield application, contributed to a component library
@@ -83,8 +83,8 @@
 
       <section class="Category">
         <div class="Section-Meta">
-          <p>02 &mdash; Building My Own Product</p>
-          <p>Run Bud</p>
+          <p>02 &mdash; Building My Own Products</p>
+          <p>Run Bud &middot; Car Club Style</p>
         </div>
 
         <div class="Project">
@@ -104,7 +104,11 @@
               frame, and a pace, other runners browse and respond to the ones
               that fit, and after the run you add each other as buds. On a
               preferred running day with nothing planned, the app shows which
-              of your buds are already out that morning.
+              of your buds are already out that morning. Schedules recur
+              weekly with one-off overrides, connections are mutual opt-in
+              and never reveal a decline, and message threads expire with
+              their run. It's on TestFlight now, ahead of a city-by-city
+              launch starting in Dayton, OH.
             </p>
             <p class="Project-Body">
               The app is React Native on Expo for iOS and Android, with
@@ -112,7 +116,10 @@
               Sanity holding the habit facts so new content ships without an
               app release. The marketing site is a separate Next.js build with
               an embedded Sanity Studio and a rate limited waitlist API that
-              writes into the same Supabase project the app runs on.
+              writes into the same Supabase project the app runs on. The
+              waitlist is zip-code based so city launches wait on runner
+              density, and the site also carries a public roadmap and a
+              metrics page recomputed hourly from production data.
             </p>
           </div>
           <a
@@ -122,6 +129,28 @@
           >
             <img src="../images/runbud.png" alt="Run Bud logo" />
           </a>
+        </div>
+
+        <div class="Project Flipped">
+          <div class="Project-Copy">
+            <p class="Project-Index">Shopify &middot; ShopifyQL &middot; Printful</p>
+            <h3>
+              <a href="https://carclubstyle.com" target="_blank"
+                >Car Club Style</a
+              >
+            </h3>
+            <p class="Project-Body">
+              An automotive apparel brand I founded and run on Shopify,
+              including its product data and social content. It's where I
+              apply the marketing side of development to my own business: a
+              full SEO audit exposed a critical Printful sync bug, thin
+              indexation, and missing collection navigation, a paid Google
+              Ads test brought in some sales but not enough to justify the
+              spend, and I've dug into why ShopifyQL and Shopify's Marketing
+              report disagree on attribution. Next up is a modular shot
+              library for reels that fits the brand's minimalist look.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -278,21 +307,21 @@
 
         <div class="Project">
           <div class="Project-Copy">
-            <p class="Project-Index">01 &middot; Next.js &middot; Sanity</p>
+            <p class="Project-Index">01 &middot; Expo &middot; React Native &middot; Sanity</p>
             <h3>
               <a href="https://learnnepali.netlify.app" target="_blank"
                 >Learn Nepali</a
               >
             </h3>
             <p class="Project-Body">
-              A Nepali language learning platform I built with Next.js and
-              Sanity. It pairs a word of the day with lesson, quiz, and
-              review sections so vocabulary keeps coming back around instead
-              of being seen once and forgotten, and it installs as a
-              progressive web app so it is there on a phone home screen
-              without an app store. Sanity handles the content side, which
-              makes adding new words and lessons a matter of writing them
-              rather than shipping a deploy.
+              A Nepali language learning app I built with Expo (React Native)
+              for iOS, Android, and web. It has structured lessons, flashcard
+              decks, and quizzes, powered by a syllable composition engine
+              that generates Devanagari syllables from consonant and
+              vowel-sign data, irregular forms included. Course content
+              lives in Sanity with a custom Studio, and CI on GitHub Actions
+              runs linting, type checking, Jest, and dead-code checks on
+              every push, with a Storybook component library alongside.
             </p>
           </div>
           <a
