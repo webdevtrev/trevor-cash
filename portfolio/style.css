@@ -251,6 +251,21 @@ section.Portfolio-Hero {
   padding: clamp(2rem, 6vw, 3.5rem) clamp(1.5rem, 4vw, 2.5rem);
 }
 
+/* Logos that ship in separate light and dark versions: show whichever
+   matches the body's theme class. The dark file has white lettering, so its
+   plate goes black instead of white. */
+.Theme-Logo .Logo-Dark {
+  display: none;
+}
+.Dark .Theme-Logo .Logo-Light {
+  display: none;
+}
+.Dark .Theme-Logo .Logo-Dark {
+  display: block;
+  background-color: black;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
 /* ---------- Footer ---------- */
 custom-footer {
   padding: 3rem 0 4rem;
